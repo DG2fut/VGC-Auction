@@ -12,24 +12,13 @@ Real-time multiplayer Pokémon VGC draft auction — host locally, play over the
 
   node server.js
 
-The server will:
-1. Start locally at http://localhost:3000
-2. Automatically create a public URL via localtunnel
-3. Print the public URL in the terminal — share it with your friends!
-
-If localtunnel isn't installed yet, the server installs it automatically on first run.
+The server will start locally at http://localhost:3000
 
 ---
 
 ## Internet Play
 
-No extra setup needed. Just run the server and share the public URL printed in the terminal:
-
-  🌐  Public URL (share this with friends!):
-  👉  https://xxxx.loca.lt
-
-Friends open that URL in their browser — done!
-No port forwarding, no accounts, no second terminal needed.
+No extra setup needed. Just run the server on a web/game hosting service and play with your friends. 
 
 ---
 
