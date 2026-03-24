@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VGC Draft Auction</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Exo+2:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── Tokens ── */
+:root {
+  --bg:       #08080f;
+  --bg2:      #0e0e1c;
+  --bg3:      #13132a;
+  --panel:    #181830;
+  --border:   #252545;
+  --border2:  #32326a;
+  --accent:   #e63946;
+  --gold:     #f8c200;
+  --blue:     #4cc9f0;
+  --green:    #22d3a0;
+  --purple:   #8b5cf6;
+  --orange:   #f97316;
+  --text:     #e2e2f0;
+  --muted:    #6868a8;
+  --S: #ff6b35; --A: #f8c200; --B: #4cc9f0; --C: #86efac;
+  --r: 12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Exo 2',sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+input,button{font-family:'Exo 2',sans-serif}
+
+/* ── LOBBY OVERLAY ── */
+#lobby-screen{
+  position:fixed;inset:0;
+  background:radial-gradient(ellipse at 60% 30%, #1a003a 0%, var(--bg) 70%);
+  display:flex;align-items:center;justify-content:center;z-index:300;
+}
+.lobby-wrap{display:flex;gap:48px;align-items:center;flex-wrap:wrap;justify-content:center;padding:24px}
+.lobby-art{
+  width:220px;height:220px;border-radius:50%;flex-shrink:0;
+  background:conic-gradient(var(--accent) 0deg 180deg, #e8e8e8 180deg 360deg);
+  position:relative;border:4px solid var(--border2);
+  box-shadow:0 0 60px rgba(230,57,70,0.4),0 0 120px rgba(76,201,240,0.15);
+  animation:spin-art 12s linear infinite;
+}
+.lobby-art::after{
+  content:'';position:absolute;top:50%;left:0;right:0;height:4px;background:var(--border2);transform:translateY(-50%);
+}
+.lobby-art::before{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:52px;height:52px;border-radius:50%;background:var(--bg);border:4px solid var(--border2);z-index:1;
+}
+@keyframes spin-art{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.lobby-card{background:var(--panel);border:1px solid var(--border2);border-radius:20px;padding:40px 36px;width:380px;max-width:95vw}
+.lobby-title{font-family:'Press Start 2P',monospace;font-size:15px;color:var(--gold);line-height:1.6;margin-bottom:6px;text-shadow:0 0 30px rgba(248,194,0,.4)}
+.lobby-sub{color:var(--muted);font-size:12px;margin-bottom:28px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.field input{
+  width:100%;padding:12px 14px;background:var(--bg3);border:1.5px solid var(--border);
+  border-radius:8px;color:var(--text);font-size:15px;font-weight:600;transition:border-color .2s;
+}
+.field input:focus{outline:none;border-color:var(--blue)}
+.btn{
+  padding:11px 20px;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;
+  transition:all .18s;letter-spacing:.3px;display:inline-flex;align-items:center;gap:6px;
+}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover:not(:disabled){background:#ff4d5a;transform:translateY(-1px);box-shadow:0 6px 20px rgba(230,57,70,.4)}
+.btn-gold{background:var(--gold);color:#1a1200;font-weight:900}
+.btn-gold:hover:not(:disabled){background:#ffe040;transform:translateY(-1px);box-shadow:0 6px 20px rgba(248,194,0,.4)}
+.btn-blue{background:rgba(76,201,240,.15);color:var(--blue);border:1px solid rgba(76,201,240,.3)}
+.btn-blue:hover:not(:disabled){background:rgba(76,201,240,.25)}
+.btn-ghost{background:var(--bg3);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover:not(:disabled){border-color:var(--border2);background:var(--bg2)}
+.btn-danger{background:rgba(230,57,70,.12);color:var(--accent);border:1px solid rgba(230,57,70,.3)}
+.btn-danger:hover:not(:disabled){background:rgba(230,57,70,.25)}
+.btn-sm{padding:7px 13px;font-size:12px}
+.btn-xs{padding:5px 10px;font-size:11px}
+.btn-full{width:100%;justify-content:center}
+.btn-icon{width:34px;height:34px;padding:0;justify-content:center;border-radius:6px;font-size:16px}
+
+/* ── HEADER ── */
+header{
+  background:linear-gradient(90deg,var(--bg2),var(--bg3),var(--bg2));
+  border-bottom:1px solid var(--border2);
+  padding:12px 20px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;gap:12px;flex-wrap:wrap;
+  box-shadow:0 4px 30px rgba(0,0,0,.5);
+}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo h1{font-family:'Press Start 2P',monospace;font-size:11px;color:var(--gold);text-shadow:0 0 16px rgba(248,194,0,.4);line-height:1.4}
+.logo p{font-size:10px;color:var(--muted)}
+.header-center{display:flex;align-items:center;gap:8px;flex:1;justify-content:center;flex-wrap:wrap}
+.phase-chip{
+  font-family:'Press Start 2P',monospace;font-size:8px;padding:7px 12px;border-radius:20px;
+  text-transform:uppercase;letter-spacing:.5px;transition:all .3s;
+}
+.phase-lobby{background:rgba(104,104,168,.2);color:var(--muted);border:1px solid var(--muted)}
+.phase-nomination{background:rgba(139,92,246,.2);color:var(--purple);border:1px solid var(--purple)}
+.phase-bidding{background:rgba(230,57,70,.2);color:var(--accent);border:1px solid var(--accent);animation:pulse-chip 1.5s infinite}
+.phase-paused{background:rgba(249,115,22,.2);color:var(--orange);border:1px solid var(--orange)}
+.phase-ended{background:rgba(34,211,160,.2);color:var(--green);border:1px solid var(--green)}
+@keyframes pulse-chip{0%,100%{box-shadow:none}50%{box-shadow:0 0 16px rgba(230,57,70,.5)}}
+.round-info{font-size:11px;color:var(--muted)}
+.round-info span{color:var(--text);font-weight:700}
+
+/* ── LAYOUT ── */
+.app{display:grid;grid-template-columns:260px 1fr 280px;gap:14px;padding:14px;min-height:calc(100vh - 61px);align-items:start}
+@media(max-width:1100px){.app{grid-template-columns:1fr}.sidebar{display:none}}
+
+/* ── PANELS ── */
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.panel:last-child{margin-bottom:0}
+.ph{
+  padding:10px 14px;border-bottom:1px solid var(--border);
+  font-family:'Press Start 2P',monospace;font-size:8px;color:var(--blue);letter-spacing:.5px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  background:linear-gradient(90deg,var(--bg3),var(--bg2));
+}
+.pb{padding:14px}
+
+/* ── PLAYER CARDS ── */
+.player-list{display:flex;flex-direction:column;gap:6px}
+.pc{
+  background:var(--bg3);border:1px solid var(--border);border-radius:8px;
+  padding:9px 11px;display:flex;align-items:center;gap:9px;transition:border-color .2s;
+  position:relative;overflow:hidden;
+}
+.pc.me{border-color:var(--blue)}
+.pc.winning{border-color:var(--gold);animation:win-glow 1.5s infinite}
+@keyframes win-glow{0%,100%{box-shadow:none}50%{box-shadow:0 0 14px rgba(248,194,0,.35)}}
+.pc::before{content:'';position:absolute;inset:0;opacity:.04;background:linear-gradient(90deg,var(--c,transparent),transparent)}
+.p-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0}
+.p-info{flex:1;min-width:0}
+.p-name{font-weight:700;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p-stats{display:flex;gap:10px;margin-top:2px}
+.p-stat{font-size:10px;color:var(--muted)}
+.p-stat span{color:var(--text);font-weight:600}
+.bbar{height:2px;background:var(--border);border-radius:1px;margin-top:5px}
+.bfill{height:100%;border-radius:1px;background:linear-gradient(90deg,var(--green),var(--blue));transition:width .5s}
+
+/* ── SETTINGS PANEL ── */
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.setting-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.setting-label{font-size:10px;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px}
+.setting-input{
+  width:100%;padding:7px 10px;background:var(--bg2);border:1.5px solid var(--border);
+  border-radius:6px;color:var(--text);font-size:14px;font-weight:700;text-align:center;
+}
+.setting-input:focus{outline:none;border-color:var(--gold)}
+
+/* ── LOBBY WAITING ── */
+.waiting-state{text-align:center;padding:36px 16px}
+.waiting-icon{font-size:44px;margin-bottom:12px}
+.waiting-title{font-family:'Press Start 2P',monospace;font-size:10px;color:var(--blue);margin-bottom:8px;line-height:1.5}
+.waiting-sub{color:var(--muted);font-size:12px;line-height:1.5}
+.join-url{
+  background:var(--bg3);border:1px solid var(--border2);border-radius:8px;
+  padding:10px 14px;margin:14px 0;font-size:12px;font-family:monospace;color:var(--green);
+  word-break:break-all;text-align:left;
+}
+.join-url span{color:var(--muted);display:block;font-size:10px;margin-bottom:4px;font-family:'Exo 2',sans-serif}
+
+/* ── NOMINATION ── */
+.search-box{
+  width:100%;padding:9px 12px;background:var(--bg3);border:1.5px solid var(--border);
+  border-radius:8px;color:var(--text);font-size:13px;margin-bottom:10px;
+}
+.search-box:focus{outline:none;border-color:var(--blue)}
+.tier-filters{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.tf{
+  padding:4px 10px;border-radius:12px;border:1px solid var(--border);cursor:pointer;
+  font-size:10px;font-weight:700;background:var(--bg3);color:var(--muted);transition:all .15s;
+}
+.tf.aS{border-color:var(--S);color:var(--S);background:rgba(255,107,53,.1)}
+.tf.aA{border-color:var(--A);color:var(--A);background:rgba(248,194,0,.1)}
+.tf.aB{border-color:var(--B);color:var(--B);background:rgba(76,201,240,.1)}
+.tf.aC{border-color:var(--C);color:var(--C);background:rgba(134,239,172,.1)}
+.tf.aALL{border-color:var(--border2);color:var(--text);background:var(--bg2)}
+.poke-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;max-height:380px;overflow-y:auto;padding:2px}
+.poke-card{
+  background:var(--bg3);border:1.5px solid var(--border);border-radius:8px;
+  padding:8px 6px;cursor:pointer;transition:all .18s;text-align:center;position:relative;
+}
+.poke-card:hover{border-color:var(--blue);transform:translateY(-2px)}
+.poke-card.selected{border-color:var(--gold);background:rgba(248,194,0,.06)}
+.poke-card.sold{opacity:.3;cursor:not-allowed;pointer-events:none}
+.poke-card img{width:52px;height:52px;image-rendering:pixelated;object-fit:contain}
+.poke-name{font-size:9px;font-weight:700;line-height:1.2;margin-top:3px}
+.poke-tier{position:absolute;top:3px;right:4px;font-size:8px;font-weight:900}
+.nom-confirm{
+  background:var(--bg2);border:1px solid var(--border2);border-radius:8px;
+  padding:12px;margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.nom-pokemon-preview{display:flex;align-items:center;gap:8px;flex:1}
+.nom-pokemon-preview img{width:40px;height:40px;image-rendering:pixelated}
+.nom-pokemon-preview .name{font-weight:700;font-size:13px}
+.nom-price-row{display:flex;align-items:center;gap:6px}
+.nom-price-row label{font-size:11px;color:var(--muted)}
+.nom-price-input{
+  width:64px;padding:7px;background:var(--bg3);border:1.5px solid var(--border);
+  border-radius:6px;color:var(--text);font-size:14px;font-weight:700;text-align:center;
+}
+.nom-price-input:focus{outline:none;border-color:var(--gold)}
+
+/* ── BIDDING ARENA ── */
+.spotlight{
+  background:linear-gradient(135deg,var(--bg3),#1a1a3a);
+  border:1.5px solid var(--border2);border-radius:14px;padding:20px;
+  text-align:center;position:relative;overflow:hidden;
+}
+.spotlight::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(76,201,240,.07),transparent 60%);
+}
+.spot-img-wrap{
+  width:130px;height:130px;margin:0 auto 14px;
+  background:radial-gradient(circle,rgba(76,201,240,.08),transparent 70%);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;
+}
+.spot-img-wrap img{width:110px;height:110px;image-rendering:pixelated;object-fit:contain;filter:drop-shadow(0 4px 16px rgba(76,201,240,.25))}
+.spot-tier{display:inline-block;padding:3px 10px;border-radius:4px;font-family:'Press Start 2P',monospace;font-size:8px;margin-bottom:6px}
+.tS{background:rgba(255,107,53,.2);color:var(--S);border:1px solid var(--S)}
+.tA{background:rgba(248,194,0,.2);color:var(--A);border:1px solid var(--A)}
+.tB{background:rgba(76,201,240,.2);color:var(--B);border:1px solid var(--B)}
+.tC{background:rgba(134,239,172,.2);color:var(--C);border:1px solid var(--C)}
+.spot-name{font-family:'Press Start 2P',monospace;font-size:13px;color:var(--gold);margin-bottom:8px}
+.spot-types{display:flex;gap:5px;justify-content:center;margin-bottom:8px}
+.type-pill{padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700;letter-spacing:.3px}
+.spot-nom{font-size:10px;color:var(--muted)}
+
+.bid-row{display:flex;gap:12px;flex-wrap:wrap}
+.bid-box{
+  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;
+  text-align:center;flex:1;min-width:140px;
+}
+.bid-label{font-size:10px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px}
+.bid-amount{font-family:'Press Start 2P',monospace;font-size:26px;color:var(--gold);line-height:1}
+.bid-by{font-size:11px;color:var(--muted);margin-top:4px}
+.bid-by span{color:var(--blue);font-weight:700}
+
+/* ── TIMER ── */
+.timer-box{
+  background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:120px;
+}
+.timer-ring{position:relative;width:80px;height:80px}
+.timer-ring svg{transform:rotate(-90deg)}
+.timer-ring circle{fill:none;stroke-width:5}
+.t-bg{stroke:var(--border2)}
+.t-arc{stroke:var(--green);stroke-linecap:round;transition:stroke-dashoffset .4s linear,stroke .4s}
+.t-text{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Press Start 2P',monospace;font-size:17px;
+}
+.paused-overlay{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.5);border-radius:50%;font-size:24px;
+}
+
+/* ── BID CONTROLS ── */
+.bid-controls{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px}
+.bid-input-row{display:flex;gap:8px;margin-bottom:10px}
+.bid-input{
+  flex:1;padding:11px 14px;background:var(--bg3);border:2px solid var(--border);
+  border-radius:8px;color:var(--text);font-size:16px;font-weight:700;
+}
+.bid-input:focus{outline:none;border-color:var(--gold)}
+.quick-bids{display:flex;gap:5px;flex-wrap:wrap}
+.qb{
+  padding:6px 12px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:6px;cursor:pointer;font-size:11px;font-weight:700;color:var(--muted);transition:all .15s;
+}
+.qb:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── HOST CONTROLS BAR ── */
+.hc-bar{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:10px 14px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;
+}
+.hc-label{font-size:10px;color:var(--muted);font-weight:600;margin-right:4px}
+
+/* ── UNDO/REDO HISTORY ── */
+.history-bar{
+  display:flex;align-items:center;gap:6px;padding:8px 14px;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+}
+.history-info{font-size:10px;color:var(--muted);flex:1;font-style:italic}
+
+/* ── LOG ── */
+.log-list{max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:3px}
+.log-entry{
+  font-size:11px;padding:5px 8px;background:var(--bg3);border-radius:4px;
+  border-left:2px solid var(--border);line-height:1.3;
+}
+.log-entry.fresh{animation:log-in .25s ease;border-left-color:var(--blue)}
+@keyframes log-in{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+
+/* ── MY TEAM ── */
+.roster-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.roster-card{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px;text-align:center}
+.roster-card img{width:38px;height:38px;image-rendering:pixelated}
+.roster-name{font-size:8px;font-weight:700;line-height:1.2;margin-top:2px}
+.roster-cost{font-size:8px;color:var(--gold)}
+.my-budget-bar{margin-bottom:12px}
+.mbb-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.mbb-label{font-size:11px;color:var(--muted)}
+.mbb-val{font-family:'Press Start 2P',monospace;font-size:10px;color:var(--gold)}
+.mbb-track{height:4px;background:var(--border);border-radius:2px}
+.mbb-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--green),var(--blue));transition:width .5s}
+
+/* ── RESULTS ── */
+.results-wrap{padding:20px}
+.results-title{font-family:'Press Start 2P',monospace;font-size:11px;color:var(--gold);text-align:center;margin-bottom:20px}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.result-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px}
+.result-player{font-weight:900;font-size:15px;margin-bottom:3px}
+.result-meta{font-size:11px;color:var(--muted);margin-bottom:10px}
+.result-roster{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.rp{background:var(--bg2);border-radius:5px;padding:5px;text-align:center}
+.rp img{width:36px;height:36px;image-rendering:pixelated}
+.rp-name{font-size:8px;font-weight:700}
+.rp-cost{font-size:8px;color:var(--gold)}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:24px;color:var(--muted)}
+.empty .ei{font-size:32px;margin-bottom:8px}
+.empty p{font-size:11px}
+
+/* ── DIVIDER ── */
+.div{height:1px;background:var(--border);margin:10px 0}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--panel);border:1px solid var(--border2);border-radius:8px;
+  padding:10px 20px;font-size:13px;font-weight:600;z-index:999;
+  transition:transform .28s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;
+}
+#toast.show{transform:translateX(-50%) translateY(0)}
+#toast.err{border-color:var(--accent);color:var(--accent)}
+#toast.ok{border-color:var(--green);color:var(--green)}
+#toast.info{border-color:var(--blue);color:var(--blue)}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:var(--panel);border:1px solid var(--border2);border-radius:14px;padding:28px;width:360px;max-width:95vw}
+.modal h3{font-family:'Press Start 2P',monospace;font-size:11px;color:var(--gold);margin-bottom:16px}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+
+/* ── NGROK HINT ── */
+.ngrok-hint{
+  background:rgba(34,211,160,.06);border:1px solid rgba(34,211,160,.2);
+  border-radius:8px;padding:10px 12px;font-size:11px;color:var(--green);line-height:1.5;
+  margin-top:10px;
+}
+.ngrok-hint strong{display:block;margin-bottom:4px;font-size:12px}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ LOBBY OVERLAY ═══════════════════ -->
+<div id="lobby-screen">
+  <div class="lobby-wrap">
+    <div class="lobby-art"></div>
+    <div class="lobby-card">
+      <h2 class="lobby-title">VGC DRAFT<br>AUCTION</h2>
+      <p class="lobby-sub">Enter your trainer name to join the session</p>
+      <div class="field">
+        <label>Trainer Name</label>
+        <input id="name-in" type="text" placeholder="Your name..." maxlength="20" autocomplete="off">
+      </div>
+      <button class="btn btn-primary btn-full" onclick="joinGame()" style="margin-top:4px">
+        ⚔️ Enter the Arena
+      </button>
+      <div class="ngrok-hint">
+        <strong>🌐 Playing over the internet?</strong>
+        Run <code>ngrok http 3000</code> and share the <code>https://xxxx.ngrok-free.app</code> URL with your friends.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header>
+  <div class="logo">
+    <span style="font-size:22px">⚔️</span>
+    <div>
+      <h1>VGC DRAFT AUCTION</h1>
+      <p id="header-sub">Waiting for players...</p>
+    </div>
+  </div>
+  <div class="header-center">
+    <div id="phase-chip" class="phase-chip phase-lobby">LOBBY</div>
+    <div class="round-info" id="round-info" style="display:none">Round <span id="round-num">0</span> · <span id="pool-remaining">?</span> left</div>
+  </div>
+  <div style="display:flex;gap:6px;align-items:center" id="header-host-tools" style="display:none">
+    <!-- filled by JS -->
+  </div>
+</header>
+
+<!-- ═══════════════════ APP ═══════════════════ -->
+<div class="app">
+
+  <!-- ── LEFT SIDEBAR ── -->
+  <aside class="sidebar">
+    <!-- Players -->
+    <div class="panel">
+      <div class="ph">👥 PLAYERS <span id="player-count" style="color:var(--muted)">0</span></div>
+      <div class="pb">
+        <div id="player-list" class="player-list"><div class="empty"><p>Waiting...</p></div></div>
+      </div>
+    </div>
+    <!-- Log -->
+    <div class="panel">
+      <div class="ph">📜 LOG</div>
+      <div class="pb" style="padding:8px">
+        <div id="log-l" class="log-list"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main id="main">
+
+    <!-- LOBBY VIEW -->
+    <div id="v-lobby" class="panel">
+      <div class="ph">🏟️ WAITING ROOM</div>
+      <!-- Settings (host only) -->
+      <div id="settings-section" style="display:none">
+        <div class="pb" style="padding-bottom:0">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:600">⚙️ AUCTION SETTINGS (Host Only)</div>
+          <div class="settings-grid">
+            <div class="setting-item">
+              <div class="setting-label">⏱ Bid Timer (sec)</div>
+              <input class="setting-input" type="number" id="s-timer" min="5" max="300" value="30">
+            </div>
+            <div class="setting-item">
+              <div class="setting-label">💰 Starting Budget</div>
+              <input class="setting-input" type="number" id="s-budget" min="10" max="9999" value="100">
+            </div>
+          </div>
+          <button class="btn btn-blue btn-sm" onclick="saveSettings()" style="margin-bottom:12px">💾 Save Settings</button>
+          <div class="div"></div>
+        </div>
+      </div>
+      <div class="pb">
+        <div class="waiting-state">
+          <div class="waiting-icon">🎮</div>
+          <div class="waiting-title" id="lobby-title">WAITING FOR PLAYERS<span id="ldots">...</span></div>
+          <div class="waiting-sub">Share your URL so others can join.</div>
+          <div class="join-url"><span>Your join URL:</span><span id="join-url-val">http://localhost:3000</span></div>
+          <div id="lobby-player-list" class="player-list" style="text-align:left;margin-bottom:12px"></div>
+          <div id="host-start-wrap" style="display:none">
+            <button class="btn btn-gold btn-full" id="start-btn" onclick="startAuction()">⚡ Start Auction</button>
+            <p style="margin-top:8px;font-size:10px;color:var(--muted)">Settings can be changed above before starting.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOMINATION VIEW -->
+    <div id="v-nom" class="panel" style="display:none">
+      <div class="ph">📣 NOMINATE A POKÉMON <span style="color:var(--muted);font-weight:400;font-family:'Exo 2',sans-serif;font-size:9px" id="nom-round-label"></span></div>
+      <div class="pb">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px" id="nom-prompt">Pick any Pokémon from the pool below to put it up for bidding.</div>
+        <input class="search-box" id="poke-search" type="text" placeholder="🔍 Search Pokémon..." oninput="renderGrid()">
+        <div class="tier-filters" id="tier-filters">
+          <span class="tf aALL" data-t="ALL" onclick="setTier('ALL')">All</span>
+          <span class="tf" data-t="S" onclick="setTier('S')">S</span>
+          <span class="tf" data-t="A" onclick="setTier('A')">A</span>
+          <span class="tf" data-t="B" onclick="setTier('B')">B</span>
+          <span class="tf" data-t="C" onclick="setTier('C')">C</span>
+        </div>
+        <div id="poke-grid" class="poke-grid"></div>
+        <div id="nom-confirm" class="nom-confirm" style="display:none">
+          <div class="nom-pokemon-preview">
+            <img id="nom-prev-img" src="" width="40" height="40" style="image-rendering:pixelated">
+            <div>
+              <div class="name" id="nom-prev-name">Pokémon</div>
+              <div style="font-size:10px;color:var(--muted)" id="nom-prev-tier">Tier S</div>
+            </div>
+          </div>
+          <div class="nom-price-row">
+            <label>Start:</label>
+            <input class="nom-price-input" type="number" id="nom-price" value="1" min="1">
+            <label>cr</label>
+          </div>
+          <button class="btn btn-gold btn-sm" onclick="submitNom()">🏷️ Nominate!</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BIDDING VIEW -->
+    <div id="v-bid" style="display:none">
+      <!-- Undo/Redo bar (host only) -->
+      <div id="undo-bar" class="panel" style="display:none;margin-bottom:0;border-radius:var(--r) var(--r) 0 0;border-bottom:none">
+        <div class="history-bar">
+          <span class="hc-label">HISTORY:</span>
+          <button class="btn btn-ghost btn-xs" id="undo-btn" onclick="doUndo()" disabled>↩ Undo</button>
+          <button class="btn btn-ghost btn-xs" id="redo-btn" onclick="doRedo()" disabled>↪ Redo</button>
+          <span class="history-info" id="undo-label">—</span>
+        </div>
+      </div>
+
+      <div class="panel" style="border-radius:0 0 var(--r) var(--r)" id="bid-panel-inner">
+        <div class="ph">⚡ LIVE BIDDING</div>
+        <div class="pb" style="display:flex;flex-direction:column;gap:12px">
+          <!-- Spotlight -->
+          <div class="spotlight">
+            <div class="spot-img-wrap">
+              <img id="b-img" src="" width="110" height="110" onerror="this.style.opacity=0">
+            </div>
+            <div id="b-tier" class="spot-tier tA">A</div>
+            <div id="b-name" class="spot-name">FLUTTER MANE</div>
+            <div id="b-types" class="spot-types"></div>
+            <div id="b-nom" class="spot-nom"></div>
+          </div>
+
+          <!-- Bid + Timer -->
+          <div class="bid-row">
+            <div class="bid-box">
+              <div class="bid-label">Current Bid</div>
+              <div class="bid-amount" id="b-amount">1</div>
+              <div class="bid-by">by <span id="b-by">—</span></div>
+            </div>
+            <div class="timer-box">
+              <div class="timer-ring">
+                <svg viewBox="0 0 80 80" width="80" height="80">
+                  <circle class="t-bg" cx="40" cy="40" r="34"/>
+                  <circle class="t-arc" id="t-arc" cx="40" cy="40" r="34" stroke-dasharray="214" stroke-dashoffset="0"/>
+                </svg>
+                <div class="t-text" id="t-text">30</div>
+                <div class="paused-overlay" id="t-paused" style="display:none">⏸</div>
+              </div>
+              <div style="font-size:9px;color:var(--muted);margin-top:4px">SECONDS</div>
+            </div>
+          </div>
+
+          <!-- Bid controls -->
+          <div class="bid-controls">
+            <div class="bid-input-row">
+              <input class="bid-input" id="bid-in" type="number" placeholder="Your bid amount...">
+              <button class="btn btn-gold" onclick="placeBid()">💰 BID</button>
+            </div>
+            <div class="quick-bids">
+              <span style="font-size:10px;color:var(--muted);align-self:center;margin-right:2px">Quick:</span>
+              <span class="qb" onclick="qBid(1)">+1</span>
+              <span class="qb" onclick="qBid(5)">+5</span>
+              <span class="qb" onclick="qBid(10)">+10</span>
+              <span class="qb" onclick="qBid(25)">+25</span>
+              <span class="qb" onclick="qBid(50)">+50</span>
+              <span class="qb" onclick="qBidMax()">MAX</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Host control bar -->
+        <div class="hc-bar" id="hc-bid" style="display:none">
+          <span class="hc-label">HOST:</span>
+          <button class="btn btn-ghost btn-sm" id="pause-btn" onclick="doPause()">⏸ Pause</button>
+          <button class="btn btn-ghost btn-sm" onclick="doForceEnd()">🔨 Hammer</button>
+          <button class="btn btn-ghost btn-sm" onclick="doSkip()">⏭ Skip</button>
+          <button class="btn btn-danger btn-sm" onclick="confirmEnd()">🏁 End Auction</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS VIEW -->
+    <div id="v-results" class="panel" style="display:none">
+      <div class="ph">🏆 FINAL RESULTS</div>
+      <div class="results-wrap">
+        <div class="results-title">AUCTION COMPLETE</div>
+        <div id="results-grid" class="results-grid"></div>
+        <div style="text-align:center;margin-top:20px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-blue" id="undo-results-btn" onclick="doUndo()" style="display:none">↩ Undo Last Round</button>
+          <button class="btn btn-gold" id="reset-btn" onclick="confirmReset()" style="display:none">🔄 New Auction</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── RIGHT SIDEBAR ── -->
+  <aside class="sidebar">
+    <!-- My team -->
+    <div class="panel">
+      <div class="ph">🎒 MY TEAM</div>
+      <div class="pb">
+        <div class="my-budget-bar">
+          <div class="mbb-top">
+            <span class="mbb-label">Budget</span>
+            <span class="mbb-val" id="my-budget">100cr</span>
+          </div>
+          <div class="mbb-track"><div class="mbb-fill" id="my-bfill" style="width:100%"></div></div>
+        </div>
+        <div id="my-roster" class="roster-grid">
+          <div class="empty" style="grid-column:1/-1"><div class="ei">🥚</div><p>No Pokémon yet</p></div>
+        </div>
+      </div>
+    </div>
+    <!-- Log -->
+    <div class="panel">
+      <div class="ph">📜 LOG</div>
+      <div class="pb" style="padding:8px">
+        <div id="log-r" class="log-list"></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- ═══════════════════ TOAST ═══════════════════ -->
+<div id="toast"></div>
+
+<script>
+// ─── Type colours ──────────────────────────────────────────────────────────────
+const TC = {Normal:'#A8A878',Fire:'#F08030',Water:'#6890F0',Electric:'#F8D030',Grass:'#78C850',
+Ice:'#98D8D8',Fighting:'#C03028',Poison:'#A040A0',Ground:'#E0C068',Flying:'#A890F0',
+Psychic:'#F85888',Bug:'#A8B820',Rock:'#B8A038',Ghost:'#705898',Dragon:'#7038F8',
+Dark:'#705848',Steel:'#B8B8D0',Fairy:'#EE99AC'};
+const PC = ['#e63946','#4cc9f0','#f8c200','#22d3a0','#8b5cf6','#f97316','#06b6d4','#ec4899'];
+
+// ─── State ─────────────────────────────────────────────────────────────────────
+let socket = null;
+let myId = null, amHost = false, gs = null;
+let nomPoke = null, tierF = 'ALL';
+let lastTimerEnd = null, timerTotal = 30;
+
+// ─── WebSocket (ngrok-aware) ───────────────────────────────────────────────────
+function wsURL() {
+  // Works for both local and ngrok (https → wss, http → ws)
+  const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+  return `${proto}://${location.host}`;
+}
+
+function connect() {
+  try { socket = new WebSocket(wsURL()); } catch(e) { setTimeout(connect, 3000); return; }
+  socket.onopen = () => {};
+  socket.onmessage = e => { try { handle(JSON.parse(e.data)); } catch(x) {} };
+  socket.onclose = () => { toast('Reconnecting...','info'); setTimeout(connect, 2500); };
+  socket.onerror = () => {};
+}
+
+function send(o) { if (socket?.readyState === 1) socket.send(JSON.stringify(o)); }
+
+function handle(msg) {
+  switch(msg.type) {
+    case 'welcome': myId = msg.playerId; amHost = msg.isHost; break;
+    case 'state': gs = msg.state; timerTotal = gs.settings?.timerSecs || 30; render(); break;
+    case 'tick': lastTimerEnd = msg.timerEnd; updateTimer(); break;
+    case 'error': toast(msg.msg, 'err'); break;
+    case 'reset': myId = null; amHost = false; gs = null; document.getElementById('lobby-screen').style.display='flex'; break;
+  }
+}
+
+// ─── Actions ──────────────────────────────────────────────────────────────────
+function joinGame() {
+  const n = document.getElementById('name-in').value.trim();
+  if (!n) { toast('Enter your trainer name!','err'); return; }
+  send({ type:'join', name:n });
+  document.getElementById('lobby-screen').style.display = 'none';
+}
+function saveSettings() {
+  send({ type:'settings', timerSecs: document.getElementById('s-timer').value, startingBudget: document.getElementById('s-budget').value });
+  toast('Settings saved!','ok');
+}
+function startAuction() { send({ type:'start' }); }
+function submitNom() {
+  if (!nomPoke) return;
+  send({ type:'nominate', pokemonId:nomPoke.id, startBid: document.getElementById('nom-price').value });
+  nomPoke = null; document.getElementById('nom-confirm').style.display='none'; renderGrid();
+}
+function placeBid() {
+  const v = parseInt(document.getElementById('bid-in').value);
+  if (!v) { toast('Enter a bid amount!','err'); return; }
+  send({ type:'bid', amount:v });
+}
+function qBid(d) { if (!gs) return; const nb=(gs.currentBid||0)+d; document.getElementById('bid-in').value=nb; send({type:'bid',amount:nb}); }
+function qBidMax() { if (!gs||!myId) return; const me=gs.players[myId]; if(me) document.getElementById('bid-in').value=me.budget; }
+function doPause() { send({type: gs?.phase==='paused' ? 'resume' : 'pause'}); }
+function doSkip() { send({type:'skip'}); }
+function doForceEnd() { send({type:'forceEnd'}); }
+function doUndo() { send({type:'undo'}); }
+function doRedo() { send({type:'redo'}); }
+function confirmEnd() { if (confirm('End the auction now?')) send({type:'end'}); }
+function confirmReset() { if (confirm('Reset everything and start a new auction?')) send({type:'reset'}); }
+
+// ─── RENDER ────────────────────────────────────────────────────────────────────
+function render() {
+  if (!gs) return;
+  const { phase } = gs;
+
+  // Phase chip
+  const chip = document.getElementById('phase-chip');
+  chip.textContent = ({lobby:'LOBBY',nomination:'NOMINATE',bidding:'BIDDING!',paused:'PAUSED',ended:'ENDED'})[phase]||phase;
+  chip.className = `phase-chip phase-${phase}`;
+
+  // Header sub
+  document.getElementById('header-sub').textContent =
+    phase === 'lobby' ? `Waiting for players (${Object.keys(gs.players).length} joined)` :
+    phase === 'nomination' ? 'Nominating...' :
+    phase === 'bidding' ? `Bidding on ${gs.currentPokemon?.name||'?'}` :
+    phase === 'paused' ? '⏸ Paused' :
+    'Auction Complete';
+
+  // Round info
+  const ri = document.getElementById('round-info');
+  if (phase !== 'lobby') {
+    ri.style.display = '';
+    document.getElementById('round-num').textContent = gs.roundCount || 0;
+    document.getElementById('pool-remaining').textContent = (gs.availablePokemon||[]).length;
+  } else ri.style.display = 'none';
+
+  // Views
+  ['lobby','nom','bid','results'].forEach(v => {
+    const el = document.getElementById(`v-${v}`);
+    if (el) el.style.display = 'none';
+  });
+  if (phase === 'lobby') { document.getElementById('v-lobby').style.display=''; renderLobby(); }
+  else if (phase === 'nomination') { document.getElementById('v-nom').style.display=''; renderNom(); }
+  else if (phase === 'bidding' || phase === 'paused') { document.getElementById('v-bid').style.display=''; renderBid(); }
+  else if (phase === 'ended') { document.getElementById('v-results').style.display=''; renderResults(); }
+
+  renderPlayers();
+  renderLog();
+  renderMyTeam();
+}
+
+function renderLobby() {
+  const ss = document.getElementById('settings-section');
+  ss.style.display = amHost ? '' : 'none';
+  if (amHost) {
+    document.getElementById('s-timer').value = gs.settings?.timerSecs || 30;
+    document.getElementById('s-budget').value = gs.settings?.startingBudget || 100;
+  }
+  const players = Object.entries(gs.players);
+  document.getElementById('lobby-player-list').innerHTML = players.map(([id,p],i) => pcHTML(id,p,i)).join('');
+  const hw = document.getElementById('host-start-wrap');
+  hw.style.display = amHost ? '' : 'none';
+  document.getElementById('start-btn').disabled = players.length < 1;
+  document.getElementById('join-url-val').textContent = location.href;
+  document.getElementById('lobby-title').textContent = players.length
+    ? `${players.length} TRAINER${players.length>1?'S':''} READY` : 'WAITING FOR PLAYERS';
+}
+
+function renderPlayers() {
+  if (!gs) return;
+  const players = Object.entries(gs.players);
+  document.getElementById('player-list').innerHTML = players.length
+    ? players.map(([id,p],i) => pcHTML(id,p,i,true)).join('')
+    : '<div class="empty"><p>No players</p></div>';
+  document.getElementById('player-count').textContent = players.length;
+}
+
+function pcHTML(id, p, i, showBudget=false) {
+  const isMe = id === myId, isWin = gs.currentBidder === id;
+  const col = PC[i % PC.length];
+  const bpct = Math.min(100, Math.round((p.budget / (gs.settings?.startingBudget||100)) * 100));
+  return `<div class="pc ${isMe?'me':''} ${isWin?'winning':''}" style="--c:${col}">
+    <div class="p-av" style="background:${col}22;color:${col};border:2px solid ${col}">${p.name[0].toUpperCase()}</div>
+    <div class="p-info">
+      <div class="p-name">${p.isHost?'👑 ':''}${esc(p.name)}${isMe?' <span style="color:var(--blue);font-size:9px">(you)</span>':''}</div>
+      <div class="p-stats">
+        <span class="p-stat">💰 <span>${p.budget}</span></span>
+        <span class="p-stat">🎒 <span>${p.roster?.length||0}</span></span>
+      </div>
+      <div class="bbar"><div class="bfill" style="width:${bpct}%"></div></div>
+    </div>
+    ${amHost && gs.phase==='lobby' && id!==myId ? `<button class="btn btn-ghost btn-xs" onclick="send({type:'transferHost',targetId:'${id}'})" title="Transfer host">👑</button>` : ''}
+  </div>`;
+}
+
+function renderNom() {
+  document.getElementById('nom-round-label').textContent = `Round ${(gs.roundCount||0)+1}`;
+  renderGrid();
+}
+
+function renderGrid() {
+  const search = (document.getElementById('poke-search')?.value||'').toLowerCase();
+  const avail = gs.availablePokemon || [];
+  const auc = new Set(gs.auctionedPokemon||[]);
+  const filtered = avail.filter(p => (!search||p.name.toLowerCase().includes(search)) && (tierF==='ALL'||p.tier===tierF));
+  // Update tier filter classes
+  document.querySelectorAll('.tf').forEach(el => {
+    const t = el.dataset.t;
+    el.className = 'tf' + (tierF===t ? (t==='ALL'?' aALL':` a${t}`) : '');
+  });
+  const grid = document.getElementById('poke-grid');
+  if (!grid) return;
+  grid.innerHTML = filtered.map(p => {
+    const sel = nomPoke?.id === p.id;
+    return `<div class="poke-card ${sel?'selected':''}" onclick="selectNom(${p.id})">
+      <img src="${sprite(p.dex)}" width="52" height="52" onerror="this.style.opacity=0">
+      <div class="poke-name">${p.name}</div>
+      <div class="poke-tier" style="color:var(--${p.tier})">${p.tier}</div>
+    </div>`;
+  }).join('') || '<div class="empty" style="grid-column:1/-1"><p>No Pokémon found</p></div>';
+}
+
+function setTier(t) { tierF=t; renderGrid(); }
+
+function selectNom(id) {
+  const p = (gs.availablePokemon||[]).find(x => x.id===id);
+  if (!p) return;
+  nomPoke = p;
+  document.getElementById('nom-confirm').style.display = 'flex';
+  document.getElementById('nom-prev-img').src = sprite(p.dex);
+  document.getElementById('nom-prev-name').textContent = p.name;
+  document.getElementById('nom-prev-tier').textContent = `Tier ${p.tier}`;
+  document.getElementById('nom-price').value = 1;
+  renderGrid();
+}
+
+function renderBid() {
+  const { currentPokemon:cp, currentBid:bid, currentBidder:bidder, players, nominatedBy, phase, timerEnd } = gs;
+  if (!cp) return;
+  document.getElementById('b-img').src = sprite(cp.dex);
+  document.getElementById('b-img').style.opacity = 1;
+  document.getElementById('b-tier').textContent = cp.tier;
+  document.getElementById('b-tier').className = `spot-tier t${cp.tier}`;
+  document.getElementById('b-name').textContent = cp.name;
+  document.getElementById('b-types').innerHTML = [cp.type1,cp.type2].filter(Boolean)
+    .map(t=>`<span class="type-pill" style="background:${TC[t]||'#888'}22;color:${TC[t]||'#888'};border:1px solid ${TC[t]||'#888'}">${t}</span>`).join('');
+  document.getElementById('b-nom').textContent = nominatedBy&&players[nominatedBy] ? `Nominated by ${players[nominatedBy].name}` : '';
+  document.getElementById('b-amount').textContent = bid;
+  document.getElementById('b-by').textContent = bidder&&players[bidder] ? players[bidder].name : 'No bids yet';
+
+  // Timer
+  const paused = phase === 'paused';
+  document.getElementById('t-paused').style.display = paused ? '' : 'none';
+  if (!paused) { lastTimerEnd = timerEnd; updateTimer(); }
+  else {
+    const rem = Math.max(0, Math.ceil((gs.pausedRemaining||0) / 1000));
+    document.getElementById('t-text').textContent = rem;
+    document.getElementById('t-arc').style.strokeDashoffset = 214 * (1 - rem/timerTotal);
+    document.getElementById('t-arc').style.stroke = 'var(--orange)';
+  }
+
+  // Host bar
+  const hcBid = document.getElementById('hc-bid');
+  hcBid.style.display = amHost ? 'flex' : 'none';
+  if (amHost) {
+    const pb = document.getElementById('pause-btn');
+    pb.textContent = paused ? '▶ Resume' : '⏸ Pause';
+  }
+
+  // Undo bar
+  const ub = document.getElementById('undo-bar');
+  ub.style.display = amHost ? '' : 'none';
+  if (amHost) updateUndoUI();
+
+  // Suggest bid
+  const inp = document.getElementById('bid-in');
+  if (!inp.value || parseInt(inp.value) <= bid) inp.value = bid + 1;
+}
+
+function updateUndoUI() {
+  if (!gs) return;
+  const ub = document.getElementById('undo-btn'), rb = document.getElementById('redo-btn');
+  if (ub) { ub.disabled = !gs.canUndo; ub.textContent = gs.canUndo ? `↩ Undo (${gs.undoLabel||'…'})` : '↩ Undo'; }
+  if (rb) { rb.disabled = !gs.canRedo; rb.textContent = gs.canRedo ? `↪ Redo (${gs.redoLabel||'…'})` : '↪ Redo'; }
+  document.getElementById('undo-label').textContent = gs.canUndo ? `Last: ${gs.undoLabel}` : '—';
+}
+
+let _timerRAF;
+function updateTimer() {
+  if (!lastTimerEnd) return;
+  const now = Date.now();
+  const rem = Math.max(0, lastTimerEnd - now);
+  const secs = Math.ceil(rem / 1000);
+  const frac = Math.min(1, rem / (timerTotal * 1000));
+  const arc = document.getElementById('t-arc');
+  const txt = document.getElementById('t-text');
+  if (arc) {
+    arc.style.strokeDashoffset = 214 * (1 - frac);
+    arc.style.stroke = secs <= 5 ? 'var(--accent)' : secs <= 10 ? 'var(--A)' : 'var(--green)';
+  }
+  if (txt) txt.textContent = secs;
+}
+
+function renderLog() {
+  if (!gs) return;
+  const entries = (gs.log||[]).slice().reverse();
+  const html = entries.map((e,i) => `<div class="log-entry${i===0?' fresh':''}">${esc(e.msg)}</div>`).join('');
+  const empty = '<div style="color:var(--muted);font-size:10px;text-align:center;padding:6px">No activity yet</div>';
+  ['log-l','log-r'].forEach(id => { const el=document.getElementById(id); if(el) el.innerHTML=html||empty; });
+}
+
+function renderMyTeam() {
+  if (!gs||!myId) return;
+  const me = gs.players[myId]; if (!me) return;
+  const startB = gs.settings?.startingBudget||100;
+  document.getElementById('my-budget').textContent = `${me.budget}cr`;
+  document.getElementById('my-bfill').style.width = `${Math.max(0,Math.min(100,(me.budget/startB)*100))}%`;
+  const r = document.getElementById('my-roster');
+  r.innerHTML = me.roster?.length
+    ? me.roster.map(p=>`<div class="roster-card">
+        <img src="${sprite(p.dex)}" width="38" height="38" onerror="this.style.opacity=0">
+        <div class="roster-name">${p.name}</div>
+        <div class="roster-cost">${p.paid}cr</div>
+      </div>`).join('')
+    : '<div class="empty" style="grid-column:1/-1"><div class="ei">🥚</div><p>No Pokémon yet</p></div>';
+}
+
+function renderResults() {
+  const players = Object.entries(gs.players).sort((a,b) => b[1].roster.length-a[1].roster.length);
+  document.getElementById('results-grid').innerHTML = players.map(([id,p],i) => {
+    const col = PC[i%PC.length];
+    return `<div class="result-card" style="border-color:${col}44">
+      <div class="result-player" style="color:${col}">${p.isHost?'👑 ':''}${esc(p.name)}</div>
+      <div class="result-meta">💰 ${p.budget}cr left · 🎒 ${p.roster?.length||0} Pokémon</div>
+      <div class="result-roster">
+        ${(p.roster||[]).map(pk=>`<div class="rp">
+          <img src="${sprite(pk.dex)}" width="36" height="36" onerror="this.style.opacity=0">
+          <div class="rp-name">${pk.name}</div>
+          <div class="rp-cost">${pk.paid}cr</div>
+        </div>`).join('')}
+        ${!p.roster?.length?'<div style="color:var(--muted);font-size:10px;grid-column:1/-1">No Pokémon won</div>':''}
+      </div>
+    </div>`;
+  }).join('');
+  const rb = document.getElementById('reset-btn'), ub = document.getElementById('undo-results-btn');
+  if (rb) rb.style.display = amHost ? '' : 'none';
+  if (ub) { ub.style.display = amHost && gs.canUndo ? '' : 'none'; }
+}
+
+// ─── Utils ─────────────────────────────────────────────────────────────────────
+function sprite(dex) { return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex}.png`; }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+let _toastT;
+function toast(msg, type='') {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = `show ${type}`;
+  clearTimeout(_toastT);
+  _toastT = setTimeout(() => el.className='', 3200);
+}
+
+// ─── Keyboard shortcuts ────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key==='Enter') {
+    if (document.getElementById('lobby-screen').style.display!=='none') { joinGame(); return; }
+    if (gs?.phase==='bidding' && document.activeElement?.id==='bid-in') placeBid();
+  }
+  if (e.ctrlKey||e.metaKey) {
+    if (e.key==='z') { e.preventDefault(); doUndo(); }
+    if (e.key==='y' || (e.shiftKey&&e.key==='z')) { e.preventDefault(); doRedo(); }
+  }
+});
+
+// ─── Timer loop ────────────────────────────────────────────────────────────────
+setInterval(updateTimer, 250);
+
+// ─── Init ──────────────────────────────────────────────────────────────────────
+connect();
+</script>
+</body>
+</html>
