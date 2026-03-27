@@ -400,7 +400,6 @@ header{
         <button class="login-tab active" onclick="switchLoginTab('player')">Player</button>
         <button class="login-tab" onclick="switchLoginTab('spectator')">Spectator</button>
         <button class="login-tab" onclick="switchLoginTab('admin')">Admin</button>
-        <button class="login-tab" onclick="switchLoginTab('register')">Register</button>
       </div>
 
       <!-- PLAYER LOGIN -->
@@ -436,23 +435,7 @@ header{
         <button class="btn btn-purple btn-full" onclick="adminLogin()">Login as Admin</button>
       </div>
 
-      <!-- REGISTER ADMIN -->
-      <div id="tab-register" class="login-tab-content">
-        <div class="admin-badge">ADMIN REGISTRATION</div>
-        <div class="field">
-          <label>Username</label>
-          <input id="reg-uname" type="text" placeholder="Choose a username..." autocomplete="off">
-        </div>
-        <div class="field">
-          <label>Password</label>
-          <input id="reg-pass" type="password" placeholder="Choose a password...">
-        </div>
-        <div class="field">
-          <label>Setup Code</label>
-          <input id="reg-code" type="text" placeholder="Admin setup code...">
-        </div>
-        <button class="btn btn-purple btn-full" onclick="adminRegister()">Register Admin</button>
-      </div>
+      <!-- Register tab removed — admins are hardcoded -->
     </div>
   </div>
 </div>
@@ -963,20 +946,14 @@ function handle(msg){
       break;
     case 'reset':myId=null;amAdmin=false;amHost=false;amSpectator=false;gs=null;localStorage.removeItem('vgc_autojoin');location.reload();break;
     case 'adminAuthResult':
-      if(msg.ok){
-        if(msg.isAdmin){
-          pendingAdminUsername=msg.username;
-          const name=msg.username;
-          document.getElementById('login-screen').style.display='none';
-          document.getElementById('app').style.display='block';
-          localStorage.setItem('vgc_autojoin',JSON.stringify({name,adminUsername:pendingAdminUsername}));
-          send({type:'join',name,sessionToken:getSessionToken(),adminUsername:pendingAdminUsername});
-          toast(`Welcome Admin ${name}!`,'ok');
-        }else{
-          toast('Admin registered! You can now log in.','ok');
-          switchLoginTab('admin');
-          document.getElementById('admin-uname').value=document.getElementById('reg-uname').value;
-        }
+      if(msg.ok&&msg.isAdmin){
+        pendingAdminUsername=msg.username;
+        const name=msg.username;
+        document.getElementById('login-screen').style.display='none';
+        document.getElementById('app').style.display='block';
+        localStorage.setItem('vgc_autojoin',JSON.stringify({name,adminUsername:pendingAdminUsername}));
+        send({type:'join',name,sessionToken:getSessionToken(),adminUsername:pendingAdminUsername});
+        toast(`Welcome Admin ${name}!`,'ok');
       }else{toast(msg.msg||'Auth failed.','err');}
       break;
   }
@@ -986,7 +963,7 @@ function handle(msg){
 function switchLoginTab(tab){
   document.querySelectorAll('.login-tab').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.login-tab-content').forEach(el=>el.classList.remove('active'));
-  const tabs=['player','spectator','admin','register'];
+  const tabs=['player','spectator','admin'];
   const idx=tabs.indexOf(tab);
   document.querySelectorAll('.login-tab')[idx]?.classList.add('active');
   document.getElementById(`tab-${tab}`)?.classList.add('active');
@@ -1016,13 +993,7 @@ function adminLogin(){
   initAudio();
   send({type:'adminLogin',username:u,password:p});
 }
-function adminRegister(){
-  const u=document.getElementById('reg-uname').value.trim();
-  const p=document.getElementById('reg-pass').value.trim();
-  const c=document.getElementById('reg-code').value.trim();
-  if(!u||!p||!c){toast('Fill all fields.','err');return;}
-  send({type:'adminRegister',username:u,password:p,setupCode:c});
-}
+function adminRegister(){ toast('Admin registration is disabled.','err'); }
 
 // ═══ Dashboard tabs ═══
 function setTab(name){
@@ -1093,7 +1064,8 @@ function showKickModal(){
   const players=Object.entries(gs.players).filter(([id])=>id!==myId);
   list.innerHTML=players.length?players.map(([id,p])=>`
     <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg3);border-radius:6px;margin-bottom:6px">
-      <span style="flex:1;font-size:12px;font-weight:600">${esc(p.name)}${p.isSpectator?' (spectator)':''}</span>
+      <span style="flex:1;font-size:12px;font-weight:600">${esc(p.name)}${p.isSpectator?' (spectator)':''}${p.isHost?' 👑':''}</span>
+      ${!p.isHost&&!p.isSpectator?`<button class="btn btn-gold btn-xs" onclick="makeHost('${id}')">Make Host</button>`:''}
       <button class="btn btn-blue btn-xs" onclick="showAdjustModal('${id}')">Adjust</button>
       <button class="btn btn-danger btn-xs" onclick="kickPlayer('${id}')">Kick</button>
     </div>
@@ -1129,6 +1101,7 @@ function doRemovePokemon(playerId,pokeId){
   }
 }
 function kickPlayer(id){send({type:'kick',targetId:id});closeModal('kick-modal');}
+function makeHost(id){send({type:'transferHost',targetId:id});closeModal('kick-modal');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
 // ═══ Outbid & Sold overlays ═══
@@ -1233,7 +1206,8 @@ function renderLobby(){
   const sb=document.getElementById('start-btn');
   if(sb){sb.style.display=amAdmin?'':'none';sb.disabled=activePlayers.filter(([,p])=>!p.isNonParticipating).length<1;}
   document.getElementById('join-url-text').textContent=location.href;
-  const hasHost=gs.hostId&&gs.players[gs.hostId];
+  const hostIds=gs.hostIds||[];
+  const hasHost=hostIds.some(hid=>gs.players[hid]);
   document.getElementById('lobby-title').textContent=
     !hasHost?'WAITING FOR HOST...':
     activePlayers.length?`${activePlayers.length} TRAINER${activePlayers.length>1?'S':''} READY`:'WAITING FOR TRAINERS...';
@@ -1760,7 +1734,6 @@ document.addEventListener('keydown',e=>{
       if(active==='tab-player')joinAsPlayer();
       else if(active==='tab-spectator')joinAsSpectator();
       else if(active==='tab-admin')adminLogin();
-      else if(active==='tab-register')adminRegister();
       return;
     }
   }

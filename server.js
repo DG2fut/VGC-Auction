@@ -76,11 +76,9 @@ function createWSServer(server) {
             for (const [tok, pid] of sessionTokens) {
               if (pid === c.playerId) { sessionTokens.delete(tok); break; }
             }
-            // Reassign host if needed — only admins can be host
-            if (state.hostId === c.playerId) {
-              state.hostId = null;
-              const next = [...state.players.entries()].find(([, pp]) => !pp.isSpectator && pp.online && pp.isAdmin);
-              if (next) { next[1].isHost = true; state.hostId = next[0]; }
+            // Remove from hostIds if they were a host
+            if (state.hostIds && state.hostIds.has(c.playerId)) {
+              state.hostIds.delete(c.playerId);
             }
           } else {
             // Mid-auction: keep as offline
@@ -183,7 +181,7 @@ function serializeState() {
     nominatedBy: state.nominatedBy,
     auctionedPokemon: [...state.auctionedPokemon],
     log: state.log,
-    hostId: state.hostId,
+    hostIds: [...(state.hostIds || (state.hostId ? [state.hostId] : []))],
     adminIds: [...state.adminIds],
     settings: { ...state.settings, basePriceTier: { ...state.settings.basePriceTier } },
     roundCount: state.roundCount,
@@ -205,7 +203,7 @@ function deserializeState(data) {
     nominatedBy: data.nominatedBy || null,
     auctionedPokemon: new Set(data.auctionedPokemon || []),
     log: data.log || [],
-    hostId: data.hostId || null,
+    hostIds: new Set(data.hostIds || (data.hostId ? [data.hostId] : [])),
     adminIds: new Set(data.adminIds || []),
     settings: {
       timerSecs: data.settings?.timerSecs || DEFAULT_TIMER,
@@ -250,10 +248,23 @@ function loadSessionState() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   ADMIN CREDENTIALS
+   ADMIN CREDENTIALS — hardcoded, no dynamic registration
    ═══════════════════════════════════════════════════════════════════════════════ */
+const ADMIN_SALT = 'vgcsalt';
+function hashPass(p) { return crypto.createHash('sha256').update(p + ADMIN_SALT).digest('hex'); }
+
+const HARDCODED_ADMINS = {
+  benguins10: hashPass('random'),
+  DG2fut: hashPass('randint'),
+};
+
+// Load from file and merge hardcoded on top (hardcoded always wins)
 const ADMIN_LIST = loadAdmins();
-const ADMIN_SETUP_CODE = 'wishiwashi2026';
+for (const [u, h] of Object.entries(HARDCODED_ADMINS)) { ADMIN_LIST.set(u, h); }
+saveAdmins(); // persist the merged result
+
+// Reserved usernames that regular players/spectators cannot use
+const RESERVED_NAMES = new Set(Object.keys(HARDCODED_ADMINS).map(n => n.toLowerCase()));
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    AUCTION HISTORY
@@ -284,7 +295,7 @@ function freshState() {
     pausedRemaining: null,
     auctionedPokemon: new Set(),
     log: [],
-    hostId: null,
+    hostIds: new Set(),
     adminIds: new Set(),
     settings: {
       timerSecs: DEFAULT_TIMER,
@@ -384,7 +395,7 @@ function getPublicState() {
     pausedRemaining: state.pausedRemaining,
     auctionedPokemon: [...state.auctionedPokemon],
     log: state.log.slice(-100),
-    hostId: state.hostId,
+    hostIds: [...(state.hostIds || [])],
     settings: state.settings,
     availablePokemon: POKEMON_POOL.filter(p => !state.auctionedPokemon.has(p.id)),
     canUndo: state.undoStack.length > 0,
@@ -534,24 +545,15 @@ function handleMessage(clientId, msg) {
   const isAdmin = () => {
     const p = getPlayer();
     if (!p) return false;
-    return p.isHost || p.isAdmin;
+    return p.isHost || p.isAdmin || (state.hostIds && state.hostIds.has(client.playerId));
   };
   const err = (m) => ws.send(clientId, { type: 'error', msg: m });
 
   switch (msg.type) {
 
-    // ── Admin registration ──
+    // ── Admin registration — disabled, hardcoded admins only ──
     case 'adminRegister': {
-      const uname = String(msg.username || '').trim().slice(0, 30);
-      const pass  = String(msg.password || '').trim();
-      const code  = String(msg.setupCode || '').trim();
-      if (!uname || !pass) return ws.send(clientId, { type: 'adminAuthResult', ok: false, msg: 'Username and password required.' });
-      if (code !== ADMIN_SETUP_CODE) return ws.send(clientId, { type: 'adminAuthResult', ok: false, msg: 'Invalid setup code.' });
-      if (ADMIN_LIST.has(uname)) return ws.send(clientId, { type: 'adminAuthResult', ok: false, msg: 'Username already taken.' });
-      const hash = crypto.createHash('sha256').update(pass + 'vgcsalt').digest('hex');
-      ADMIN_LIST.set(uname, hash);
-      saveAdmins();
-      ws.send(clientId, { type: 'adminAuthResult', ok: true, username: uname });
+      ws.send(clientId, { type: 'adminAuthResult', ok: false, msg: 'Admin registration is disabled. Only pre-configured admin accounts are allowed.' });
       break;
     }
 
@@ -559,10 +561,7 @@ function handleMessage(clientId, msg) {
     case 'adminLogin': {
       const uname = String(msg.username || '').trim();
       const pass  = String(msg.password || '').trim();
-      const hash  = crypto.createHash('sha256').update(pass + 'vgcsalt').digest('hex');
-      // Re-read from disk to ensure we have the latest (covers server restart edge cases)
-      const freshAdmins = loadAdmins();
-      for (const [k, v] of freshAdmins) { if (!ADMIN_LIST.has(k)) ADMIN_LIST.set(k, v); }
+      const hash  = hashPass(pass);
       if (ADMIN_LIST.has(uname) && ADMIN_LIST.get(uname) === hash) {
         ws.send(clientId, { type: 'adminAuthResult', ok: true, username: uname, isAdmin: true });
       } else {
@@ -578,6 +577,11 @@ function handleMessage(clientId, msg) {
       const adminUsername = msg.adminUsername || null;
       const sessionToken = msg.sessionToken || null;
       const wantSpectator = msg.spectator === true;
+
+      // Block reserved admin usernames for non-admin joins
+      if (RESERVED_NAMES.has(name.toLowerCase()) && !adminUsername) {
+        return ws.send(clientId, { type: 'error', msg: 'That name is reserved.' });
+      }
 
       // Try to reconnect via session token
       let playerId = null;
@@ -618,9 +622,8 @@ function handleMessage(clientId, msg) {
       // New player
       const isSpectator = wantSpectator || state.phase !== 'lobby';
       const isAdminUser = !!(adminUsername && ADMIN_LIST.has(adminUsername));
-      // Only admins can be host — first admin to join becomes host
-      const noHostYet = !state.hostId || !state.players.has(state.hostId);
-      const becomesHost = isAdminUser && !isSpectator && noHostYet;
+      // Admins automatically become hosts
+      const becomesHost = isAdminUser && !isSpectator;
       playerId = randomUUID();
       client.playerId = playerId;
       if (sessionToken) sessionTokens.set(sessionToken, playerId);
@@ -636,13 +639,16 @@ function handleMessage(clientId, msg) {
         online: true,
         clientId,
       });
-      if (becomesHost) state.hostId = playerId;
+      if (becomesHost) {
+        if (!state.hostIds) state.hostIds = new Set();
+        state.hostIds.add(playerId);
+      }
       if (isSpectator) {
         addLog(`👁️ ${name} joined as spectator.`);
       } else {
         addLog(`👋 ${name} joined${becomesHost ? ' as Host 👑' : isAdminUser ? ' as Admin 🛡️' : ''}.`);
       }
-      ws.send(clientId, { type: 'welcome', playerId, isHost: first, isAdmin: isAdminUser, isSpectator, isNonParticipating: false });
+      ws.send(clientId, { type: 'welcome', playerId, isHost: becomesHost, isAdmin: isAdminUser, isSpectator, isNonParticipating: false });
       broadcastState();
       persistState();
       break;
@@ -953,12 +959,12 @@ function handleMessage(clientId, msg) {
         roster: [],
       }]));
       const oldSettings = { ...state.settings, basePriceTier: { ...state.settings.basePriceTier } };
-      const oldHostId = state.hostId;
+      const oldHostIds = new Set(state.hostIds || []);
       const oldAdminIds = new Set(state.adminIds);
       state = freshState();
       state.players = oldPlayers;
       state.settings = oldSettings;
-      state.hostId = oldHostId;
+      state.hostIds = oldHostIds;
       state.adminIds = oldAdminIds;
       state.auctionName = `Auction #${auctionHistory.length + 1}`;
       addLog('🔄 Auction restarted — all players retained.');
@@ -992,16 +998,25 @@ function handleMessage(clientId, msg) {
       break;
     }
 
-    // ── Transfer host ──
+    // ── Make host (grant host to another player — both can be hosts) ──
     case 'transferHost': {
       if (!isAdmin()) return;
       const target = state.players.get(msg.targetId);
-      if (!target || msg.targetId === client.playerId) return;
-      const old = getPlayer();
-      if (old) old.isHost = false;
+      if (!target) return;
+      if (target.isHost) return err(`${target.name} is already a host.`);
       target.isHost = true;
-      state.hostId = msg.targetId;
-      addLog(`👑 Host transferred to ${target.name}.`);
+      target.isAdmin = true;
+      if (!state.hostIds) state.hostIds = new Set();
+      state.hostIds.add(msg.targetId);
+      const granter = getPlayer();
+      addLog(`👑 ${granter?.name || 'Admin'} made ${target.name} a host.`);
+      // Notify the new host
+      for (const [cid, c] of ws.clients) {
+        if (c.playerId === msg.targetId) {
+          ws.send(cid, { type: 'welcome', playerId: msg.targetId, isHost: true, isAdmin: true, isSpectator: target.isSpectator, isNonParticipating: target.isNonParticipating || false });
+          break;
+        }
+      }
       broadcastState();
       persistState();
       break;
@@ -1153,5 +1168,5 @@ const PORT = process.env.PORT || 3000;
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`\n  VGC Draft Auction v3 running on port ${PORT}`);
   console.log(`  Local:  http://localhost:${PORT}`);
-  console.log(`  Admin setup code: ${ADMIN_SETUP_CODE}\n`);
+  console.log(`  Admins: ${[...ADMIN_LIST.keys()].join(', ')}\n`);
 });
