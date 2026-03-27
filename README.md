@@ -1,4 +1,4 @@
-# 🎮 VGC Draft Auction v2
+# 🎮 VGC Draft Auction v3
 
 Real-time multiplayer Pokémon VGC draft auction — host locally, play over the internet.
 
