@@ -76,10 +76,10 @@ function createWSServer(server) {
             for (const [tok, pid] of sessionTokens) {
               if (pid === c.playerId) { sessionTokens.delete(tok); break; }
             }
-            // Reassign host if needed
+            // Reassign host if needed — only admins can be host
             if (state.hostId === c.playerId) {
               state.hostId = null;
-              const next = [...state.players.entries()].find(([, pp]) => !pp.isSpectator && pp.online);
+              const next = [...state.players.entries()].find(([, pp]) => !pp.isSpectator && pp.online && pp.isAdmin);
               if (next) { next[1].isHost = true; state.hostId = next[0]; }
             }
           } else {
@@ -143,6 +143,7 @@ try {
 const ADMINS_FILE  = path.join(DATA_DIR, 'admins.json');
 const SESSION_FILE = path.join(DATA_DIR, 'session.json');
 const HISTORY_FILE = path.join(DATA_DIR, 'auction-history.json');
+const ROUND_LOG_FILE = path.join(DATA_DIR, 'auction-logs.json');
 
 function loadJSON(file, fallback) {
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return fallback; }
@@ -165,6 +166,12 @@ function loadHistory() {
 function saveHistory() {
   saveJSON(HISTORY_FILE, auctionHistory);
 }
+
+function loadRoundLogs() {
+  return loadJSON(ROUND_LOG_FILE, []);
+}
+let roundLogs = [];
+let roundBids = []; // tracks bids for current round
 
 function serializeState() {
   return {
@@ -252,6 +259,7 @@ const ADMIN_SETUP_CODE = 'wishiwashi2026';
    AUCTION HISTORY
    ═══════════════════════════════════════════════════════════════════════════════ */
 let auctionHistory = loadHistory();
+roundLogs = loadRoundLogs();
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    SESSION TOKENS
@@ -428,6 +436,16 @@ function endBidding(reason) {
   clearInterval(timerInterval);
   timerInterval = null;
   let soldEvent = null;
+  const roundEntry = {
+    round: (state.roundCount || 0) + 1,
+    pokemon: state.currentPokemon ? state.currentPokemon.name : null,
+    tier: state.currentPokemon ? state.currentPokemon.tier : null,
+    winner: null,
+    finalBid: 0,
+    bids: [...roundBids],
+    passedPlayers: [...state.passedPlayers].map(id => { const p = state.players.get(id); return p ? p.name : id; }),
+    timestamp: new Date().toISOString(),
+  };
   if (state.currentBidder && state.currentPokemon) {
     const winner = state.players.get(state.currentBidder);
     if (winner) {
@@ -436,12 +454,19 @@ function endBidding(reason) {
       state.auctionedPokemon.add(state.currentPokemon.id);
       addLog(`🏆 ${winner.name} won ${state.currentPokemon.name} for $${state.currentBid}!`);
       soldEvent = { winner: winner.name, winnerId: state.currentBidder, pokemon: state.currentPokemon.name, amount: state.currentBid };
+      roundEntry.winner = winner.name;
+      roundEntry.finalBid = state.currentBid;
     }
   } else if (state.currentPokemon) {
     state.auctionedPokemon.add(state.currentPokemon.id);
     addLog(`⏩ No bids — ${state.currentPokemon.name} goes unsold.`);
     soldEvent = { winner: null, pokemon: state.currentPokemon.name, amount: 0, unsold: true };
+    roundEntry.winner = 'unsold';
   }
+  // Append round log entry
+  roundLogs.push(roundEntry);
+  try { saveJSON(ROUND_LOG_FILE, roundLogs); } catch(e) {}
+  roundBids = [];
   state.phase = 'nomination';
   state.currentPokemon = null;
   state.currentBid = 0;
@@ -508,7 +533,8 @@ function handleMessage(clientId, msg) {
   const getPlayer = () => state.players.get(client.playerId);
   const isAdmin = () => {
     const p = getPlayer();
-    return p && (p.isHost || p.isAdmin);
+    if (!p) return false;
+    return p.isHost || p.isAdmin;
   };
   const err = (m) => ws.send(clientId, { type: 'error', msg: m });
 
@@ -534,6 +560,9 @@ function handleMessage(clientId, msg) {
       const uname = String(msg.username || '').trim();
       const pass  = String(msg.password || '').trim();
       const hash  = crypto.createHash('sha256').update(pass + 'vgcsalt').digest('hex');
+      // Re-read from disk to ensure we have the latest (covers server restart edge cases)
+      const freshAdmins = loadAdmins();
+      for (const [k, v] of freshAdmins) { if (!ADMIN_LIST.has(k)) ADMIN_LIST.set(k, v); }
       if (ADMIN_LIST.has(uname) && ADMIN_LIST.get(uname) === hash) {
         ws.send(clientId, { type: 'adminAuthResult', ok: true, username: uname, isAdmin: true });
       } else {
@@ -588,29 +617,30 @@ function handleMessage(clientId, msg) {
 
       // New player
       const isSpectator = wantSpectator || state.phase !== 'lobby';
-      const activePlayers = [...state.players.values()].filter(p => !p.isSpectator);
-      const first = activePlayers.length === 0 && !isSpectator;
+      const isAdminUser = !!(adminUsername && ADMIN_LIST.has(adminUsername));
+      // Only admins can be host — first admin to join becomes host
+      const noHostYet = !state.hostId || !state.players.has(state.hostId);
+      const becomesHost = isAdminUser && !isSpectator && noHostYet;
       playerId = randomUUID();
       client.playerId = playerId;
       if (sessionToken) sessionTokens.set(sessionToken, playerId);
-      const isAdminUser = !!(adminUsername && ADMIN_LIST.has(adminUsername));
 
       state.players.set(playerId, {
         name,
         budget: isSpectator ? 0 : state.settings.startingBudget,
         roster: [],
-        isHost: first,
+        isHost: becomesHost,
         isAdmin: isAdminUser,
         isSpectator,
         isNonParticipating: false,
         online: true,
         clientId,
       });
-      if (first) state.hostId = playerId;
+      if (becomesHost) state.hostId = playerId;
       if (isSpectator) {
         addLog(`👁️ ${name} joined as spectator.`);
       } else {
-        addLog(`👋 ${name} joined${first ? ' as Host 👑' : isAdminUser ? ' as Admin 🛡️' : ''}.`);
+        addLog(`👋 ${name} joined${becomesHost ? ' as Host 👑' : isAdminUser ? ' as Admin 🛡️' : ''}.`);
       }
       ws.send(clientId, { type: 'welcome', playerId, isHost: first, isAdmin: isAdminUser, isSpectator, isNonParticipating: false });
       broadcastState();
@@ -667,6 +697,7 @@ function handleMessage(clientId, msg) {
       if (!pokemon || state.auctionedPokemon.has(pokemon.id)) return;
       const baseBid = state.settings.basePriceTier[pokemon.tier] || 1;
       pushUndo(`Nominate ${pokemon.name}`);
+      roundBids = [];
       state.currentPokemon = pokemon;
       state.currentBid = baseBid;
       state.currentBidder = null;
@@ -708,6 +739,7 @@ function handleMessage(clientId, msg) {
       const prevBidder = state.currentBidder;
       state.currentBid = amount;
       state.currentBidder = client.playerId;
+      roundBids.push({ player: bidder.name, amount, timestamp: new Date().toISOString() });
       addLog(`💰 ${bidder.name} → $${amount} on ${state.currentPokemon.name}!`);
       // Notify outbid player
       if (prevBidder && prevBidder !== client.playerId) {
@@ -750,6 +782,8 @@ function handleMessage(clientId, msg) {
       state.timerEnd = null;
       state.phase = 'paused';
       addLog(`⏸️ Auction paused.`);
+      // Broadcast a tick with null timerEnd to stop client-side tick sounds immediately
+      ws.broadcastAll({ type: 'tick', timerEnd: null });
       broadcastState();
       persistState();
       break;
@@ -777,6 +811,19 @@ function handleMessage(clientId, msg) {
       clearInterval(timerInterval);
       timerInterval = null;
       pushUndo(`Skip ${skippedName}`);
+      // Log skipped round
+      roundLogs.push({
+        round: (state.roundCount || 0) + 1,
+        pokemon: skippedName,
+        tier: state.currentPokemon?.tier || null,
+        winner: 'skipped',
+        finalBid: 0,
+        bids: [...roundBids],
+        passedPlayers: [...state.passedPlayers].map(id => { const p = state.players.get(id); return p ? p.name : id; }),
+        timestamp: new Date().toISOString(),
+      });
+      try { saveJSON(ROUND_LOG_FILE, roundLogs); } catch(e) {}
+      roundBids = [];
       state.auctionedPokemon.add(state.currentPokemon.id);
       state.phase = 'nomination';
       state.currentPokemon = null;
@@ -785,6 +832,7 @@ function handleMessage(clientId, msg) {
       state.nominatedBy = null;
       state.timerEnd = null;
       state.pausedRemaining = null;
+      state.roundCount++;
       state.passedPlayers.clear();
       addLog(`⏭️ ${skippedName} skipped — removed from pool.`);
       broadcastState();
@@ -862,11 +910,31 @@ function handleMessage(clientId, msg) {
     // ── End auction ──
     case 'end': {
       if (!isAdmin()) return;
-      clearInterval(timerInterval);
-      timerInterval = null;
+      if (state.phase === 'lobby' || state.phase === 'ended') return err('Cannot end auction in this phase.');
+      // If mid-bidding, award current pokemon to highest bidder first
+      if ((state.phase === 'bidding' || state.phase === 'paused') && state.currentBidder && state.currentPokemon) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        const winner = state.players.get(state.currentBidder);
+        if (winner) {
+          winner.budget -= state.currentBid;
+          winner.roster.push({ ...state.currentPokemon, paid: state.currentBid });
+          state.auctionedPokemon.add(state.currentPokemon.id);
+          addLog(`🏆 ${winner.name} won ${state.currentPokemon.name} for $${state.currentBid}! (auction ending)`);
+          ws.broadcastAll({ type: 'sold', winner: winner.name, winnerId: state.currentBidder, pokemon: state.currentPokemon.name, amount: state.currentBid });
+        }
+      } else {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
       pushUndo('End auction');
       state.phase = 'ended';
+      state.currentPokemon = null;
+      state.currentBid = 0;
+      state.currentBidder = null;
       state.timerEnd = null;
+      state.pausedRemaining = null;
+      state.passedPlayers.clear();
       saveToHistory();
       addLog('🏁 Auction ended by admin.');
       broadcastState();
@@ -996,6 +1064,30 @@ function handleMessage(clientId, msg) {
       if (!isAdmin()) return;
       state.joinRequests.delete(msg.targetId);
       broadcastState();
+      break;
+    }
+
+    // ── Admin removes a spectator ──
+    case 'removeSpectator': {
+      if (!isAdmin()) return err('Only admins can remove spectators.');
+      const target = state.players.get(msg.targetId);
+      if (!target || !target.isSpectator) return err('Not a spectator.');
+      const specName = target.name;
+      // Disconnect the spectator's socket
+      for (const [cid, c] of ws.clients) {
+        if (c.playerId === msg.targetId) {
+          ws.send(cid, { type: 'kicked', targetId: msg.targetId });
+          try { c.socket.destroy(); } catch(e) {}
+          break;
+        }
+      }
+      state.players.delete(msg.targetId);
+      for (const [tok, pid] of sessionTokens) {
+        if (pid === msg.targetId) { sessionTokens.delete(tok); break; }
+      }
+      addLog(`🚫 Spectator ${specName} was removed by admin.`);
+      broadcastState();
+      persistState();
       break;
     }
 

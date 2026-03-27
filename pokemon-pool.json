@@ -1,5 +1,5 @@
 [
-  { "id": 1, "name": "Landorus-T", "dex": 645, "type1": "Ground", "type2": "Flying", "tier": "S", "spriteId": 10020 },
+  { "id": 1, "name": "Landorus-T", "dex": 645, "type1": "Ground", "type2": "Flying", "tier": "S", "spriteId": 10021 },
   { "id": 2, "name": "Amoonguss", "dex": 591, "type1": "Grass", "type2": "Poison", "tier": "S" },
   { "id": 3, "name": "Cresselia", "dex": 488, "type1": "Psychic", "type2": "", "tier": "S" },
   { "id": 4, "name": "Thundurus", "dex": 642, "type1": "Electric", "type2": "Flying", "tier": "S" },

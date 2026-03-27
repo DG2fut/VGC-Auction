@@ -1,4 +1,4 @@
-# 🎮 VGC Draft Auction v2
+# 🎮 VGC Draft Auction v3
 
 Real-time multiplayer Pokémon VGC draft auction — host locally or deploy to the cloud.
 
@@ -38,7 +38,7 @@ Multiple admins can register using the same setup code.
 ## How to Play
 
 ### LOBBY
-- First admin to join becomes the **Host** (crown icon)
+- Only an admin can be the **Host** (crown icon) — the first admin to join gets it
 - Admin sets timer, budget, max Pokémon, bid increment, and base prices in Settings
 - Share the page URL so others can join
 - Late joiners can request to join as players (admin approval required) or watch as **Spectators**
@@ -61,7 +61,7 @@ Multiple admins can register using the same setup code.
 | Control | Description |
 |---------|-------------|
 | Pause / Resume | Freeze or unfreeze the countdown |
-| Skip | Cancel bidding, return Pokémon to pool |
+| Skip | Cancel bidding, remove Pokémon from pool permanently |
 | Hammer | Force-close bidding instantly |
 | Undo (Ctrl+Z) | Revert last round |
 | Redo (Ctrl+Y) | Re-apply a previously undone round |
@@ -69,9 +69,10 @@ Multiple admins can register using the same setup code.
 | Remove Pokémon | Remove a mon from a player's roster (refunds the cost) |
 | Non-Participating | Toggle admin out of bidding |
 | Restart Auction | Reset rosters/budgets, keep players |
-| End Auction | Save results and show final rosters |
+| End Auction | Works from any phase — if mid-bid, awards to highest bidder first |
 | New Auction | Full reset |
 | Kick Player | Remove inactive/redundant players |
+| Remove Spectator | Remove a spectator at any time (visible in spectator bar & lobby) |
 
 ---
 
@@ -157,6 +158,7 @@ The `id` field in the response is the `spriteId` you need. Examples:
 ├── data/               # Created at runtime
 │   ├── session.json    # Persisted auction state
 │   ├── admins.json     # Registered admin accounts
-│   └── auction-history.json
+│   ├── auction-history.json
+│   └── auction-logs.json  # Per-round bid logs (appended each round)
 └── package.json
 ```

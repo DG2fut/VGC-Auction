@@ -372,6 +372,11 @@ header{
   .spotlight{flex-direction:column;text-align:center}
   .bid-row{flex-direction:column}
   .settings-grid{grid-template-columns:1fr}
+  .qb{min-height:48px;padding:12px 16px;font-size:14px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+  .quick-bids{gap:8px}
+  .btn-pass-mobile{min-height:54px;font-size:16px;font-weight:900;padding:14px 20px;width:100%;justify-content:center}
+  .bid-input{min-height:48px;font-size:18px}
+  .bid-controls .bid-input-row .btn{min-height:48px;font-size:16px;padding:12px 24px}
 }
 </style>
 </head>
@@ -582,6 +587,11 @@ header{
                 <div id="spectator-nom-banner" class="spectator-banner" style="display:none">You are spectating — watch the nominations unfold!</div>
                 <div id="nom-waiting-banner" class="spectator-banner" style="display:none">Waiting for admin to nominate...</div>
                 <div id="nom-controls" style="display:none">
+                  <div id="nom-admin-bar" style="display:none;margin-bottom:10px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+                    <span style="font-size:9px;color:var(--muted);font-weight:700">ADMIN:</span>
+                    <button class="btn btn-danger btn-sm" onclick="confirmEnd()">End Auction</button>
+                    <button class="btn btn-ghost btn-sm" onclick="showKickModal()">Manage Players</button>
+                  </div>
                   <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Pick a Pokemon to nominate for bidding. Opening bid will be the base tier price.</p>
                   <input class="search-box" id="poke-search" type="text" placeholder="Search Pokemon..." oninput="renderGrid()">
                   <div class="tier-filters" id="tier-filters">
@@ -655,7 +665,7 @@ header{
                     </div>
                     <div class="quick-bids" id="quick-bids"></div>
                     <div class="pass-row">
-                      <button class="btn btn-ghost btn-xs" id="pass-btn" onclick="doPass()">Pass this Round</button>
+                      <button class="btn btn-danger btn-pass-mobile" id="pass-btn" onclick="doPass()" style="font-weight:900;font-size:13px;padding:10px 20px">🙅 Pass this Round</button>
                       <span class="passed-info" id="pass-count"></span>
                     </div>
                   </div>
@@ -938,7 +948,7 @@ function handle(msg){
       if(prevPhase==='nomination'&&gs.phase==='bidding')sfxChime();
       if(prevPhase!=='ended'&&gs.phase==='ended')sfxApplause();
       break;
-    case 'tick':if(gs&&gs.phase==='bidding'){lastTimerEnd=msg.timerEnd;}updateTimer();break;
+    case 'tick':if(gs&&gs.phase==='bidding'&&msg.timerEnd){lastTimerEnd=msg.timerEnd;}else{lastTimerEnd=null;}updateTimer();break;
     case 'error':toast(msg.msg,'err');break;
     case 'outbid':
       showOutbidBanner();
@@ -1188,8 +1198,9 @@ function renderSpectatorBar(){
   if(specs.length===0){bar.style.display='none';return;}
   bar.style.display='flex';
   bar.innerHTML=`<span style="font-weight:700;margin-right:4px">&#128065; Spectators:</span>`+
-    specs.map(([,p])=>`<span class="spec-name">${esc(p.name)}</span>`).join('');
+    specs.map(([id,p])=>`<span class="spec-name">${esc(p.name)}${amAdmin?` <span style="cursor:pointer;color:var(--accent);font-size:9px;margin-left:2px" onclick="removeSpectator('${id}')" title="Remove spectator">&#10005;</span>`:''}</span>`).join('');
 }
+function removeSpectator(id){if(confirm('Remove this spectator?'))send({type:'removeSpectator',targetId:id});}
 
 function renderLobby(){
   const ss=document.getElementById('settings-section');
@@ -1218,11 +1229,13 @@ function renderLobby(){
     (activePlayers.length?activePlayers.map(([id,p],i)=>pcHTML(id,p,i)).join(''):'<div style="color:var(--muted);font-size:10px;padding:8px">No players yet</div>');
   document.getElementById('lobby-spectator-list').innerHTML=spectators.length?
     '<div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px;margin-top:8px">SPECTATORS ('+spectators.length+')</div>'+
-    spectators.map(([id,p])=>`<div style="padding:4px 8px;font-size:10px;color:var(--muted)">&#128065; ${esc(p.name)}</div>`).join(''):'';
+    spectators.map(([id,p])=>`<div style="padding:4px 8px;font-size:10px;color:var(--muted);display:flex;align-items:center;gap:6px">&#128065; ${esc(p.name)}${amAdmin?`<span style="cursor:pointer;color:var(--accent);font-size:9px" onclick="removeSpectator('${id}')" title="Remove">&#10005;</span>`:''}</div>`).join(''):'';
   const sb=document.getElementById('start-btn');
   if(sb){sb.style.display=amAdmin?'':'none';sb.disabled=activePlayers.filter(([,p])=>!p.isNonParticipating).length<1;}
   document.getElementById('join-url-text').textContent=location.href;
+  const hasHost=gs.hostId&&gs.players[gs.hostId];
   document.getElementById('lobby-title').textContent=
+    !hasHost?'WAITING FOR HOST...':
     activePlayers.length?`${activePlayers.length} TRAINER${activePlayers.length>1?'S':''} READY`:'WAITING FOR TRAINERS...';
 }
 
@@ -1271,6 +1284,8 @@ function renderNom(){
   // Admin-only nominations
   document.getElementById('nom-controls').style.display=amAdmin?'':'none';
   document.getElementById('nom-waiting-banner').style.display=(!amAdmin&&!isSpec)?'':'none';
+  const nomAdminBar=document.getElementById('nom-admin-bar');
+  if(nomAdminBar)nomAdminBar.style.display=amAdmin?'flex':'none';
   if(amAdmin)renderGrid();
 }
 
@@ -1348,7 +1363,7 @@ function renderBid(){
     const myPassed=passedIds.includes(myId);
     document.getElementById('bid-btn').disabled=isCurrBidder||paused||myPassed;
     document.getElementById('pass-btn').disabled=myPassed||isCurrBidder;
-    document.getElementById('pass-btn').textContent=myPassed?'Passed':'Pass this Round';
+    document.getElementById('pass-btn').textContent=myPassed?'✋ Passed':'🙅 Pass this Round';
     const total=Object.values(gs.players).filter(p=>!p.isSpectator&&!p.isNonParticipating).length;
     const passedCount=passedIds.length;
     document.getElementById('pass-count').textContent=`${passedCount}/${total} passed`;
