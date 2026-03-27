@@ -878,11 +878,15 @@ function handleMessage(clientId, msg) {
       const increment = state.settings.bidIncrement || 25;
       let amount = parseInt(msg.amount);
       if (isNaN(amount)) return err('Invalid bid amount.');
-      // Snap to increment boundary above current bid
-      const minBid = state.currentBid + increment;
+      // First bid of round: allow bidding at exactly the opening (base) price
+      // Subsequent bids: must be at least currentBid + increment
+      const isFirstBid = !state.currentBidder;
+      const minBid = isFirstBid ? state.currentBid : state.currentBid + increment;
       if (amount < minBid) amount = minBid;
-      amount = state.currentBid + Math.ceil((amount - state.currentBid) / increment) * increment;
-      if (amount <= state.currentBid) amount = state.currentBid + increment;
+      if (!isFirstBid) {
+        amount = state.currentBid + Math.ceil((amount - state.currentBid) / increment) * increment;
+        if (amount <= state.currentBid) amount = state.currentBid + increment;
+      }
       // Check bid ceiling
       if (maxMon > 0) {
         const slotsLeft = maxMon - bidder.roster.length;

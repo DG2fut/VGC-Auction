@@ -1050,8 +1050,9 @@ function qBid(mult){
 function qBidBase(){
   if(!gs)return;
   const inc=gs.settings?.bidIncrement||25;
-  // Minimum valid bid = current bid + one increment (server will snap it)
-  const minBid=gs.currentBid+inc;
+  const isFirstBid=!gs.currentBidder;
+  // First bid: exact base price. After that: current + increment.
+  const minBid=isFirstBid?gs.currentBid:gs.currentBid+inc;
   document.getElementById('bid-in').value=minBid;
   placeBid();
 }
@@ -1363,7 +1364,8 @@ function renderBid(){
 
     // Quick bid buttons: MIN (lowest valid bid), +25, +50, +100
     const inc=gs.settings?.bidIncrement||25;
-    const minBid=bid+inc;
+    const isFirstBid=!gs.currentBidder;
+    const minBid=isFirstBid?bid:bid+inc;
     document.getElementById('quick-bids').innerHTML=
       `<button class="qb qb-large" onclick="qBidBase()">MIN $${minBid}</button>`+
       `<button class="qb qb-large" onclick="qBidFixed(25)">+$25</button>`+
@@ -1372,7 +1374,7 @@ function renderBid(){
 
     const inp=document.getElementById('bid-in');
     if(!inp.value||parseInt(inp.value)<=bid){
-      inp.value=bid+inc;
+      inp.value=minBid;
     }
   }
 
