@@ -930,12 +930,15 @@ function handle(msg){
       break;
     case 'state':
       prevBidder=gs?.currentBidder;prevPhase=gs?.phase;prevBid=gs?.currentBid||0;
-      gs=msg.state;timerTotal=gs.settings?.timerSecs||30;render();
+      gs=msg.state;timerTotal=gs.settings?.timerSecs||30;
+      // Clear timer when not actively bidding to prevent stale tick sounds
+      if(gs.phase!=='bidding'){lastTimerEnd=null;lastTickSound=0;}
+      render();
       // Audio triggers
       if(prevPhase==='nomination'&&gs.phase==='bidding')sfxChime();
       if(prevPhase!=='ended'&&gs.phase==='ended')sfxApplause();
       break;
-    case 'tick':lastTimerEnd=msg.timerEnd;updateTimer();break;
+    case 'tick':if(gs&&gs.phase==='bidding'){lastTimerEnd=msg.timerEnd;}updateTimer();break;
     case 'error':toast(msg.msg,'err');break;
     case 'outbid':
       showOutbidBanner();
@@ -1405,7 +1408,14 @@ function updateUndoUI(){
 
 // ═══ Timer ═══
 function updateTimer(){
-  if(!lastTimerEnd)return;
+  // Only run timer during active bidding
+  if(!lastTimerEnd||!gs||gs.phase!=='bidding'){
+    const td=document.getElementById('timer-display');
+    if(td){td.classList.remove('timer-pulse');td.style.background='';td.style.boxShadow='';}
+    const txt=document.getElementById('t-text');
+    if(txt&&gs&&gs.phase!=='bidding')txt.textContent=timerTotal;
+    return;
+  }
   const rem=Math.max(0,lastTimerEnd-Date.now());
   const secs=Math.ceil(rem/1000);
   const frac=Math.min(1,rem/(timerTotal*1000));
@@ -1419,8 +1429,8 @@ function updateTimer(){
     td.style.boxShadow=`0 0 20px ${secs<=5?'rgba(230,57,70,.5)':secs<=10?'rgba(249,115,22,.3)':'rgba(34,211,160,.2)'}`;
     if(secs<=5)td.classList.add('timer-pulse');else td.classList.remove('timer-pulse');
   }
-  // Tick sound in final 5 seconds
-  if(secs<=5&&secs>0){
+  // Tick sound in final 5 seconds — only during active bidding
+  if(secs<=5&&secs>0&&rem>0){
     const now=Date.now();
     const interval=secs<=2?300:500;
     if(now-lastTickSound>interval){lastTickSound=now;sfxTick();}

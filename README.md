@@ -1,10 +1,10 @@
 # 🎮 VGC Draft Auction v2
 
-Real-time multiplayer Pokémon VGC draft auction — host locally, play over the internet.
+Real-time multiplayer Pokémon VGC draft auction — host locally or deploy to the cloud.
 
 ## Requirements
 - Node.js v14+ → https://nodejs.org
-- That's it! Internet tunneling is built-in.
+- That's it — zero dependencies!
 
 ---
 
@@ -16,8 +16,10 @@ node server.js
 
 The server will:
 1. Start at http://localhost:3000
-2. Automatically create a public URL via localtunnel
-3. Print the **admin setup code** and public URL in the terminal
+2. Print the **admin setup code** in the terminal
+3. Load the Pokémon pool from `pokemon-pool.json`
+
+Deploy to [Render](https://render.com) or any Node.js host for public access.
 
 ---
 
@@ -37,20 +39,20 @@ Multiple admins can register using the same setup code.
 
 ### LOBBY
 - First admin to join becomes the **Host** (crown icon)
-- Admin sets timer, budget, max Pokémon, and base prices in Settings
+- Admin sets timer, budget, max Pokémon, bid increment, and base prices in Settings
 - Share the page URL so others can join
-- Late joiners automatically become **Spectators**
+- Late joiners can request to join as players (admin approval required) or watch as **Spectators**
 
 ### EACH ROUND
-1. Any player picks a Pokémon from the pool and sets an opening bid
+1. The admin nominates a Pokémon — opening bid is set automatically from the tier price
 2. Anyone can outbid — the countdown timer resets each time
-3. Players can **Pass** to opt out of a round
-4. When the timer expires, highest bidder wins
+3. Players can **Pass** to opt out of a round (locked out for that round)
+4. When the timer expires (or all players have bid/passed), highest bidder wins
 
 ### BUDGET
-- Everyone starts with the same budget (default $100)
-- You cannot bid more than your remaining dollars
-- A **max Pokémon** cap can be set (default 6)
+- Everyone starts with the same budget (default $10,000)
+- Bid ceiling enforced: you can't bid more than `budget - ((slots remaining - 1) × lowest tier price)`
+- Bids snap to the configured increment ($10 / $25 / $50 / $100)
 
 ---
 
@@ -63,6 +65,9 @@ Multiple admins can register using the same setup code.
 | Hammer | Force-close bidding instantly |
 | Undo (Ctrl+Z) | Revert last round |
 | Redo (Ctrl+Y) | Re-apply a previously undone round |
+| Adjust Budget | Change a player's budget mid-auction |
+| Remove Pokémon | Remove a mon from a player's roster (refunds the cost) |
+| Non-Participating | Toggle admin out of bidding |
 | Restart Auction | Reset rosters/budgets, keep players |
 | End Auction | Save results and show final rosters |
 | New Auction | Full reset |
@@ -75,36 +80,83 @@ Multiple admins can register using the same setup code.
 | Tab | Description |
 |-----|-------------|
 | ⚡ Auction | Live auction view |
-| 👥 Teams | View all player rosters |
-| 📜 Draft History | Browse past auction results |
+| 👥 Teams | View all player rosters with type coverage |
+| 📜 History | Browse past auction results |
 | 📖 Pokédex | All Pokémon with tiers and types |
-| 🗂️ Team Planner | Build and preview a custom team |
-| 🔍 Player Search | Search players across all auctions |
+| 🗂️ Planner | Build and preview a custom team |
+| 🔍 Search | Search players across all auctions |
 
 ---
 
-## Settings (admin only, before starting)
+## Settings (admin only, in lobby)
 
 | Setting | Description |
 |---------|-------------|
 | Auction Name | Custom name for this draft |
-| Bid Timer | Seconds of silence before round closes (5-300) |
-| Starting Budget | Dollars each player starts with (10-9999) |
+| Bid Timer | Seconds before round closes (5–300) |
+| Starting Budget | Dollars each player starts with (10–99,999) |
 | Max Pokémon | Max mons per player (0 = unlimited) |
-| Base Prices | Starting bid price per tier (S/A/B/C) |
+| Bid Increment | Bid step size: $10, $25, $50, or $100 |
+| Base Prices | Opening bid price per tier (S/A/B/C) |
 
 ---
 
 ## Customising the Pokémon Pool
 
-Edit the `POKEMON_POOL` array in `server.js`:
+Edit **`pokemon-pool.json`** in the project root. The server loads this file on startup — no need to touch `server.js`.
 
-```js
-{ id:57, name:'Flutter Mane', dex:987, type1:'Ghost', type2:'Fairy', tier:'S' }
+Each entry looks like this:
+
+```json
+{ "id": 57, "name": "Flutter Mane", "dex": 987, "type1": "Ghost", "type2": "Fairy", "tier": "S" }
 ```
 
-- `id` — unique number
-- `name` — display name
-- `dex` — National Dex number (used for sprite)
-- `type1` / `type2` — types (use empty string if none)
-- `tier` — S, A, B, or C
+| Field | Description |
+|-------|-------------|
+| `id` | Unique number (must not repeat) |
+| `name` | Display name |
+| `dex` | National Pokédex number (used for sprite) |
+| `spriteId` | *(optional)* Override sprite ID for regional/alternate forms — use the PokeAPI form ID (e.g. `10104` for Ninetales-Alola). Only needed when `dex` alone shows the wrong sprite. |
+| `type1` | Primary type |
+| `type2` | Secondary type (empty string `""` if none) |
+| `tier` | `S`, `A`, `B`, or `C` |
+
+### Finding spriteId for alternate forms
+
+Sprites come from PokeAPI: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{id}.png`
+
+For regional variants and alternate forms, look up the correct ID:
+```
+https://pokeapi.co/api/v2/pokemon/{form-name}
+```
+The `id` field in the response is the `spriteId` you need. Examples:
+
+| Pokémon | Form lookup | spriteId |
+|---------|------------|----------|
+| Ninetales-Alola | `pokemon/ninetales-alola` | 10104 |
+| Arcanine-Hisui | `pokemon/arcanine-hisui` | 10230 |
+| Rotom-Wash | `pokemon/rotom-wash` | 10009 |
+| Weezing-Galar | `pokemon/weezing-galar` | 10167 |
+
+### Swapping the pool for a new auction
+
+1. Stop the server
+2. Replace `pokemon-pool.json` with your new pool
+3. Delete `data/session.json` to clear the previous auction state
+4. Restart the server
+
+---
+
+## File Structure
+
+```
+├── server.js           # WebSocket server (zero dependencies)
+├── pokemon-pool.json   # Pokémon pool — edit this for each auction
+├── public/
+│   └── index.html      # Single-page client app
+├── data/               # Created at runtime
+│   ├── session.json    # Persisted auction state
+│   ├── admins.json     # Registered admin accounts
+│   └── auction-history.json
+└── package.json
+```

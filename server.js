@@ -125,89 +125,17 @@ function createWSServer(server) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   POKÉMON POOL
+   POKÉMON POOL — loaded from pokemon-pool.json (edit that file to customize)
    ═══════════════════════════════════════════════════════════════════════════════ */
-const POKEMON_POOL = [
-  // S-Tier
-  { id: 1,  name: 'Gholdengo',          dex: 1000, type1: 'Steel',    type2: 'Ghost',    tier: 'S' },
-  { id: 2,  name: 'Incineroar',         dex: 727,  type1: 'Fire',     type2: 'Dark',     tier: 'S' },
-  { id: 3,  name: 'Rillaboom',          dex: 812,  type1: 'Grass',    type2: '',         tier: 'S' },
-  { id: 4,  name: 'Archaludon',         dex: 1018, type1: 'Steel',    type2: 'Dragon',   tier: 'S' },
-  { id: 5,  name: 'Amoonguss',          dex: 591,  type1: 'Grass',    type2: 'Poison',   tier: 'S' },
-  { id: 6,  name: 'Ursaluna-Bloodmoon', dex: 901,  type1: 'Ground',   type2: 'Normal',   tier: 'S', spriteId: 10272 },
-  { id: 7,  name: 'Sneasler',           dex: 903,  type1: 'Fighting', type2: 'Poison',   tier: 'S' },
-  { id: 8,  name: 'Dragonite',          dex: 149,  type1: 'Dragon',   type2: 'Flying',   tier: 'S' },
-  { id: 9,  name: 'Annihilape',         dex: 979,  type1: 'Fighting', type2: 'Ghost',    tier: 'S' },
-  { id: 10, name: 'Pelipper',           dex: 279,  type1: 'Water',    type2: 'Flying',   tier: 'S' },
-  { id: 11, name: 'Kingambit',          dex: 983,  type1: 'Dark',     type2: 'Steel',    tier: 'S' },
-  // A-Tier
-  { id: 12, name: 'Ursaluna',           dex: 901,  type1: 'Ground',   type2: 'Normal',   tier: 'A' },
-  { id: 13, name: 'Maushold',           dex: 925,  type1: 'Normal',   type2: '',         tier: 'A' },
-  { id: 14, name: 'Sinistcha',          dex: 1013, type1: 'Grass',    type2: 'Ghost',    tier: 'A' },
-  { id: 15, name: 'Electabuzz',         dex: 125,  type1: 'Electric', type2: '',         tier: 'A' },
-  { id: 16, name: 'Dondozo',            dex: 977,  type1: 'Water',    type2: '',         tier: 'A' },
-  { id: 17, name: 'Tatsugiri',          dex: 978,  type1: 'Dragon',   type2: 'Water',    tier: 'A' },
-  { id: 18, name: 'Volcarona',          dex: 637,  type1: 'Bug',      type2: 'Fire',     tier: 'A' },
-  { id: 19, name: 'Porygon2',           dex: 233,  type1: 'Normal',   type2: '',         tier: 'A' },
-  { id: 20, name: 'Ninetales-Alola',    dex: 38,   type1: 'Ice',      type2: 'Fairy',    tier: 'A', spriteId: 10103 },
-  { id: 21, name: 'Grimmsnarl',         dex: 861,  type1: 'Dark',     type2: 'Fairy',    tier: 'A' },
-  { id: 22, name: 'Tyranitar',          dex: 248,  type1: 'Rock',     type2: 'Dark',     tier: 'A' },
-  { id: 23, name: 'Indeedee',           dex: 876,  type1: 'Psychic',  type2: 'Normal',   tier: 'A' },
-  { id: 24, name: 'Talonflame',         dex: 663,  type1: 'Fire',     type2: 'Flying',   tier: 'A' },
-  { id: 25, name: 'Dragapult',          dex: 887,  type1: 'Dragon',   type2: 'Ghost',    tier: 'A' },
-  { id: 26, name: 'Basculegion',        dex: 902,  type1: 'Water',    type2: 'Ghost',    tier: 'A', spriteId: 10263 },
-  { id: 27, name: 'Whimsicott',         dex: 547,  type1: 'Grass',    type2: 'Fairy',    tier: 'A' },
-  { id: 28, name: 'Clefairy',           dex: 35,   type1: 'Fairy',    type2: '',         tier: 'A' },
-  // B-Tier
-  { id: 29, name: 'Armarouge',          dex: 936,  type1: 'Fire',     type2: 'Psychic',  tier: 'B' },
-  { id: 30, name: 'Garchomp',           dex: 445,  type1: 'Dragon',   type2: 'Ground',   tier: 'B' },
-  { id: 31, name: 'Skeledirge',         dex: 909,  type1: 'Fire',     type2: 'Ghost',    tier: 'B' },
-  { id: 32, name: 'Torkoal',            dex: 324,  type1: 'Fire',     type2: '',         tier: 'B' },
-  { id: 33, name: 'Hatterene',          dex: 858,  type1: 'Psychic',  type2: 'Fairy',    tier: 'B' },
-  { id: 34, name: 'Palafin',            dex: 964,  type1: 'Water',    type2: '',         tier: 'B' },
-  { id: 35, name: 'Meowscarada',        dex: 908,  type1: 'Grass',    type2: 'Dark',     tier: 'B' },
-  { id: 36, name: 'Typhlosion-Hisui',   dex: 157,  type1: 'Fire',     type2: 'Ghost',    tier: 'B', spriteId: 10232 },
-  { id: 37, name: 'Sylveon',            dex: 700,  type1: 'Fairy',    type2: '',         tier: 'B' },
-  { id: 38, name: 'Arcanine-Hisui',     dex: 59,   type1: 'Fire',     type2: 'Rock',     tier: 'B', spriteId: 10226 },
-  { id: 39, name: 'Primarina',          dex: 730,  type1: 'Water',    type2: 'Fairy',    tier: 'B' },
-  { id: 40, name: 'Glimmora',           dex: 970,  type1: 'Rock',     type2: 'Poison',   tier: 'B' },
-  { id: 41, name: 'Ceruledge',          dex: 937,  type1: 'Fire',     type2: 'Ghost',    tier: 'B' },
-  { id: 42, name: 'Excadrill',          dex: 530,  type1: 'Ground',   type2: 'Steel',    tier: 'B' },
-  { id: 43, name: 'Goodra-Hisui',       dex: 706,  type1: 'Dragon',   type2: 'Steel',    tier: 'B', spriteId: 10240 },
-  { id: 44, name: 'Rotom-Wash',         dex: 479,  type1: 'Electric', type2: 'Water',    tier: 'B', spriteId: 10009 },
-  { id: 45, name: 'Gastrodon',          dex: 423,  type1: 'Water',    type2: 'Ground',   tier: 'B' },
-  { id: 46, name: 'Farigiraf',          dex: 981,  type1: 'Normal',   type2: 'Psychic',  tier: 'B' },
-  { id: 47, name: 'Milotic',            dex: 350,  type1: 'Water',    type2: '',         tier: 'B' },
-  { id: 48, name: 'Tinkaton',           dex: 959,  type1: 'Fairy',    type2: 'Steel',    tier: 'B' },
-  { id: 49, name: 'Murkrow',            dex: 198,  type1: 'Dark',     type2: 'Flying',   tier: 'B' },
-  { id: 50, name: 'Gallade',            dex: 475,  type1: 'Psychic',  type2: 'Fighting', tier: 'B' },
-  // C-Tier
-  { id: 51, name: 'Gyarados',           dex: 130,  type1: 'Water',    type2: 'Flying',   tier: 'C' },
-  { id: 52, name: 'Mimikyu',            dex: 778,  type1: 'Ghost',    type2: 'Fairy',    tier: 'C' },
-  { id: 53, name: 'Quaquaval',          dex: 910,  type1: 'Water',    type2: 'Fighting', tier: 'C' },
-  { id: 54, name: 'Gengar',             dex: 94,   type1: 'Ghost',    type2: 'Poison',   tier: 'C' },
-  { id: 55, name: 'Scizor',             dex: 212,  type1: 'Bug',      type2: 'Steel',    tier: 'C' },
-  { id: 56, name: 'Baxcalibur',         dex: 998,  type1: 'Dragon',   type2: 'Ice',      tier: 'C' },
-  { id: 57, name: 'Weezing-Galar',      dex: 109,  type1: 'Poison',   type2: 'Fairy',    tier: 'C', spriteId: 10195 },
-  { id: 58, name: 'Smeargle',           dex: 235,  type1: 'Normal',   type2: '',         tier: 'C' },
-  { id: 59, name: 'Flamigo',            dex: 973,  type1: 'Flying',   type2: 'Fighting', tier: 'C' },
-  { id: 60, name: 'Rotom-Heat',         dex: 479,  type1: 'Electric', type2: 'Fire',     tier: 'C', spriteId: 10008 },
-  { id: 61, name: 'Froslass',           dex: 478,  type1: 'Ice',      type2: 'Ghost',    tier: 'C' },
-  { id: 62, name: 'Salamence',          dex: 373,  type1: 'Dragon',   type2: 'Flying',   tier: 'C' },
-  { id: 63, name: 'Hydreigon',          dex: 635,  type1: 'Dark',     type2: 'Dragon',   tier: 'C' },
-  { id: 64, name: 'Kommo-o',            dex: 784,  type1: 'Dragon',   type2: 'Fighting', tier: 'C' },
-  { id: 65, name: 'Metagross',          dex: 376,  type1: 'Steel',    type2: 'Psychic',  tier: 'C' },
-  { id: 66, name: 'Sceptile',           dex: 254,  type1: 'Grass',    type2: '',         tier: 'C' },
-  { id: 67, name: 'Blaziken',           dex: 257,  type1: 'Fire',     type2: 'Fighting', tier: 'C' },
-  { id: 68, name: 'Inteleon',           dex: 818,  type1: 'Water',    type2: '',         tier: 'C' },
-  { id: 69, name: 'Toedscruel',         dex: 948,  type1: 'Ground',   type2: 'Grass',    tier: 'C' },
-  { id: 70, name: 'Garganacl',          dex: 932,  type1: 'Rock',     type2: '',         tier: 'C' },
-  { id: 71, name: 'Tsareena',           dex: 763,  type1: 'Grass',    type2: '',         tier: 'C' },
-  { id: 72, name: 'Bronzong',           dex: 437,  type1: 'Steel',    type2: 'Psychic',  tier: 'C' },
-  { id: 73, name: 'Magmar',             dex: 126,  type1: 'Fire',     type2: '',         tier: 'C' },
-  { id: 74, name: 'Vivillon',           dex: 666,  type1: 'Bug',      type2: 'Flying',   tier: 'C' },
-  { id: 75, name: 'Lilligant-Hisui',    dex: 549,  type1: 'Grass',    type2: 'Fighting', tier: 'C', spriteId: 10238 },
-];
+const POOL_FILE = path.join(__dirname, 'pokemon-pool.json');
+let POKEMON_POOL;
+try {
+  POKEMON_POOL = JSON.parse(fs.readFileSync(POOL_FILE, 'utf8'));
+  console.log(`  Loaded ${POKEMON_POOL.length} Pokémon from pokemon-pool.json`);
+} catch (e) {
+  console.error('FATAL: Could not load pokemon-pool.json —', e.message);
+  process.exit(1);
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    PERSISTENCE
@@ -849,6 +777,7 @@ function handleMessage(clientId, msg) {
       clearInterval(timerInterval);
       timerInterval = null;
       pushUndo(`Skip ${skippedName}`);
+      state.auctionedPokemon.add(state.currentPokemon.id);
       state.phase = 'nomination';
       state.currentPokemon = null;
       state.currentBid = 0;
@@ -857,7 +786,7 @@ function handleMessage(clientId, msg) {
       state.timerEnd = null;
       state.pausedRemaining = null;
       state.passedPlayers.clear();
-      addLog(`⏭️ ${skippedName} skipped — back in the pool.`);
+      addLog(`⏭️ ${skippedName} skipped — removed from pool.`);
       broadcastState();
       persistState();
       break;
