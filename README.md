@@ -1,10 +1,10 @@
 # 🎮 VGC Draft Auction v3
 
-Real-time multiplayer Pokémon VGC draft auction — host locally or deploy to the cloud.
+Real-time multiplayer Pokémon VGC draft auction - host locally or deploy to the cloud.
 
 ## Requirements
 - Node.js v14+ → https://nodejs.org
-- That's it — zero dependencies!
+- That's it - zero dependencies!
 
 ---
 
@@ -25,24 +25,24 @@ Deploy to [Render](https://render.com) or any Node.js host for public access.
 
 ## Admin Accounts
 
-Admin credentials are hardcoded in `server.js` — there is no registration.
+Admin credentials are hardcoded in `server.js` - there is no registration.
 Log in via the **Admin** tab on the login screen with one of the pre-configured accounts.
 
-The admin usernames are reserved — regular players cannot use them.
+The admin usernames are reserved - regular players cannot use them.
 
 ---
 
 ## How to Play
 
 ### LOBBY
-- Only an admin can be the **Host** (crown icon) — the first admin to join gets it
+- Only an admin can be the **Host** (crown icon) - the first admin to join gets it
 - Admin sets timer, budget, max Pokémon, bid increment, and base prices in Settings
 - Share the page URL so others can join
 - Late joiners can request to join as players (admin approval required) or watch as **Spectators**
 
 ### EACH ROUND
-1. The admin nominates a Pokémon — opening bid is set automatically from the tier price
-2. Anyone can outbid — the countdown timer resets each time
+1. The admin nominates a Pokémon - opening bid is set automatically from the tier price
+2. Anyone can outbid - the countdown timer resets each time
 3. Players can **Pass** to opt out of a round (locked out for that round)
 4. When the timer expires (or all players have bid/passed), highest bidder wins
 
@@ -66,7 +66,7 @@ The admin usernames are reserved — regular players cannot use them.
 | Remove Pokémon | Remove a mon from a player's roster (refunds the cost) |
 | Non-Participating | Toggle admin out of bidding |
 | Restart Auction | Reset rosters/budgets, keep players |
-| End Auction | Works from any phase — if mid-bid, awards to highest bidder first |
+| End Auction | Works from any phase - if mid-bid, awards to highest bidder first |
 | New Auction | Full reset |
 | Kick Player | Remove inactive/redundant players |
 | Remove Spectator | Remove a spectator at any time (visible in spectator bar & lobby) |
@@ -101,7 +101,7 @@ The admin usernames are reserved — regular players cannot use them.
 
 ## Customising the Pokémon Pool
 
-Edit **`pokemon-pool.json`** in the project root. The server loads this file on startup — no need to touch `server.js`.
+Edit **`pokemon-pool.json`** in the project root. The server loads this file on startup - no need to touch `server.js`.
 
 Each entry looks like this:
 
@@ -114,7 +114,7 @@ Each entry looks like this:
 | `id` | Unique number (must not repeat) |
 | `name` | Display name |
 | `dex` | National Pokédex number (used for sprite) |
-| `spriteId` | *(optional)* Override sprite ID for regional/alternate forms — use the PokeAPI form ID (e.g. `10104` for Ninetales-Alola). Only needed when `dex` alone shows the wrong sprite. |
+| `spriteId` | *(optional)* Override sprite ID for regional/alternate forms - use the PokeAPI form ID (e.g. `10104` for Ninetales-Alola). Only needed when `dex` alone shows the wrong sprite. |
 | `type1` | Primary type |
 | `type2` | Secondary type (empty string `""` if none) |
 | `tier` | `S`, `A`, `B`, or `C` |
@@ -147,14 +147,14 @@ The `id` field in the response is the `spriteId` you need. Examples:
 
 ## Discord Live Logging
 
-Every auction event is posted in real-time to a Discord channel via webhook — nominations, bids, round results, and final standings.
+Every auction event is posted in real-time to a Discord channel via webhook - nominations, bids, round results, and final standings.
 
 ### Setup
 
 1. Right-click a Discord channel → **Edit Channel** → **Integrations** → **Webhooks**
 2. Click **New Webhook**, name it, and click **Copy Webhook URL**
 3. On Render: go to your service → **Environment** → add `DISCORD_WEBHOOK_URL` with the webhook URL
-4. Redeploy — you should see `Discord webhook logging enabled` in the logs
+4. Redeploy - you should see `Discord webhook logging enabled` in the logs
 
 ### What gets posted
 
@@ -176,7 +176,7 @@ If no webhook URL is set, the server runs normally without Discord logging.
 
 ```
 ├── server.js           # WebSocket server (zero npm dependencies)
-├── pokemon-pool.json   # Pokémon pool — edit this for each auction
+├── pokemon-pool.json   # Pokémon pool - edit this for each auction
 ├── .gitignore          # Excludes node_modules/, data/, .claude/
 ├── public/
 │   └── index.html      # Single-page client app
