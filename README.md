@@ -16,22 +16,19 @@ node server.js
 
 The server will:
 1. Start at http://localhost:3000
-2. Print the **admin setup code** in the terminal
-3. Load the Pokémon pool from `pokemon-pool.json`
+2. Load the Pokémon pool from `pokemon-pool.json`
+3. Load Google Sheets credentials if `credentials.json` exists
 
 Deploy to [Render](https://render.com) or any Node.js host for public access.
 
 ---
 
-## First-Time Admin Setup
+## Admin Accounts
 
-1. Run the server — it will print an **Admin Setup Code** in the terminal
-2. Open http://localhost:3000
-3. Click the **Register** tab on the login screen
-4. Enter a username, password, and the setup code
-5. You're now registered as an admin — log in via the **Admin** tab
+Admin credentials are hardcoded in `server.js` — there is no registration.
+Log in via the **Admin** tab on the login screen with one of the pre-configured accounts.
 
-Multiple admins can register using the same setup code.
+The admin usernames are reserved — regular players cannot use them.
 
 ---
 
@@ -148,17 +145,50 @@ The `id` field in the response is the `spriteId` you need. Examples:
 
 ---
 
+## Google Sheets Live Logging
+
+The auction can log every nomination, bid, and round result to a Google Sheet in real-time.
+
+### Setup
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a project (or use an existing one)
+3. Enable the **Google Sheets API**
+4. Go to **Credentials** → **Create Credentials** → **Service Account**
+5. Create a key for the service account (JSON format)
+6. Download the JSON key file and save it as **`credentials.json`** in the project root
+7. Open your Google Sheet and click **Share**
+8. Share the sheet with the service account email (found in `credentials.json` as `client_email`) — give **Editor** access
+9. Restart the server — you should see `Google Sheets credentials loaded` in the console
+
+The spreadsheet ID is configured in `server.js` (variable `SPREADSHEET_ID`).
+
+### What gets logged
+
+| Type | When | Columns |
+|------|------|---------|
+| `NOMINATION` | Admin nominates a Pokémon | Round, Pokémon, Tier, Nominated by |
+| `BID` | A player places a bid | Round, Pokémon, Bidder, Amount |
+| `WON` | Round ends with a winner | Round, Pokémon, Tier, Winner, Final Bid, All Bids, Passed Players |
+| `UNSOLD` | Round ends with no bids | Round, Pokémon, Tier |
+| `SKIPPED` | Admin skips a Pokémon | Round, Pokémon, Tier |
+
+If `credentials.json` is missing, the server runs normally without Sheets logging.
+
+---
+
 ## File Structure
 
 ```
-├── server.js           # WebSocket server (zero dependencies)
+├── server.js           # WebSocket server (zero npm dependencies)
 ├── pokemon-pool.json   # Pokémon pool — edit this for each auction
+├── credentials.json    # Google Sheets service account key (gitignored)
 ├── public/
 │   └── index.html      # Single-page client app
-├── data/               # Created at runtime
+├── data/               # Created at runtime (gitignored)
 │   ├── session.json    # Persisted auction state
-│   ├── admins.json     # Registered admin accounts
+│   ├── admins.json     # Admin account hashes
 │   ├── auction-history.json
-│   └── auction-logs.json  # Per-round bid logs (appended each round)
+│   └── auction-logs.json  # Per-round bid logs
 └── package.json
 ```

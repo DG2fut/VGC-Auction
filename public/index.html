@@ -233,6 +233,9 @@ header{
 .quick-bids{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
 .qb{padding:5px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:10px;font-weight:700;color:var(--muted);transition:all .15s}
 .qb:hover{border-color:var(--gold);color:var(--gold)}
+.qb-large{min-height:52px;padding:14px 18px;font-size:14px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex:1;border-radius:8px}
+.qb-disabled{opacity:.35;cursor:not-allowed}
+.qb-disabled:hover{border-color:var(--border);color:var(--muted)}
 .pass-row{display:flex;align-items:center;gap:8px}
 .passed-info{font-size:10px;color:var(--muted)}
 
@@ -372,8 +375,8 @@ header{
   .spotlight{flex-direction:column;text-align:center}
   .bid-row{flex-direction:column}
   .settings-grid{grid-template-columns:1fr}
-  .qb{min-height:48px;padding:12px 16px;font-size:14px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
-  .quick-bids{gap:8px}
+  .qb-large{min-height:56px;padding:16px 10px;font-size:15px;width:100%;flex:1 1 45%}
+  .quick-bids{gap:8px;flex-wrap:wrap}
   .btn-pass-mobile{min-height:54px;font-size:16px;font-weight:900;padding:14px 20px;width:100%;justify-content:center}
   .bid-input{min-height:48px;font-size:18px}
   .bid-controls .bid-input-row .btn{min-height:48px;font-size:16px;padding:12px 24px}
@@ -1044,6 +1047,17 @@ function qBid(mult){
   const nb=gs.currentBid+inc*mult;
   document.getElementById('bid-in').value=nb;
 }
+function qBidBase(){
+  if(!gs||!gs.currentPokemon)return;
+  const bp=gs.settings?.basePriceTier?.[gs.currentPokemon.tier]||1;
+  document.getElementById('bid-in').value=bp;
+  placeBid();
+}
+function qBidFixed(amount){
+  if(!gs)return;
+  document.getElementById('bid-in').value=gs.currentBid+amount;
+  placeBid();
+}
 function doPass(){send({type:'pass'});}
 function doPause(){send({type:gs?.phase==='paused'?'resume':'pause'});}
 function doSkip(){send({type:'skip'});}
@@ -1063,11 +1077,14 @@ function showKickModal(){
   const list=document.getElementById('kick-player-list');
   const players=Object.entries(gs.players).filter(([id])=>id!==myId);
   list.innerHTML=players.length?players.map(([id,p])=>`
-    <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg3);border-radius:6px;margin-bottom:6px">
-      <span style="flex:1;font-size:12px;font-weight:600">${esc(p.name)}${p.isSpectator?' (spectator)':''}${p.isHost?' 👑':''}</span>
-      ${!p.isHost&&!p.isSpectator?`<button class="btn btn-gold btn-xs" onclick="makeHost('${id}')">Make Host</button>`:''}
-      <button class="btn btn-blue btn-xs" onclick="showAdjustModal('${id}')">Adjust</button>
-      <button class="btn btn-danger btn-xs" onclick="kickPlayer('${id}')">Kick</button>
+    <div style="background:var(--bg3);border-radius:6px;margin-bottom:8px;padding:8px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:${(p.roster&&p.roster.length&&!p.isSpectator)?'6':'0'}px">
+        <span style="flex:1;font-size:12px;font-weight:600">${esc(p.name)}${p.isSpectator?' (spectator)':''}${p.isHost?' 👑':''} ${!p.isSpectator?`<span style="color:var(--gold);font-size:10px">$${p.budget}</span>`:''}</span>
+        ${!p.isHost&&!p.isSpectator?`<button class="btn btn-gold btn-xs" onclick="makeHost('${id}')">Make Host</button>`:''}
+        <button class="btn btn-blue btn-xs" onclick="showAdjustModal('${id}')">Adjust</button>
+        <button class="btn btn-danger btn-xs" onclick="kickPlayer('${id}')">Kick</button>
+      </div>
+      ${(p.roster&&p.roster.length&&!p.isSpectator)?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">${p.roster.map(pk=>`<button class="btn btn-ghost btn-xs" onclick="doRemovePokemon('${id}',${pk.id})" style="font-size:9px;gap:3px"><img src="${sprite(pk)}" width="16" height="16" style="image-rendering:pixelated"> ${esc(pk.name)} ($${pk.paid}) ↩</button>`).join('')}</div>`:''}
     </div>
   `).join(''):'<p style="color:var(--muted);font-size:12px">No other players</p>';
   document.getElementById('kick-modal').classList.add('open');
@@ -1342,11 +1359,14 @@ function renderBid(){
     const passedCount=passedIds.length;
     document.getElementById('pass-count').textContent=`${passedCount}/${total} passed`;
 
-    // Quick bid buttons based on increment
-    const inc=gs.settings?.bidIncrement||25;
+    // Quick bid buttons: BASE PRICE, +25, +50, +100
+    const basePrice=gs.currentPokemon?gs.settings?.basePriceTier?.[gs.currentPokemon.tier]||1:1;
+    const basePriceActive=bid<basePrice;
     document.getElementById('quick-bids').innerHTML=
-      `<span style="font-size:10px;color:var(--muted);align-self:center;margin-right:2px">Quick:</span>`+
-      [1,2,3,5].map(m=>`<span class="qb" onclick="qBid(${m})">+$${inc*m}</span>`).join('');
+      `<button class="qb qb-large${basePriceActive?'':' qb-disabled'}" onclick="qBidBase()" ${basePriceActive?'':'disabled'}>BASE $${basePrice}</button>`+
+      `<button class="qb qb-large" onclick="qBidFixed(25)">+$25</button>`+
+      `<button class="qb qb-large" onclick="qBidFixed(50)">+$50</button>`+
+      `<button class="qb qb-large" onclick="qBidFixed(100)">+$100</button>`;
 
     const inp=document.getElementById('bid-in');
     if(!inp.value||parseInt(inp.value)<=bid){
@@ -1449,7 +1469,6 @@ function renderMyTeam(){
         <img src="${sprite(p)}" width="40" height="40" onerror="this.style.opacity=0">
         <div class="roster-name">${esc(p.name)}</div>
         <div class="roster-cost">$${p.paid}</div>
-        ${amAdmin?`<span class="roster-remove admin-visible" onclick="doRemovePokemon('${myId}',${p.id})" title="Remove">&#10005;</span>`:''}
       </div>`).join('')
     :'<div class="empty" style="grid-column:1/-1"><div class="ei">&#129370;</div><p>No Pokemon yet</p></div>';
 }

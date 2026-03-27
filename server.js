@@ -1,6 +1,7 @@
-const http = require('http');
-const fs   = require('fs');
-const path = require('path');
+const http  = require('http');
+const https = require('https');
+const fs    = require('fs');
+const path  = require('path');
 const crypto = require('crypto');
 
 /* ═══════════════════════════════════════════════════════════════════════════════
@@ -14,6 +15,161 @@ function randomUUID() {
 
 const DATA_DIR = path.join(__dirname, 'data');
 try { fs.mkdirSync(DATA_DIR, { recursive: true }); } catch {}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   GOOGLE SHEETS INTEGRATION (zero-dependency, uses raw HTTPS + JWT)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+const SHEETS_CREDS_FILE = path.join(__dirname, 'credentials.json');
+const SPREADSHEET_ID = '1sGE_AgiMiFWt_9wjpmLNjfr4rFfTuVibWZfKsPX3dKY';
+const SHEET_NAME = 'Sheet1'; // default tab
+
+let sheetsCreds = null;
+let sheetsToken = null;
+let sheetsTokenExpiry = 0;
+
+try {
+  if (fs.existsSync(SHEETS_CREDS_FILE)) {
+    sheetsCreds = JSON.parse(fs.readFileSync(SHEETS_CREDS_FILE, 'utf8'));
+    console.log('  Google Sheets credentials loaded');
+  } else {
+    console.log('  No credentials.json found — Google Sheets logging disabled');
+  }
+} catch (e) {
+  console.log('  Failed to load credentials.json:', e.message);
+}
+
+// Base64url encoding for JWT
+function b64url(buf) {
+  return (Buffer.isBuffer(buf) ? buf : Buffer.from(buf))
+    .toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+}
+
+// Create a signed JWT for Google Sheets API
+function createJWT() {
+  if (!sheetsCreds) return null;
+  const now = Math.floor(Date.now() / 1000);
+  const header = { alg: 'RS256', typ: 'JWT' };
+  const payload = {
+    iss: sheetsCreds.client_email,
+    scope: 'https://www.googleapis.com/auth/spreadsheets',
+    aud: 'https://oauth2.googleapis.com/token',
+    iat: now,
+    exp: now + 3600,
+  };
+  const unsigned = b64url(JSON.stringify(header)) + '.' + b64url(JSON.stringify(payload));
+  const sign = crypto.createSign('RSA-SHA256');
+  sign.update(unsigned);
+  const signature = sign.sign(sheetsCreds.private_key);
+  return unsigned + '.' + b64url(signature);
+}
+
+// Get an access token (cached, refreshes every ~55 min)
+async function getSheetsToken() {
+  if (!sheetsCreds) return null;
+  if (sheetsToken && Date.now() < sheetsTokenExpiry) return sheetsToken;
+  const jwt = createJWT();
+  if (!jwt) return null;
+  return new Promise((resolve) => {
+    const body = `grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=${jwt}`;
+    const req = https.request({
+      method: 'POST',
+      hostname: 'oauth2.googleapis.com',
+      path: '/token',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': Buffer.byteLength(body) },
+    }, res => {
+      let data = '';
+      res.on('data', d => data += d);
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          sheetsToken = parsed.access_token;
+          sheetsTokenExpiry = Date.now() + 55 * 60 * 1000; // refresh a bit early
+          resolve(sheetsToken);
+        } catch { resolve(null); }
+      });
+    });
+    req.on('error', () => resolve(null));
+    req.write(body);
+    req.end();
+  });
+}
+
+// Append rows to Google Sheet (fire-and-forget, non-blocking)
+function appendToSheet(rows) {
+  if (!sheetsCreds || !rows.length) return;
+  getSheetsToken().then(token => {
+    if (!token) return;
+    const body = JSON.stringify({ values: rows });
+    const encodedRange = encodeURIComponent(`${SHEET_NAME}!A:J`);
+    const apiPath = `/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodedRange}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
+    const req = https.request({
+      method: 'POST',
+      hostname: 'sheets.googleapis.com',
+      path: apiPath,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(body),
+      },
+    }, res => {
+      let data = '';
+      res.on('data', d => data += d);
+      res.on('end', () => {
+        if (res.statusCode >= 400) console.error('Sheets API error:', res.statusCode, data.slice(0, 200));
+      });
+    });
+    req.on('error', e => console.error('Sheets request error:', e.message));
+    req.write(body);
+    req.end();
+  }).catch(e => console.error('Sheets token error:', e.message));
+}
+
+// Helper: log a nomination start to the sheet
+function sheetsLogNomination(roundNum, pokemonName, tier, nominatedBy) {
+  appendToSheet([[
+    'NOMINATION',
+    roundNum,
+    pokemonName,
+    tier,
+    '', // winner
+    '', // final bid
+    `Nominated by ${nominatedBy}`,
+    '', // passed
+    new Date().toISOString(),
+  ]]);
+}
+
+// Helper: log a bid to the sheet
+function sheetsLogBid(roundNum, pokemonName, bidderName, amount) {
+  appendToSheet([[
+    'BID',
+    roundNum,
+    pokemonName,
+    '', // tier
+    bidderName,
+    amount,
+    '', // all bids
+    '', // passed
+    new Date().toISOString(),
+  ]]);
+}
+
+// Helper: log a round result (WON / UNSOLD / SKIPPED) to the sheet
+function sheetsLogRoundEnd(roundNum, pokemonName, tier, winner, finalBid, allBids, passedNames) {
+  const bidsSummary = allBids.map(b => `${b.player}: $${b.amount}`).join('; ');
+  const passedSummary = passedNames.join(', ');
+  appendToSheet([[
+    winner === 'skipped' ? 'SKIPPED' : winner === 'unsold' ? 'UNSOLD' : 'WON',
+    roundNum,
+    pokemonName,
+    tier,
+    winner === 'skipped' || winner === 'unsold' ? winner : winner,
+    finalBid || 0,
+    bidsSummary,
+    passedSummary,
+    new Date().toISOString(),
+  ]]);
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    ZERO-DEPENDENCY WEBSOCKET SERVER
@@ -477,6 +633,8 @@ function endBidding(reason) {
   // Append round log entry
   roundLogs.push(roundEntry);
   try { saveJSON(ROUND_LOG_FILE, roundLogs); } catch(e) {}
+  // Log to Google Sheet
+  sheetsLogRoundEnd(roundEntry.round, roundEntry.pokemon, roundEntry.tier, roundEntry.winner || 'unsold', roundEntry.finalBid, roundEntry.bids, roundEntry.passedPlayers);
   roundBids = [];
   state.phase = 'nomination';
   state.currentPokemon = null;
@@ -711,6 +869,7 @@ function handleMessage(clientId, msg) {
       state.phase = 'bidding';
       state.passedPlayers.clear();
       addLog(`📣 ${player.name} nominated ${pokemon.name}! Opening: $${baseBid}`);
+      sheetsLogNomination((state.roundCount || 0) + 1, pokemon.name, pokemon.tier, player.name);
       startTimer(state.settings.timerSecs * 1000, endBidding);
       broadcastState();
       persistState();
@@ -747,6 +906,7 @@ function handleMessage(clientId, msg) {
       state.currentBidder = client.playerId;
       roundBids.push({ player: bidder.name, amount, timestamp: new Date().toISOString() });
       addLog(`💰 ${bidder.name} → $${amount} on ${state.currentPokemon.name}!`);
+      sheetsLogBid((state.roundCount || 0) + 1, state.currentPokemon.name, bidder.name, amount);
       // Notify outbid player
       if (prevBidder && prevBidder !== client.playerId) {
         for (const [cid, c] of ws.clients) {
@@ -829,6 +989,9 @@ function handleMessage(clientId, msg) {
         timestamp: new Date().toISOString(),
       });
       try { saveJSON(ROUND_LOG_FILE, roundLogs); } catch(e) {}
+      // Log skip to Google Sheet
+      const skipPassedNames = [...state.passedPlayers].map(id => { const pp = state.players.get(id); return pp ? pp.name : id; });
+      sheetsLogRoundEnd((state.roundCount || 0) + 1, skippedName, state.currentPokemon?.tier || '', 'skipped', 0, roundBids, skipPassedNames);
       roundBids = [];
       state.auctionedPokemon.add(state.currentPokemon.id);
       state.phase = 'nomination';
