@@ -1048,9 +1048,11 @@ function qBid(mult){
   document.getElementById('bid-in').value=nb;
 }
 function qBidBase(){
-  if(!gs||!gs.currentPokemon)return;
-  const bp=gs.settings?.basePriceTier?.[gs.currentPokemon.tier]||1;
-  document.getElementById('bid-in').value=bp;
+  if(!gs)return;
+  const inc=gs.settings?.bidIncrement||25;
+  // Minimum valid bid = current bid + one increment (server will snap it)
+  const minBid=gs.currentBid+inc;
+  document.getElementById('bid-in').value=minBid;
   placeBid();
 }
 function qBidFixed(amount){
@@ -1359,11 +1361,11 @@ function renderBid(){
     const passedCount=passedIds.length;
     document.getElementById('pass-count').textContent=`${passedCount}/${total} passed`;
 
-    // Quick bid buttons: BASE PRICE, +25, +50, +100
-    const basePrice=gs.currentPokemon?gs.settings?.basePriceTier?.[gs.currentPokemon.tier]||1:1;
-    const basePriceActive=bid<basePrice;
+    // Quick bid buttons: MIN (lowest valid bid), +25, +50, +100
+    const inc=gs.settings?.bidIncrement||25;
+    const minBid=bid+inc;
     document.getElementById('quick-bids').innerHTML=
-      `<button class="qb qb-large${basePriceActive?'':' qb-disabled'}" onclick="qBidBase()" ${basePriceActive?'':'disabled'}>BASE $${basePrice}</button>`+
+      `<button class="qb qb-large" onclick="qBidBase()">MIN $${minBid}</button>`+
       `<button class="qb qb-large" onclick="qBidFixed(25)">+$25</button>`+
       `<button class="qb qb-large" onclick="qBidFixed(50)">+$50</button>`+
       `<button class="qb qb-large" onclick="qBidFixed(100)">+$100</button>`;
