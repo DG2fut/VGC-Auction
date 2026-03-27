@@ -7,12 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:      #090910;
-  --bg2:     #0d0d1a;
-  --bg3:     #12121f;
-  --panel:   #16162a;
-  --border:  #222240;
-  --border2: #2d2d5e;
+  --bg:      #0a0a14;
+  --bg2:     #0e0e1c;
+  --bg3:     #141428;
+  --panel:   #181830;
+  --border:  #252548;
+  --border2: #32326a;
   --accent:  #e63946;
   --gold:    #f8c200;
   --blue:    #4cc9f0;
@@ -36,23 +36,11 @@ input,button,select{font-family:'Inter',sans-serif}
   display:flex;align-items:center;justify-content:center;z-index:400;
   flex-direction:column; gap:0;
 }
-.login-bg-deco{
-  position:absolute;inset:0;overflow:hidden;pointer-events:none;
-}
-.deco-pokeball{
-  position:absolute;border-radius:50%;
-  border:3px solid rgba(255,255,255,0.03);
-  animation:float 8s ease-in-out infinite;
-}
+.login-bg-deco{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.deco-pokeball{position:absolute;border-radius:50%;border:3px solid rgba(255,255,255,0.03);animation:float 8s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(180deg)}}
-.login-wrap{
-  display:flex;gap:60px;align-items:center;flex-wrap:wrap;justify-content:center;
-  padding:24px;position:relative;z-index:1;
-}
-.login-hero{
-  text-align:center;
-  animation:hero-in 0.8s ease-out;
-}
+.login-wrap{display:flex;gap:60px;align-items:center;flex-wrap:wrap;justify-content:center;padding:24px;position:relative;z-index:1}
+.login-hero{text-align:center;animation:hero-in 0.8s ease-out}
 @keyframes hero-in{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
 .pokeball-spin{
   width:160px;height:160px;border-radius:50%;margin:0 auto 24px;
@@ -66,14 +54,10 @@ input,button,select{font-family:'Inter',sans-serif}
 .pokeball-spin::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:var(--bg);border:4px solid rgba(255,255,255,0.2);z-index:1}
 .hero-title{font-family:'Press Start 2P',monospace;font-size:22px;color:var(--gold);text-shadow:0 0 30px rgba(248,194,0,0.5);line-height:1.5;margin-bottom:8px}
 .hero-sub{color:var(--muted);font-size:13px;letter-spacing:1px}
-.login-card{
-  background:var(--panel);border:1px solid var(--border2);border-radius:20px;
-  padding:36px;width:400px;max-width:95vw;
-  animation:card-in 0.8s ease-out 0.2s both;
-}
+.login-card{background:var(--panel);border:1px solid var(--border2);border-radius:20px;padding:36px;width:400px;max-width:95vw;animation:card-in 0.8s ease-out 0.2s both}
 @keyframes card-in{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 .login-tabs{display:flex;gap:0;margin-bottom:28px;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
-.login-tab{flex:1;padding:10px;background:var(--bg3);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;border:none;letter-spacing:.5px}
+.login-tab{flex:1;padding:10px;background:var(--bg3);color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;border:none;letter-spacing:.5px}
 .login-tab.active{background:var(--border2);color:var(--text)}
 .login-tab-content{display:none}
 .login-tab-content.active{display:block}
@@ -81,7 +65,6 @@ input,button,select{font-family:'Inter',sans-serif}
 .field label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
 .field input,.field select{width:100%;padding:12px 14px;background:var(--bg3);border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;font-weight:500;transition:border-color .2s}
 .field input:focus,.field select:focus{outline:none;border-color:var(--blue)}
-.admin-only{border-top:1px solid var(--border);margin-top:24px;padding-top:24px}
 .admin-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);border-radius:20px;font-size:10px;color:var(--purple);margin-bottom:16px;font-weight:700;letter-spacing:.5px}
 
 /* ══ BUTTONS ══ */
@@ -99,10 +82,11 @@ input,button,select{font-family:'Inter',sans-serif}
 .btn-danger:hover:not(:disabled){background:rgba(230,57,70,.25)}
 .btn-purple{background:rgba(139,92,246,.12);color:var(--purple);border:1px solid rgba(139,92,246,.3)}
 .btn-purple:hover:not(:disabled){background:rgba(139,92,246,.25)}
+.btn-green{background:rgba(34,211,160,.12);color:var(--green);border:1px solid rgba(34,211,160,.3)}
+.btn-green:hover:not(:disabled){background:rgba(34,211,160,.25)}
 .btn-sm{padding:7px 13px;font-size:11px}
 .btn-xs{padding:5px 10px;font-size:10px}
 .btn-full{width:100%;justify-content:center}
-.btn-icon{width:34px;height:34px;padding:0;justify-content:center;border-radius:6px;font-size:15px}
 
 /* ══ LAYOUT ══ */
 #app{display:none}
@@ -125,19 +109,18 @@ header{
 .phase-ended{background:rgba(34,211,160,.15);color:var(--green);border:1px solid rgba(34,211,160,.3)}
 @keyframes pulse-chip{0%,100%{opacity:1}50%{opacity:.6}}
 
+/* ══ SPECTATOR BAR ══ */
+#spectator-bar{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:4px 16px;display:none;align-items:center;gap:8px;
+  font-size:10px;color:var(--muted);overflow-x:auto;white-space:nowrap;
+}
+#spectator-bar .spec-name{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;background:rgba(90,90,138,.1);border-radius:12px;font-weight:500}
+
 /* ══ DASHBOARD TABS ══ */
 .dash{display:grid;grid-template-rows:auto 1fr;height:calc(100vh - 57px)}
-.dash-tabs{
-  display:flex;gap:2px;padding:8px 12px 0;
-  background:var(--bg2);border-bottom:1px solid var(--border);
-  overflow-x:auto;flex-shrink:0;
-}
-.dash-tab{
-  padding:8px 16px;background:transparent;border:none;
-  color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;
-  border-radius:8px 8px 0 0;white-space:nowrap;letter-spacing:.3px;
-  transition:all .2s;border-bottom:2px solid transparent;
-}
+.dash-tabs{display:flex;gap:2px;padding:8px 12px 0;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto;flex-shrink:0}
+.dash-tab{padding:8px 16px;background:transparent;border:none;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;border-radius:8px 8px 0 0;white-space:nowrap;letter-spacing:.3px;transition:all .2s;border-bottom:2px solid transparent}
 .dash-tab:hover{color:var(--text);background:rgba(255,255,255,.04)}
 .dash-tab.active{color:var(--blue);border-bottom-color:var(--blue);background:rgba(76,201,240,.05)}
 .dash-content{overflow:auto;padding:16px}
@@ -152,14 +135,11 @@ header{
 .panel-body{padding:12px}
 
 /* ══ PLAYER CARDS ══ */
-.player-card{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 10px;border-radius:8px;border:1px solid transparent;
-  transition:all .2s;position:relative;margin-bottom:4px;
-}
+.player-card{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;border:1px solid transparent;transition:all .2s;position:relative;margin-bottom:4px}
 .player-card.me{border-color:var(--blue);background:rgba(76,201,240,.05)}
 .player-card.winning{border-color:var(--gold);background:rgba(248,194,0,.05);animation:win-glow .8s ease-in-out infinite alternate}
 .player-card.offline{opacity:.5}
+.player-card.non-part{border-style:dashed;opacity:.7}
 @keyframes win-glow{from{box-shadow:0 0 0 rgba(248,194,0,0)}to{box-shadow:0 0 12px rgba(248,194,0,.3)}}
 .p-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0}
 .p-info{flex:1;min-width:0}
@@ -172,6 +152,8 @@ header{
 .passed-badge{font-size:8px;padding:2px 6px;background:rgba(249,115,22,.2);color:var(--orange);border-radius:4px;margin-left:4px}
 .spectator-badge{font-size:8px;padding:2px 6px;background:rgba(90,90,138,.2);color:var(--muted);border-radius:4px}
 .offline-badge{font-size:8px;padding:2px 6px;background:rgba(230,57,70,.1);color:var(--accent);border-radius:4px}
+.nonpart-badge{font-size:8px;padding:2px 6px;background:rgba(139,92,246,.15);color:var(--purple);border-radius:4px}
+.slots-badge{font-size:8px;padding:2px 6px;background:rgba(76,201,240,.1);color:var(--blue);border-radius:4px;margin-left:2px}
 
 /* ══ MAIN AREA VIEWS ══ */
 .main{display:flex;flex-direction:column;gap:12px}
@@ -188,8 +170,7 @@ header{
 .setting-label{font-size:10px;color:var(--muted);margin-bottom:6px;font-weight:600}
 .setting-input{width:100%;padding:8px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;font-weight:700}
 .setting-input:focus{outline:none;border-color:var(--blue)}
-.join-url-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--blue);margin:8px 0;word-break:break-all;cursor:pointer}
-.join-url-box:hover{border-color:var(--border2)}
+.join-url-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:11px;color:var(--blue);margin:8px 0;word-break:break-all;display:flex;align-items:center;gap:8px;justify-content:center}
 
 /* NOMINATION */
 .search-box{width:100%;padding:10px 14px;background:var(--bg3);border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;margin-bottom:8px}
@@ -202,30 +183,16 @@ header{
 .tf.aC{border-color:var(--C);color:var(--C);background:rgba(134,239,172,.1)}
 .tf.aALL{border-color:var(--blue);color:var(--blue);background:rgba(76,201,240,.1)}
 .poke-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:6px;max-height:340px;overflow-y:auto}
-.poke-card{
-  background:var(--bg3);border:1.5px solid var(--border);border-radius:8px;
-  padding:8px 4px;text-align:center;cursor:pointer;transition:all .15s;
-}
+.poke-card{background:var(--bg3);border:1.5px solid var(--border);border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;transition:all .15s}
 .poke-card:hover{border-color:var(--border2);background:rgba(45,45,94,.4)}
 .poke-card.selected{border-color:var(--gold);background:rgba(248,194,0,.08)}
 .poke-name{font-size:9px;font-weight:700;line-height:1.2;margin-top:3px}
 .poke-tier{font-size:8px;font-weight:800}
-.nom-confirm{
-  background:var(--bg3);border:1px solid var(--border2);border-radius:10px;
-  padding:14px;margin-top:8px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-}
+.nom-confirm{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:14px;margin-top:8px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .nom-preview{display:flex;align-items:center;gap:10px}
-.nom-price-row{display:flex;align-items:center;gap:8px;flex:1}
-.nom-price-row label{font-size:11px;color:var(--muted);white-space:nowrap}
-.nom-price-input{width:80px;padding:8px;background:var(--bg2);border:1.5px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;font-weight:700;text-align:center}
-.nom-price-input:focus{outline:none;border-color:var(--gold)}
 
 /* BIDDING */
-.spotlight{
-  background:linear-gradient(135deg,rgba(22,22,42,0),rgba(45,45,94,.3));
-  border:1px solid var(--border2);border-radius:14px;padding:20px;
-  display:flex;gap:20px;align-items:center;
-}
+.spotlight{background:linear-gradient(135deg,rgba(22,22,42,0),rgba(45,45,94,.3));border:1px solid var(--border2);border-radius:14px;padding:20px;display:flex;gap:20px;align-items:center}
 .spot-img{width:120px;height:120px;flex-shrink:0;image-rendering:pixelated;filter:drop-shadow(0 0 20px rgba(76,201,240,.3))}
 .spot-info{flex:1}
 .spot-tier{font-family:'Press Start 2P',monospace;font-size:10px;padding:4px 10px;border-radius:20px;display:inline-block;margin-bottom:6px}
@@ -237,10 +204,9 @@ header{
 .spot-types{display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap}
 .type-pill{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700}
 .spot-nom{font-size:10px;color:var(--muted)}
-
-/* TIMER */
 .bid-row{display:flex;gap:12px;align-items:center}
-.bid-box{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:14px;text-align:center}
+.bid-box{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:14px;text-align:center;transition:border-color .3s}
+.bid-box.flash-green{border-color:var(--green);box-shadow:0 0 20px rgba(34,211,160,.3)}
 .bid-label{font-size:10px;color:var(--muted);margin-bottom:2px}
 .bid-amount{font-family:'Press Start 2P',monospace;font-size:24px;color:var(--gold);margin-bottom:3px}
 .bid-by{font-size:11px;color:var(--muted)}
@@ -250,18 +216,14 @@ header{
   background:conic-gradient(var(--green) 0deg, var(--border) 0deg);
   display:flex;align-items:center;justify-content:center;
   position:relative;transition:background 0.4s;
-  box-shadow:0 0 30px rgba(34,211,160,.2);
-  border:3px solid var(--border2);
+  box-shadow:0 0 30px rgba(34,211,160,.2);border:3px solid var(--border2);
 }
-.timer-display::after{
-  content:'';position:absolute;inset:8px;border-radius:50%;background:var(--bg2);
-}
-.timer-num{
-  font-family:'Press Start 2P',monospace;font-size:20px;color:var(--text);
-  position:relative;z-index:1;line-height:1;
-}
+.timer-display::after{content:'';position:absolute;inset:8px;border-radius:50%;background:var(--bg2)}
+.timer-num{font-family:'Press Start 2P',monospace;font-size:20px;color:var(--text);position:relative;z-index:1;line-height:1}
 .timer-label{font-size:9px;color:var(--muted);margin-top:4px;font-weight:600}
 .paused-overlay{position:absolute;inset:0;border-radius:50%;background:rgba(249,115,22,.2);display:flex;align-items:center;justify-content:center;font-size:24px;z-index:2}
+.timer-pulse{animation:timer-pulse .5s ease-in-out infinite alternate}
+@keyframes timer-pulse{from{transform:scale(1)}to{transform:scale(1.05)}}
 
 /* BID CONTROLS */
 .bid-controls{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px}
@@ -273,6 +235,29 @@ header{
 .qb:hover{border-color:var(--gold);color:var(--gold)}
 .pass-row{display:flex;align-items:center;gap:8px}
 .passed-info{font-size:10px;color:var(--muted)}
+
+/* OUTBID BANNER */
+#outbid-banner{
+  position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-100px);
+  background:rgba(230,57,70,.95);color:#fff;padding:12px 28px;border-radius:10px;
+  font-weight:800;font-size:15px;z-index:300;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 8px 30px rgba(230,57,70,.5);letter-spacing:.5px;
+}
+#outbid-banner.show{transform:translateX(-50%) translateY(0)}
+
+/* SOLD ANIMATION */
+#sold-overlay{
+  position:fixed;inset:0;z-index:250;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.7);
+}
+#sold-overlay.show{display:flex}
+.sold-card{
+  text-align:center;animation:sold-pop .5s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes sold-pop{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+.sold-title{font-family:'Press Start 2P',monospace;font-size:28px;color:var(--gold);text-shadow:0 0 40px rgba(248,194,0,.6);margin-bottom:12px}
+.sold-detail{font-size:16px;color:var(--text);margin-bottom:4px}
 
 /* HOST BAR */
 .admin-bar{background:var(--bg2);border-top:1px solid var(--border);padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
@@ -289,15 +274,20 @@ header{
 .budget-lbl{font-size:10px;color:var(--muted)}
 .budget-val{font-family:'Press Start 2P',monospace;font-size:9px;color:var(--gold)}
 .roster-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:8px}
-.roster-card{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px;text-align:center}
+.roster-card{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:6px;text-align:center;position:relative}
 .roster-card img{width:40px;height:40px;image-rendering:pixelated}
 .roster-name{font-size:8px;font-weight:700;line-height:1.2;margin-top:2px}
 .roster-cost{font-size:8px;color:var(--gold)}
+.roster-remove{position:absolute;top:2px;right:2px;font-size:8px;color:var(--accent);cursor:pointer;background:var(--bg2);border-radius:50%;width:16px;height:16px;display:none;align-items:center;justify-content:center;border:1px solid var(--accent)}
+.roster-card:hover .roster-remove.admin-visible{display:flex}
 
 /* RESULTS */
-.results-title{font-family:'Press Start 2P',monospace;font-size:12px;color:var(--gold);text-align:center;margin-bottom:20px;text-shadow:0 0 20px rgba(248,194,0,.4)}
+.results-title{font-family:'Press Start 2P',monospace;font-size:12px;color:var(--gold);text-align:center;margin-bottom:8px;text-shadow:0 0 20px rgba(248,194,0,.4)}
+.results-summary{text-align:center;margin-bottom:20px;font-size:11px;color:var(--muted)}
+.results-summary span{color:var(--gold);font-weight:700}
 .results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
-.result-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px}
+.result-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;animation:card-reveal .5s ease-out both}
+@keyframes card-reveal{from{opacity:0;transform:translateY(20px) rotateX(10deg)}to{opacity:1;transform:translateY(0) rotateX(0)}}
 .result-player{font-weight:900;font-size:15px;margin-bottom:2px}
 .result-meta{font-size:11px;color:var(--muted);margin-bottom:10px}
 .result-roster{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
@@ -337,17 +327,10 @@ header{
 
 /* TEAM PLANNER TAB */
 .planner-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:16px}
-.planner-slot{
-  background:var(--bg3);border:2px dashed var(--border);border-radius:10px;
-  height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  cursor:pointer;transition:all .2s;font-size:10px;color:var(--muted);gap:6px;
-}
+.planner-slot{background:var(--bg3);border:2px dashed var(--border);border-radius:10px;height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:10px;color:var(--muted);gap:6px}
 .planner-slot:hover{border-color:var(--border2);background:var(--bg2)}
 .planner-slot.filled{border-style:solid;border-color:var(--border2)}
 .planner-slot img{width:56px;height:56px;image-rendering:pixelated}
-.planner-slot .slot-name{font-size:9px;font-weight:700}
-.planner-slot .slot-remove{font-size:8px;color:var(--accent);cursor:pointer;padding:2px 6px;border-radius:4px}
-.planner-slot .slot-remove:hover{background:rgba(230,57,70,.1)}
 
 /* PLAYER SEARCH TAB */
 .player-search-box{padding:10px 14px;background:var(--bg3);border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;width:100%;margin-bottom:12px}
@@ -366,20 +349,22 @@ header{
 /* MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center}
 .modal-bg.open{display:flex}
-.modal{background:var(--panel);border:1px solid var(--border2);border-radius:14px;padding:28px;width:380px;max-width:95vw;max-height:85vh;overflow-y:auto}
+.modal{background:var(--panel);border:1px solid var(--border2);border-radius:14px;padding:28px;width:420px;max-width:95vw;max-height:85vh;overflow-y:auto}
 .modal h3{font-family:'Press Start 2P',monospace;font-size:10px;color:var(--gold);margin-bottom:16px}
 .modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+
+/* MUTE TOGGLE */
+#mute-btn{position:fixed;bottom:20px;right:20px;width:40px;height:40px;border-radius:50%;background:var(--panel);border:1px solid var(--border2);color:var(--text);font-size:18px;cursor:pointer;z-index:150;display:flex;align-items:center;justify-content:center;transition:all .2s}
+#mute-btn:hover{border-color:var(--blue)}
 
 .empty{text-align:center;padding:24px;color:var(--muted)}
 .empty .ei{font-size:28px;margin-bottom:8px}
 .empty p{font-size:11px}
 .div{height:1px;background:var(--border);margin:10px 0}
-
 .undo-bar{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;display:flex;gap:6px;align-items:center;margin-bottom:8px}
 .undo-info{font-size:10px;color:var(--muted);flex:1;font-style:italic}
-
-/* SPECTATOR BANNER */
 .spectator-banner{background:rgba(90,90,138,.1);border:1px solid rgba(90,90,138,.3);border-radius:8px;padding:10px 14px;font-size:11px;color:var(--muted);margin-bottom:10px;text-align:center}
+.join-req-card{display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg3);border-radius:6px;margin-bottom:6px}
 
 /* RESPONSIVE */
 @media(max-width:600px){
@@ -402,13 +387,14 @@ header{
     <div class="login-hero">
       <div class="pokeball-spin"></div>
       <div class="hero-title">VGC<br>DRAFT<br>AUCTION</div>
-      <div class="hero-sub" style="margin-top:8px">COMPETITIVE POKÉMON DRAFTING</div>
+      <div class="hero-sub" style="margin-top:8px">COMPETITIVE POKEMON DRAFTING</div>
     </div>
     <div class="login-card">
       <div class="login-tabs">
-        <button class="login-tab active" onclick="switchLoginTab('player')">⚔️ Player</button>
-        <button class="login-tab" onclick="switchLoginTab('admin')">🛡️ Admin</button>
-        <button class="login-tab" onclick="switchLoginTab('register')">📝 Register</button>
+        <button class="login-tab active" onclick="switchLoginTab('player')">Player</button>
+        <button class="login-tab" onclick="switchLoginTab('spectator')">Spectator</button>
+        <button class="login-tab" onclick="switchLoginTab('admin')">Admin</button>
+        <button class="login-tab" onclick="switchLoginTab('register')">Register</button>
       </div>
 
       <!-- PLAYER LOGIN -->
@@ -417,10 +403,18 @@ header{
           <label>Trainer Name</label>
           <input id="name-in" type="text" placeholder="Enter your name..." maxlength="20" autocomplete="off">
         </div>
-        <button class="btn btn-primary btn-full" onclick="joinAsPlayer()" style="margin-top:4px">
-          ⚔️ Enter the Arena
-        </button>
+        <button class="btn btn-primary btn-full" onclick="joinAsPlayer()">Enter the Arena</button>
         <p style="margin-top:12px;font-size:10px;color:var(--muted);text-align:center">Joining mid-auction? You'll be a spectator.</p>
+      </div>
+
+      <!-- SPECTATOR LOGIN -->
+      <div id="tab-spectator" class="login-tab-content">
+        <div class="field">
+          <label>Your Name</label>
+          <input id="spec-name-in" type="text" placeholder="Enter your name..." maxlength="20" autocomplete="off">
+        </div>
+        <button class="btn btn-ghost btn-full" onclick="joinAsSpectator()">Join as Spectator</button>
+        <p style="margin-top:12px;font-size:10px;color:var(--muted);text-align:center">Watch the auction without bidding.</p>
       </div>
 
       <!-- ADMIN LOGIN -->
@@ -433,13 +427,12 @@ header{
           <label>Password</label>
           <input id="admin-pass" type="password" placeholder="Password...">
         </div>
-        <button class="btn btn-purple btn-full" onclick="adminLogin()">🛡️ Login as Admin</button>
-        <p style="margin-top:12px;font-size:10px;color:var(--muted);text-align:center">Admins can host and control auctions.</p>
+        <button class="btn btn-purple btn-full" onclick="adminLogin()">Login as Admin</button>
       </div>
 
       <!-- REGISTER ADMIN -->
       <div id="tab-register" class="login-tab-content">
-        <div class="admin-badge">🛡️ ADMIN REGISTRATION</div>
+        <div class="admin-badge">ADMIN REGISTRATION</div>
         <div class="field">
           <label>Username</label>
           <input id="reg-uname" type="text" placeholder="Choose a username..." autocomplete="off">
@@ -452,8 +445,7 @@ header{
           <label>Setup Code</label>
           <input id="reg-code" type="text" placeholder="Admin setup code...">
         </div>
-        <button class="btn btn-purple btn-full" onclick="adminRegister()">📝 Register Admin</button>
-        <p style="margin-top:12px;font-size:10px;color:var(--muted);text-align:center">The setup code is printed in the server terminal.</p>
+        <button class="btn btn-purple btn-full" onclick="adminRegister()">Register Admin</button>
       </div>
     </div>
   </div>
@@ -463,7 +455,7 @@ header{
 <div id="app">
   <header>
     <div class="logo">
-      <span style="font-size:20px">⚔️</span>
+      <span style="font-size:20px">&#9876;</span>
       <div>
         <h1 id="auction-title">VGC DRAFT AUCTION</h1>
         <p id="header-sub">Waiting...</p>
@@ -471,21 +463,23 @@ header{
     </div>
     <div class="header-center">
       <div id="phase-chip" class="phase-chip phase-lobby">LOBBY</div>
-      <div id="round-info" style="display:none;font-size:10px;color:var(--muted)">Round <span id="round-num">0</span> · <span id="pool-left">?</span> left</div>
+      <div id="round-info" style="display:none;font-size:10px;color:var(--muted)">Round <span id="round-num">0</span> &middot; <span id="pool-left">?</span> left</div>
     </div>
     <div style="display:flex;gap:6px;align-items:center">
       <span id="my-badge" style="font-size:10px;color:var(--muted)"></span>
     </div>
   </header>
 
+  <div id="spectator-bar"></div>
+
   <div class="dash">
     <div class="dash-tabs">
-      <button class="dash-tab active" onclick="setTab('auction')" id="tab-btn-auction">⚡ Auction</button>
-      <button class="dash-tab" onclick="setTab('teams')" id="tab-btn-teams">👥 Teams</button>
-      <button class="dash-tab" onclick="setTab('history')" id="tab-btn-history">📜 Draft History</button>
-      <button class="dash-tab" onclick="setTab('dex')" id="tab-btn-dex">📖 Pokédex</button>
-      <button class="dash-tab" onclick="setTab('planner')" id="tab-btn-planner">🗂️ Team Planner</button>
-      <button class="dash-tab" onclick="setTab('search')" id="tab-btn-search">🔍 Player Search</button>
+      <button class="dash-tab active" onclick="setTab('auction')" id="tab-btn-auction">Auction</button>
+      <button class="dash-tab" onclick="setTab('teams')" id="tab-btn-teams">Teams</button>
+      <button class="dash-tab" onclick="setTab('history')" id="tab-btn-history">History</button>
+      <button class="dash-tab" onclick="setTab('dex')" id="tab-btn-dex">Pokedex</button>
+      <button class="dash-tab" onclick="setTab('planner')" id="tab-btn-planner">Planner</button>
+      <button class="dash-tab" onclick="setTab('search')" id="tab-btn-search">Search</button>
     </div>
 
     <div class="dash-content">
@@ -497,13 +491,13 @@ header{
           <!-- LEFT SIDEBAR -->
           <div class="sidebar">
             <div class="panel">
-              <div class="panel-head">👥 PLAYERS <span id="player-count" style="color:var(--muted)">0</span></div>
+              <div class="panel-head">PLAYERS <span id="player-count" style="color:var(--muted)">0</span></div>
               <div class="panel-body" style="padding:8px">
                 <div id="player-list"></div>
               </div>
             </div>
             <div class="panel">
-              <div class="panel-head">📜 ACTIVITY LOG</div>
+              <div class="panel-head">ACTIVITY LOG</div>
               <div class="panel-body" style="padding:8px">
                 <div id="log-l" class="log-list"></div>
               </div>
@@ -515,78 +509,86 @@ header{
 
             <!-- LOBBY VIEW -->
             <div id="v-lobby" class="panel">
-              <div class="panel-head">🏟️ WAITING ROOM</div>
+              <div class="panel-head">WAITING ROOM</div>
               <div class="panel-body">
                 <div class="lobby-hero">
                   <div class="lobby-pokeball"></div>
                   <div class="lobby-title" id="lobby-title">WAITING FOR TRAINERS...</div>
                   <div class="lobby-sub">Share this URL to invite players</div>
-                  <div class="join-url-box" id="join-url-val" onclick="copyUrl()" title="Click to copy">🔗 Loading URL...</div>
+                  <div class="join-url-box" id="join-url-val">
+                    <span id="join-url-text">Loading...</span>
+                    <button class="btn btn-blue btn-xs" onclick="copyUrl()">Copy</button>
+                  </div>
                 </div>
 
                 <div id="settings-section" style="display:none">
                   <div class="div"></div>
-                  <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:700">⚙️ AUCTION SETTINGS</div>
+                  <div style="font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:700">AUCTION SETTINGS</div>
                   <div class="field">
                     <label>Auction Name</label>
                     <input class="setting-input" type="text" id="s-name" maxlength="50" style="width:100%">
                   </div>
                   <div class="settings-grid">
                     <div class="setting-item">
-                      <div class="setting-label">⏱ Timer (seconds)</div>
+                      <div class="setting-label">Timer (seconds)</div>
                       <input class="setting-input" type="number" id="s-timer" min="5" max="300" value="30">
                     </div>
                     <div class="setting-item">
-                      <div class="setting-label">💰 Starting Budget ($)</div>
-                      <input class="setting-input" type="number" id="s-budget" min="10" max="9999" value="100">
+                      <div class="setting-label">Starting Budget ($)</div>
+                      <input class="setting-input" type="number" id="s-budget" min="10" max="99999" value="10000">
                     </div>
                     <div class="setting-item">
-                      <div class="setting-label">🎒 Max Pokémon (0=∞)</div>
+                      <div class="setting-label">Max Pokemon (0=unlimited)</div>
                       <input class="setting-input" type="number" id="s-maxmon" min="0" max="20" value="6">
                     </div>
+                    <div class="setting-item">
+                      <div class="setting-label">Bid Increment ($)</div>
+                      <select class="setting-input" id="s-increment">
+                        <option value="10">$10</option>
+                        <option value="25" selected>$25</option>
+                        <option value="50">$50</option>
+                        <option value="100">$100</option>
+                      </select>
+                    </div>
                   </div>
-                  <div style="font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:700">💰 BASE PRICES BY TIER</div>
+                  <div style="font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:700">BASE PRICES BY TIER</div>
                   <div class="settings-grid" style="grid-template-columns:repeat(4,1fr)">
-                    <div class="setting-item">
-                      <div class="setting-label" style="color:var(--S)">S Tier</div>
-                      <input class="setting-input" type="number" id="s-price-S" min="1" value="10">
-                    </div>
-                    <div class="setting-item">
-                      <div class="setting-label" style="color:var(--A)">A Tier</div>
-                      <input class="setting-input" type="number" id="s-price-A" min="1" value="5">
-                    </div>
-                    <div class="setting-item">
-                      <div class="setting-label" style="color:var(--B)">B Tier</div>
-                      <input class="setting-input" type="number" id="s-price-B" min="1" value="3">
-                    </div>
-                    <div class="setting-item">
-                      <div class="setting-label" style="color:var(--C)">C Tier</div>
-                      <input class="setting-input" type="number" id="s-price-C" min="1" value="1">
-                    </div>
+                    <div class="setting-item"><div class="setting-label" style="color:var(--S)">S Tier</div><input class="setting-input" type="number" id="s-price-S" min="1" value="500"></div>
+                    <div class="setting-item"><div class="setting-label" style="color:var(--A)">A Tier</div><input class="setting-input" type="number" id="s-price-A" min="1" value="250"></div>
+                    <div class="setting-item"><div class="setting-label" style="color:var(--B)">B Tier</div><input class="setting-input" type="number" id="s-price-B" min="1" value="100"></div>
+                    <div class="setting-item"><div class="setting-label" style="color:var(--C)">C Tier</div><input class="setting-input" type="number" id="s-price-C" min="1" value="50"></div>
                   </div>
-                  <button class="btn btn-blue btn-sm" onclick="saveSettings()" style="margin-bottom:12px">💾 Save Settings</button>
+                  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+                    <button class="btn btn-blue btn-sm" onclick="saveSettings()">Save Settings</button>
+                    <button class="btn btn-purple btn-sm" id="nonpart-btn" onclick="toggleNonPart()">Become Auctioneer (Non-Participating)</button>
+                  </div>
                   <div class="div"></div>
-                  <button class="btn btn-gold btn-full" id="start-btn" onclick="startAuction()" disabled>⚡ Start Auction</button>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <button class="btn btn-gold btn-full" id="start-btn" onclick="startAuction()" disabled>Start Auction</button>
+                  </div>
+                  <button class="btn btn-danger btn-xs" style="margin-top:8px" onclick="showKickModal()">Manage Players</button>
                 </div>
 
                 <div id="lobby-player-list" style="margin-top:10px"></div>
+                <div id="lobby-spectator-list" style="margin-top:10px"></div>
               </div>
             </div>
 
             <!-- NOMINATION VIEW -->
             <div id="v-nom" class="panel" style="display:none">
-              <div class="panel-head">📣 NOMINATE A POKÉMON <span id="nom-round-label" style="color:var(--muted);font-weight:400;font-family:'Inter',sans-serif;font-size:9px"></span></div>
+              <div class="panel-head">NOMINATE A POKEMON <span id="nom-round-label" style="color:var(--muted);font-weight:400;font-family:'Inter',sans-serif;font-size:9px"></span></div>
               <div class="panel-body">
-                <div id="spectator-nom-banner" class="spectator-banner" style="display:none">👁️ You are spectating — watch the nominations unfold!</div>
-                <div id="nom-controls">
-                  <p id="nom-prompt" style="font-size:12px;color:var(--muted);margin-bottom:10px">Pick a Pokémon to nominate for bidding.</p>
-                  <input class="search-box" id="poke-search" type="text" placeholder="🔍 Search Pokémon..." oninput="renderGrid()">
+                <div id="spectator-nom-banner" class="spectator-banner" style="display:none">You are spectating — watch the nominations unfold!</div>
+                <div id="nom-waiting-banner" class="spectator-banner" style="display:none">Waiting for admin to nominate...</div>
+                <div id="nom-controls" style="display:none">
+                  <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Pick a Pokemon to nominate for bidding. Opening bid will be the base tier price.</p>
+                  <input class="search-box" id="poke-search" type="text" placeholder="Search Pokemon..." oninput="renderGrid()">
                   <div class="tier-filters" id="tier-filters">
                     <span class="tf aALL" data-t="ALL" onclick="setTier('ALL')">All</span>
-                    <span class="tf" data-t="S" onclick="setTier('S')">S Tier</span>
-                    <span class="tf" data-t="A" onclick="setTier('A')">A Tier</span>
-                    <span class="tf" data-t="B" onclick="setTier('B')">B Tier</span>
-                    <span class="tf" data-t="C" onclick="setTier('C')">C Tier</span>
+                    <span class="tf" data-t="S" onclick="setTier('S')">S</span>
+                    <span class="tf" data-t="A" onclick="setTier('A')">A</span>
+                    <span class="tf" data-t="B" onclick="setTier('B')">B</span>
+                    <span class="tf" data-t="C" onclick="setTier('C')">C</span>
                   </div>
                   <div id="poke-grid" class="poke-grid"></div>
                   <div id="nom-confirm" style="display:none">
@@ -594,15 +596,12 @@ header{
                       <div class="nom-preview">
                         <img id="nom-prev-img" src="" width="44" height="44" style="image-rendering:pixelated">
                         <div>
-                          <div style="font-size:12px;font-weight:800" id="nom-prev-name">—</div>
-                          <div style="font-size:10px;color:var(--muted)" id="nom-prev-tier">—</div>
+                          <div style="font-size:12px;font-weight:800" id="nom-prev-name">-</div>
+                          <div style="font-size:10px;color:var(--muted)" id="nom-prev-tier">-</div>
                         </div>
                       </div>
-                      <div class="nom-price-row">
-                        <label>Opening Bid: $</label>
-                        <input class="nom-price-input" type="number" id="nom-price" value="1" min="1">
-                      </div>
-                      <button class="btn btn-gold btn-sm" onclick="submitNom()">🏷️ Nominate!</button>
+                      <div style="font-size:12px;color:var(--gold);font-weight:700" id="nom-base-price">Opening: $0</div>
+                      <button class="btn btn-gold btn-sm" onclick="submitNom()">Nominate!</button>
                     </div>
                   </div>
                 </div>
@@ -612,83 +611,82 @@ header{
             <!-- BIDDING VIEW -->
             <div id="v-bid" style="display:none">
               <div id="undo-bar-bid" class="undo-bar" style="display:none">
-                <button class="btn btn-ghost btn-xs" id="undo-btn" onclick="doUndo()" disabled>↩ Undo</button>
-                <button class="btn btn-ghost btn-xs" id="redo-btn" onclick="doRedo()" disabled>↪ Redo</button>
-                <span class="undo-info" id="undo-label">—</span>
+                <button class="btn btn-ghost btn-xs" id="undo-btn" onclick="doUndo()" disabled>Undo</button>
+                <button class="btn btn-ghost btn-xs" id="redo-btn" onclick="doRedo()" disabled>Redo</button>
+                <span class="undo-info" id="undo-label">-</span>
               </div>
 
               <div class="panel">
-                <div class="panel-head">⚡ LIVE BIDDING</div>
+                <div class="panel-head">LIVE BIDDING</div>
                 <div class="panel-body" style="display:flex;flex-direction:column;gap:12px">
 
                   <div class="spotlight">
                     <img id="b-img" class="spot-img" src="" width="120" height="120" onerror="this.style.opacity=0">
                     <div class="spot-info">
                       <div id="b-tier" class="spot-tier tA">A</div>
-                      <div id="b-name" class="spot-name">—</div>
+                      <div id="b-name" class="spot-name">-</div>
                       <div id="b-types" class="spot-types"></div>
                       <div id="b-nom" class="spot-nom"></div>
                     </div>
                   </div>
 
                   <div class="bid-row">
-                    <div class="bid-box">
+                    <div class="bid-box" id="bid-box">
                       <div class="bid-label">CURRENT BID</div>
                       <div class="bid-amount" id="b-amount">$0</div>
-                      <div class="bid-by">by <span id="b-by" style="color:var(--text);font-weight:700">—</span></div>
+                      <div class="bid-by">by <span id="b-by" style="color:var(--text);font-weight:700">-</span></div>
                     </div>
                     <div class="timer-wrap">
                       <div class="timer-display" id="timer-display">
-                        <div id="t-paused-overlay" class="paused-overlay" style="display:none">⏸</div>
+                        <div id="t-paused-overlay" class="paused-overlay" style="display:none">&#9208;</div>
                         <div class="timer-num" id="t-text">30</div>
                       </div>
                       <div class="timer-label">SECONDS</div>
                     </div>
                   </div>
 
-                  <div id="spectator-bid-banner" class="spectator-banner" style="display:none">👁️ Spectating — watching the bids!</div>
+                  <div id="spectator-bid-banner" class="spectator-banner" style="display:none">Spectating - watching the bids!</div>
 
                   <div class="bid-controls" id="bid-controls-wrap">
                     <div class="bid-input-row">
                       <input class="bid-input" id="bid-in" type="number" placeholder="Your bid...">
-                      <button class="btn btn-gold" id="bid-btn" onclick="placeBid()">💰 BID</button>
+                      <button class="btn btn-gold" id="bid-btn" onclick="placeBid()">BID</button>
                     </div>
-                    <div class="quick-bids">
-                      <span style="font-size:10px;color:var(--muted);align-self:center;margin-right:2px">Quick:</span>
-                      <span class="qb" onclick="qBid(1)">+$1</span>
-                      <span class="qb" onclick="qBid(5)">+$5</span>
-                      <span class="qb" onclick="qBid(10)">+$10</span>
-                      <span class="qb" onclick="qBid(25)">+$25</span>
-                      <span class="qb" onclick="qBid(50)">+$50</span>
-                      <span class="qb" onclick="qBidMax()">MAX</span>
-                    </div>
+                    <div class="quick-bids" id="quick-bids"></div>
                     <div class="pass-row">
-                      <button class="btn btn-ghost btn-xs" id="pass-btn" onclick="doPass()">🙅 Pass this Round</button>
+                      <button class="btn btn-ghost btn-xs" id="pass-btn" onclick="doPass()">Pass this Round</button>
                       <span class="passed-info" id="pass-count"></span>
                     </div>
                   </div>
                 </div>
 
                 <div class="admin-bar" id="admin-bid-bar" style="display:none">
-                  <span class="admin-label">🛡️ ADMIN:</span>
-                  <button class="btn btn-ghost btn-sm" id="pause-btn" onclick="doPause()">⏸ Pause</button>
-                  <button class="btn btn-ghost btn-sm" onclick="doForceEnd()">🔨 Hammer</button>
-                  <button class="btn btn-ghost btn-sm" onclick="doSkip()">⏭ Skip</button>
-                  <button class="btn btn-danger btn-sm" onclick="confirmEnd()">🏁 End Auction</button>
+                  <span class="admin-label">ADMIN:</span>
+                  <button class="btn btn-ghost btn-sm" id="pause-btn" onclick="doPause()">Pause</button>
+                  <button class="btn btn-ghost btn-sm" onclick="doForceEnd()">Hammer</button>
+                  <button class="btn btn-ghost btn-sm" onclick="doSkip()">Skip</button>
+                  <button class="btn btn-danger btn-sm" onclick="confirmEnd()">End Auction</button>
+                </div>
+
+                <!-- Join requests (shown during pause for admins) -->
+                <div id="join-requests-section" style="display:none;padding:12px;border-top:1px solid var(--border)">
+                  <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:8px">JOIN REQUESTS</div>
+                  <div id="join-requests-list"></div>
                 </div>
               </div>
             </div>
 
             <!-- RESULTS VIEW -->
             <div id="v-results" class="panel" style="display:none">
-              <div class="panel-head">🏆 FINAL RESULTS</div>
+              <div class="panel-head">FINAL RESULTS</div>
               <div class="panel-body">
-                <div class="results-title">🎉 AUCTION COMPLETE!</div>
+                <div class="results-title">AUCTION COMPLETE!</div>
+                <div class="results-summary" id="results-summary"></div>
                 <div id="results-grid" class="results-grid"></div>
                 <div style="text-align:center;margin-top:20px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap" id="results-admin-btns">
-                  <button class="btn btn-ghost btn-sm" onclick="doUndo()" id="undo-results-btn" style="display:none">↩ Undo Last</button>
-                  <button class="btn btn-blue btn-sm" onclick="confirmRestart()" id="restart-btn" style="display:none">🔄 Restart Auction</button>
-                  <button class="btn btn-gold btn-sm" onclick="confirmReset()" id="reset-btn" style="display:none">🆕 New Auction</button>
+                  <button class="btn btn-ghost btn-sm" onclick="doUndo()" id="undo-results-btn" style="display:none">Undo Last</button>
+                  <button class="btn btn-blue btn-sm" onclick="confirmRestart()" id="restart-btn" style="display:none">Restart Auction</button>
+                  <button class="btn btn-gold btn-sm" onclick="confirmReset()" id="reset-btn" style="display:none">New Auction</button>
                 </div>
               </div>
             </div>
@@ -698,22 +696,21 @@ header{
           <!-- RIGHT SIDEBAR -->
           <div class="sidebar">
             <div class="panel">
-              <div class="panel-head">🎒 MY TEAM</div>
+              <div class="panel-head">MY TEAM</div>
               <div class="panel-body">
                 <div class="budget-display">
                   <span class="budget-lbl">Budget Remaining</span>
-                  <span class="budget-val" id="my-budget">$100</span>
+                  <span class="budget-val" id="my-budget">$0</span>
                 </div>
                 <div class="budget-bar"><div class="budget-fill" id="my-bfill" style="width:100%"></div></div>
-                <div style="font-size:10px;color:var(--muted);margin:6px 0 2px">🎒 <span id="my-mon-count">0</span> Pokémon <span id="my-mon-cap" style="color:var(--muted)"></span></div>
+                <div style="font-size:10px;color:var(--muted);margin:6px 0 2px"><span id="my-mon-count">0</span> Pokemon <span id="my-mon-cap" style="color:var(--muted)"></span></div>
                 <div id="my-roster" class="roster-grid">
-                  <div class="empty" style="grid-column:1/-1"><div class="ei">🥚</div><p>No Pokémon yet</p></div>
+                  <div class="empty" style="grid-column:1/-1"><div class="ei">&#129370;</div><p>No Pokemon yet</p></div>
                 </div>
               </div>
             </div>
-
             <div class="panel">
-              <div class="panel-head">👥 ALL TEAMS</div>
+              <div class="panel-head">ALL TEAMS</div>
               <div class="panel-body" style="padding:8px">
                 <div id="all-teams-view"></div>
               </div>
@@ -725,31 +722,23 @@ header{
       <!-- ══ TEAMS TAB ══ -->
       <div id="tab-teams" class="tab-panel" style="display:none">
         <div class="panel">
-          <div class="panel-head">👥 ALL PLAYER TEAMS</div>
-          <div class="panel-body">
-            <div id="teams-content">
-              <div class="empty"><div class="ei">🏟️</div><p>No active auction</p></div>
-            </div>
-          </div>
+          <div class="panel-head">ALL PLAYER TEAMS</div>
+          <div class="panel-body"><div id="teams-content"><div class="empty"><div class="ei">&#127935;</div><p>No active auction</p></div></div></div>
         </div>
       </div>
 
       <!-- ══ HISTORY TAB ══ -->
       <div id="tab-history" class="tab-panel" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <h2 style="font-family:'Press Start 2P',monospace;font-size:10px;color:var(--gold)">📜 DRAFT HISTORY</h2>
-        </div>
-        <div id="history-content">
-          <div class="empty"><div class="ei">📭</div><p>No past auctions yet</p></div>
-        </div>
+        <h2 style="font-family:'Press Start 2P',monospace;font-size:10px;color:var(--gold);margin-bottom:14px">DRAFT HISTORY</h2>
+        <div id="history-content"><div class="empty"><div class="ei">&#128237;</div><p>No past auctions yet</p></div></div>
       </div>
 
-      <!-- ══ POKÉDEX TAB ══ -->
+      <!-- ══ POKEDEX TAB ══ -->
       <div id="tab-dex" class="tab-panel" style="display:none">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-          <h2 style="font-family:'Press Start 2P',monospace;font-size:10px;color:var(--gold)">📖 POKÉMON POOL</h2>
+          <h2 style="font-family:'Press Start 2P',monospace;font-size:10px;color:var(--gold)">POKEMON POOL</h2>
           <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <input class="search-box" type="text" id="dex-search" placeholder="🔍 Search..." style="width:200px;margin:0" oninput="renderDex()">
+            <input class="search-box" type="text" id="dex-search" placeholder="Search..." style="width:200px;margin:0" oninput="renderDex()">
             <div class="tier-filters" style="margin:0">
               <span class="tf aALL" data-t="ALL" onclick="setDexTier('ALL')">All</span>
               <span class="tf" data-t="S" onclick="setDexTier('S')">S</span>
@@ -765,26 +754,22 @@ header{
       <!-- ══ TEAM PLANNER TAB ══ -->
       <div id="tab-planner" class="tab-panel" style="display:none">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-          <h2 style="font-family:'Press Start 2P',monospace;font-size:10px;color:var(--gold)">🗂️ TEAM PLANNER</h2>
-          <div style="display:flex;gap:8px">
-            <button class="btn btn-ghost btn-sm" onclick="clearPlanner()">🗑️ Clear</button>
-          </div>
+          <h2 style="font-family:'Press Start 2P',monospace;font-size:10px;color:var(--gold)">TEAM PLANNER</h2>
+          <button class="btn btn-ghost btn-sm" onclick="clearPlanner()">Clear</button>
         </div>
         <div class="panel" style="margin-bottom:12px">
           <div class="panel-head">MY PLANNED TEAM <span id="planner-count" style="color:var(--muted)">0/6</span></div>
           <div class="panel-body">
             <div id="planner-slots" class="planner-grid"></div>
             <div class="div"></div>
-            <div id="planner-type-coverage" style="margin-top:8px">
-              <div style="font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:700">TYPE COVERAGE</div>
-              <div id="planner-types" style="display:flex;gap:4px;flex-wrap:wrap"></div>
-            </div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:700">TYPE COVERAGE</div>
+            <div id="planner-types" style="display:flex;gap:4px;flex-wrap:wrap"></div>
           </div>
         </div>
         <div class="panel">
-          <div class="panel-head">📖 ADD POKÉMON</div>
+          <div class="panel-head">ADD POKEMON</div>
           <div class="panel-body">
-            <input class="search-box" type="text" id="planner-search" placeholder="🔍 Search to add..." oninput="renderPlannerPool()">
+            <input class="search-box" type="text" id="planner-search" placeholder="Search to add..." oninput="renderPlannerPool()">
             <div class="tier-filters" id="planner-tier-filters">
               <span class="tf aALL" data-t="ALL" onclick="setPlannerTier('ALL')">All</span>
               <span class="tf" data-t="S" onclick="setPlannerTier('S')">S</span>
@@ -799,57 +784,137 @@ header{
 
       <!-- ══ PLAYER SEARCH TAB ══ -->
       <div id="tab-search" class="tab-panel" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <h2 style="font-family:'Press Start 2P',monospace;font-size:10px;color:var(--gold)">🔍 PLAYER SEARCH</h2>
-        </div>
-        <input class="player-search-box" type="text" id="player-search-in" placeholder="🔍 Search players across all auctions..." oninput="renderPlayerSearch()">
+        <h2 style="font-family:'Press Start 2P',monospace;font-size:10px;color:var(--gold);margin-bottom:14px">PLAYER SEARCH</h2>
+        <input class="player-search-box" type="text" id="player-search-in" placeholder="Search players across all auctions..." oninput="renderPlayerSearch()">
         <div id="player-search-results"></div>
       </div>
 
-    </div><!-- end dash-content -->
-  </div><!-- end dash -->
-</div><!-- end app -->
-
-<!-- TOAST -->
-<div id="toast"></div>
-
-<!-- KICK MODAL -->
-<div class="modal-bg" id="kick-modal">
-  <div class="modal">
-    <h3>🚫 MANAGE PLAYERS</h3>
-    <div id="kick-player-list"></div>
-    <div class="modal-btns">
-      <button class="btn btn-ghost btn-sm" onclick="closeModal('kick-modal')">Close</button>
     </div>
   </div>
 </div>
 
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- OUTBID BANNER -->
+<div id="outbid-banner">YOU'VE BEEN OUTBID!</div>
+
+<!-- SOLD OVERLAY -->
+<div id="sold-overlay">
+  <div class="sold-card">
+    <div class="sold-title">SOLD!</div>
+    <div class="sold-detail" id="sold-detail"></div>
+    <div class="sold-detail" id="sold-price"></div>
+  </div>
+</div>
+
+<!-- MUTE BUTTON -->
+<button id="mute-btn" onclick="toggleMute()" title="Toggle Sound">&#128266;</button>
+
+<!-- KICK MODAL -->
+<div class="modal-bg" id="kick-modal">
+  <div class="modal">
+    <h3>MANAGE PLAYERS</h3>
+    <div id="kick-player-list"></div>
+    <div class="modal-btns"><button class="btn btn-ghost btn-sm" onclick="closeModal('kick-modal')">Close</button></div>
+  </div>
+</div>
+
+<!-- ADMIN ADJUST MODAL -->
+<div class="modal-bg" id="adjust-modal">
+  <div class="modal">
+    <h3>ADJUST PLAYER</h3>
+    <div id="adjust-content"></div>
+    <div class="modal-btns"><button class="btn btn-ghost btn-sm" onclick="closeModal('adjust-modal')">Close</button></div>
+  </div>
+</div>
+
 <script>
-// ─── Type colours ──────────────────────────────────────────────────────────────
+// ═══ Type colours ═══
 const TC={Normal:'#A8A878',Fire:'#F08030',Water:'#6890F0',Electric:'#F8D030',Grass:'#78C850',
 Ice:'#98D8D8',Fighting:'#C03028',Poison:'#A040A0',Ground:'#E0C068',Flying:'#A890F0',
 Psychic:'#F85888',Bug:'#A8B820',Rock:'#B8A038',Ghost:'#705898',Dragon:'#7038F8',
 Dark:'#705848',Steel:'#B8B8D0',Fairy:'#EE99AC'};
 const PC=['#e63946','#4cc9f0','#f8c200','#22d3a0','#8b5cf6','#f97316','#06b6d4','#ec4899'];
 
-// ─── State ─────────────────────────────────────────────────────────────────────
-let socket=null, myId=null, amAdmin=false, amHost=false, amSpectator=false, gs=null;
+// ═══ State ═══
+let socket=null, myId=null, amAdmin=false, amHost=false, amSpectator=false, amNonPart=false, gs=null;
 let nomPoke=null, tierF='ALL', dexTierF='ALL', plannerTierF='ALL';
 let lastTimerEnd=null, timerTotal=30;
-let plannerTeam=[], plannerExpanded=[];
+let plannerTeam=JSON.parse(localStorage.getItem('vgc_planner')||'[]');
+let plannerExpanded=[];
 let pendingAdminUsername=null;
 let activeTab='auction';
 let currentDropOpen=null;
+let prevBidder=null, prevPhase=null, prevBid=0;
+let lastTickSound=0;
 
-// ─── WS ────────────────────────────────────────────────────────────────────────
+// ═══ Session persistence ═══
+function getSessionToken(){
+  let t=localStorage.getItem('vgc_session');
+  if(!t){t=crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('vgc_session',t);}
+  return t;
+}
+
+// ═══ Audio System (Web Audio API) ═══
+const AudioCtx=window.AudioContext||window.webkitAudioContext;
+let audioCtx=null;
+let audioMuted=localStorage.getItem('vgc_mute')==='1';
+
+function initAudio(){if(!audioCtx)try{audioCtx=new AudioCtx();}catch(e){}}
+function resumeAudio(){if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();}
+
+function playTone(freq,dur,type='sine',vol=0.3){
+  if(audioMuted||!audioCtx)return;
+  resumeAudio();
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+  o.type=type;o.frequency.setValueAtTime(freq,audioCtx.currentTime);
+  g.gain.setValueAtTime(vol,audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur);
+  o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur);
+}
+
+function sfxChime(){playTone(523,.12);setTimeout(()=>playTone(659,.12),80);setTimeout(()=>playTone(784,.18),160);}
+function sfxOutbid(){playTone(392,.08,'square',.2);setTimeout(()=>playTone(330,.08,'square',.2),60);setTimeout(()=>playTone(262,.12,'square',.2),120);}
+function sfxWin(){playTone(523,.1);setTimeout(()=>playTone(659,.1),80);setTimeout(()=>playTone(784,.1),160);setTimeout(()=>playTone(1047,.25),240);}
+function sfxUnsold(){playTone(131,.4,'triangle',.25);}
+function sfxTick(){playTone(800,.04,'square',.12);}
+function sfxApplause(){
+  if(audioMuted||!audioCtx)return;resumeAudio();
+  const len=audioCtx.sampleRate*1.5,buf=audioCtx.createBuffer(1,len,audioCtx.sampleRate),d=buf.getChannelData(0);
+  for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(len*0.4));
+  const s=audioCtx.createBufferSource();s.buffer=buf;
+  const f=audioCtx.createBiquadFilter();f.type='bandpass';f.frequency.value=3000;
+  const g=audioCtx.createGain();g.gain.setValueAtTime(.12,audioCtx.currentTime);
+  s.connect(f);f.connect(g);g.connect(audioCtx.destination);s.start();
+}
+
+function toggleMute(){
+  audioMuted=!audioMuted;
+  localStorage.setItem('vgc_mute',audioMuted?'1':'0');
+  document.getElementById('mute-btn').textContent=audioMuted?'\u{1F507}':'\u{1F50A}';
+  if(!audioMuted)initAudio();
+}
+
+// ═══ WebSocket ═══
 function wsURL(){const proto=location.protocol==='https:'?'wss':'ws';return`${proto}://${location.host}`;}
 function connect(){
   try{socket=new WebSocket(wsURL());}catch(e){setTimeout(connect,3000);return;}
-  socket.onopen=()=>{};
+  socket.onopen=()=>{
+    // Auto-reconnect if we have stored session
+    const stored=localStorage.getItem('vgc_autojoin');
+    if(stored){
+      try{
+        const d=JSON.parse(stored);
+        document.getElementById('login-screen').style.display='none';
+        document.getElementById('app').style.display='block';
+        send({type:'join',name:d.name,sessionToken:getSessionToken(),adminUsername:d.adminUsername||null,spectator:d.spectator||false});
+      }catch(e){}
+    }
+  };
   socket.onmessage=e=>{try{handle(JSON.parse(e.data));}catch(x){}};
   socket.onclose=()=>{toast('Connection lost. Reconnecting...','info');setTimeout(connect,2500);};
   socket.onerror=()=>{};
-  // Proper close on tab close
   window.addEventListener('beforeunload',()=>{socket?.close();});
 }
 function send(o){if(socket?.readyState===1)socket.send(JSON.stringify(o));}
@@ -858,59 +923,83 @@ function handle(msg){
   switch(msg.type){
     case 'welcome':
       myId=msg.playerId;amHost=msg.isHost;amAdmin=msg.isAdmin||msg.isHost;
-      amSpectator=msg.isSpectator||false;
+      amSpectator=msg.isSpectator||false;amNonPart=msg.isNonParticipating||false;
       document.getElementById('my-badge').textContent=
-        amSpectator?'👁️ Spectator':amAdmin?'🛡️ Admin'+(amHost?' (Host)':''):'⚔️ Trainer';
+        amSpectator?'Spectator':amNonPart?'Auctioneer':amAdmin?'Admin'+(amHost?' (Host)':''):'Trainer';
       break;
-    case 'state': gs=msg.state;timerTotal=gs.settings?.timerSecs||30;render();break;
-    case 'tick': lastTimerEnd=msg.timerEnd;updateTimer();break;
-    case 'error': toast(msg.msg,'err');break;
+    case 'state':
+      prevBidder=gs?.currentBidder;prevPhase=gs?.phase;prevBid=gs?.currentBid||0;
+      gs=msg.state;timerTotal=gs.settings?.timerSecs||30;render();
+      // Audio triggers
+      if(prevPhase==='nomination'&&gs.phase==='bidding')sfxChime();
+      if(prevPhase!=='ended'&&gs.phase==='ended')sfxApplause();
+      break;
+    case 'tick':lastTimerEnd=msg.timerEnd;updateTimer();break;
+    case 'error':toast(msg.msg,'err');break;
+    case 'outbid':
+      showOutbidBanner();
+      sfxOutbid();
+      break;
+    case 'sold':
+      if(msg.unsold){sfxUnsold();}
+      else{sfxWin();showSoldOverlay(msg);}
+      break;
     case 'kicked':
-      if(msg.targetId===myId){toast('You were removed by an admin.','err');setTimeout(()=>location.reload(),2000);}
+      if(msg.targetId===myId){toast('You were removed by an admin.','err');localStorage.removeItem('vgc_autojoin');setTimeout(()=>location.reload(),2000);}
       break;
-    case 'reset': myId=null;amAdmin=false;amHost=false;amSpectator=false;gs=null;location.reload();break;
+    case 'reset':myId=null;amAdmin=false;amHost=false;amSpectator=false;gs=null;localStorage.removeItem('vgc_autojoin');location.reload();break;
     case 'adminAuthResult':
       if(msg.ok){
         if(msg.isAdmin){
-          // Admin logged in — now join as admin player
           pendingAdminUsername=msg.username;
           const name=msg.username;
           document.getElementById('login-screen').style.display='none';
           document.getElementById('app').style.display='block';
-          send({type:'join',name,adminUsername:pendingAdminUsername});
+          localStorage.setItem('vgc_autojoin',JSON.stringify({name,adminUsername:pendingAdminUsername}));
+          send({type:'join',name,sessionToken:getSessionToken(),adminUsername:pendingAdminUsername});
           toast(`Welcome Admin ${name}!`,'ok');
-        } else {
-          // Registered
+        }else{
           toast('Admin registered! You can now log in.','ok');
           switchLoginTab('admin');
           document.getElementById('admin-uname').value=document.getElementById('reg-uname').value;
         }
-      } else {
-        toast(msg.msg||'Auth failed.','err');
-      }
+      }else{toast(msg.msg||'Auth failed.','err');}
       break;
   }
 }
 
-// ─── Login actions ─────────────────────────────────────────────────────────────
+// ═══ Login actions ═══
 function switchLoginTab(tab){
   document.querySelectorAll('.login-tab').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.login-tab-content').forEach(el=>el.classList.remove('active'));
-  const idx={player:0,admin:1,register:2}[tab];
-  document.querySelectorAll('.login-tab')[idx].classList.add('active');
-  document.getElementById(`tab-${tab}`).classList.add('active');
+  const tabs=['player','spectator','admin','register'];
+  const idx=tabs.indexOf(tab);
+  document.querySelectorAll('.login-tab')[idx]?.classList.add('active');
+  document.getElementById(`tab-${tab}`)?.classList.add('active');
 }
 function joinAsPlayer(){
   const n=document.getElementById('name-in').value.trim();
   if(!n){toast('Enter your trainer name!','err');return;}
+  initAudio();
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='block';
-  send({type:'join',name:n});
+  localStorage.setItem('vgc_autojoin',JSON.stringify({name:n}));
+  send({type:'join',name:n,sessionToken:getSessionToken()});
+}
+function joinAsSpectator(){
+  const n=document.getElementById('spec-name-in').value.trim();
+  if(!n){toast('Enter your name!','err');return;}
+  initAudio();
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  localStorage.setItem('vgc_autojoin',JSON.stringify({name:n,spectator:true}));
+  send({type:'join',name:n,sessionToken:getSessionToken(),spectator:true});
 }
 function adminLogin(){
   const u=document.getElementById('admin-uname').value.trim();
   const p=document.getElementById('admin-pass').value.trim();
   if(!u||!p){toast('Enter username and password.','err');return;}
+  initAudio();
   send({type:'adminLogin',username:u,password:p});
 }
 function adminRegister(){
@@ -921,7 +1010,7 @@ function adminRegister(){
   send({type:'adminRegister',username:u,password:p,setupCode:c});
 }
 
-// ─── Dashboard tabs ────────────────────────────────────────────────────────────
+// ═══ Dashboard tabs ═══
 function setTab(name){
   document.querySelectorAll('.tab-panel').forEach(el=>el.style.display='none');
   document.querySelectorAll('.dash-tab').forEach(el=>el.classList.remove('active'));
@@ -935,12 +1024,13 @@ function setTab(name){
   if(name==='search')renderPlayerSearch();
 }
 
-// ─── Auction actions ───────────────────────────────────────────────────────────
+// ═══ Auction actions ═══
 function saveSettings(){
   send({type:'settings',
     timerSecs:document.getElementById('s-timer').value,
     startingBudget:document.getElementById('s-budget').value,
     maxPokemon:document.getElementById('s-maxmon').value,
+    bidIncrement:document.getElementById('s-increment').value,
     auctionName:document.getElementById('s-name').value,
     basePriceTier:{
       S:document.getElementById('s-price-S').value,
@@ -952,9 +1042,10 @@ function saveSettings(){
   toast('Settings saved!','ok');
 }
 function startAuction(){send({type:'start'});}
+function toggleNonPart(){send({type:'toggleNonParticipating'});}
 function submitNom(){
   if(!nomPoke)return;
-  send({type:'nominate',pokemonId:nomPoke.id,startBid:document.getElementById('nom-price').value});
+  send({type:'nominate',pokemonId:nomPoke.id});
   nomPoke=null;document.getElementById('nom-confirm').style.display='none';renderGrid();
 }
 function placeBid(){
@@ -962,8 +1053,12 @@ function placeBid(){
   if(!v){toast('Enter a bid amount!','err');return;}
   send({type:'bid',amount:v});
 }
-function qBid(d){if(!gs)return;const nb=(gs.currentBid||0)+d;document.getElementById('bid-in').value=nb;}
-function qBidMax(){if(!gs||!myId)return;const me=gs.players[myId];if(me)document.getElementById('bid-in').value=me.budget;}
+function qBid(mult){
+  if(!gs)return;
+  const inc=gs.settings?.bidIncrement||25;
+  const nb=gs.currentBid+inc*mult;
+  document.getElementById('bid-in').value=nb;
+}
 function doPass(){send({type:'pass'});}
 function doPause(){send({type:gs?.phase==='paused'?'resume':'pause'});}
 function doSkip(){send({type:'skip'});}
@@ -974,27 +1069,75 @@ function confirmEnd(){if(confirm('End the auction now and save results?'))send({
 function confirmRestart(){if(confirm('Restart auction? All players keep their spots but budgets and rosters reset.'))send({type:'restart'});}
 function confirmReset(){if(confirm('Start a completely new auction? All players will need to rejoin.'))send({type:'reset'});}
 function copyUrl(){navigator.clipboard?.writeText(location.href);toast('URL copied!','ok');}
+function requestJoinAsPlayer(){send({type:'requestJoin'});}
+function approveJoin(id){send({type:'approveJoin',targetId:id});}
+function denyJoin(id){send({type:'denyJoin',targetId:id});}
+
 function showKickModal(){
   if(!gs)return;
   const list=document.getElementById('kick-player-list');
   const players=Object.entries(gs.players).filter(([id])=>id!==myId);
   list.innerHTML=players.length?players.map(([id,p])=>`
     <div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg3);border-radius:6px;margin-bottom:6px">
-      <span style="flex:1;font-size:12px;font-weight:600">${esc(p.name)}${p.isSpectator?' 👁️':''}</span>
-      <button class="btn btn-danger btn-xs" onclick="kickPlayer('${id}')">🚫 Kick</button>
+      <span style="flex:1;font-size:12px;font-weight:600">${esc(p.name)}${p.isSpectator?' (spectator)':''}</span>
+      <button class="btn btn-blue btn-xs" onclick="showAdjustModal('${id}')">Adjust</button>
+      <button class="btn btn-danger btn-xs" onclick="kickPlayer('${id}')">Kick</button>
     </div>
   `).join(''):'<p style="color:var(--muted);font-size:12px">No other players</p>';
   document.getElementById('kick-modal').classList.add('open');
 }
+function showAdjustModal(id){
+  if(!gs)return;
+  const p=gs.players[id];if(!p)return;
+  closeModal('kick-modal');
+  const content=document.getElementById('adjust-content');
+  content.innerHTML=`
+    <div style="margin-bottom:12px"><strong>${esc(p.name)}</strong> - Budget: $${p.budget}</div>
+    <div class="field"><label>New Budget</label><input class="setting-input" type="number" id="adj-budget" value="${p.budget}" min="0"></div>
+    <button class="btn btn-blue btn-sm" onclick="doAdjustBudget('${id}')">Set Budget</button>
+    <div class="div"></div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:700">ROSTER (click to remove)</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">
+      ${(p.roster||[]).map(pk=>`<button class="btn btn-ghost btn-xs" onclick="doRemovePokemon('${id}',${pk.id})">${esc(pk.name)} ($${pk.paid}) &#10005;</button>`).join('')||'<span style="color:var(--muted);font-size:10px">Empty roster</span>'}
+    </div>
+  `;
+  document.getElementById('adjust-modal').classList.add('open');
+}
+function doAdjustBudget(id){
+  const val=document.getElementById('adj-budget')?.value;
+  send({type:'adjustBudget',targetId:id,budget:val});
+  closeModal('adjust-modal');
+}
+function doRemovePokemon(playerId,pokeId){
+  if(confirm('Remove this Pokemon from roster and return to pool?')){
+    send({type:'removePokemon',targetId:playerId,pokemonId:pokeId});
+    closeModal('adjust-modal');
+  }
+}
 function kickPlayer(id){send({type:'kick',targetId:id});closeModal('kick-modal');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-// ─── RENDER ────────────────────────────────────────────────────────────────────
+// ═══ Outbid & Sold overlays ═══
+let outbidTimeout;
+function showOutbidBanner(){
+  const el=document.getElementById('outbid-banner');
+  el.classList.add('show');
+  clearTimeout(outbidTimeout);
+  outbidTimeout=setTimeout(()=>el.classList.remove('show'),2500);
+}
+function showSoldOverlay(data){
+  const el=document.getElementById('sold-overlay');
+  document.getElementById('sold-detail').textContent=`${data.pokemon} goes to ${data.winner}!`;
+  document.getElementById('sold-price').textContent=`$${data.amount}`;
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),2500);
+}
+
+// ═══ RENDER ═══
 function render(){
   if(!gs)return;
-  const {phase}=gs;
+  const{phase}=gs;
 
-  // Auction title
   document.getElementById('auction-title').textContent=gs.auctionName||'VGC DRAFT AUCTION';
 
   // Phase chip
@@ -1007,21 +1150,18 @@ function render(){
     phase==='lobby'?`${Object.values(gs.players).filter(p=>!p.isSpectator).length} trainers in lobby`:
     phase==='nomination'?'Nominating...':
     phase==='bidding'?`Bidding on ${gs.currentPokemon?.name||'?'}`:
-    phase==='paused'?'⏸ Paused':'🏁 Auction Complete';
+    phase==='paused'?'Paused':'Auction Complete';
 
   // Round info
   const ri=document.getElementById('round-info');
-  if(phase!=='lobby'){
-    ri.style.display='';
-    document.getElementById('round-num').textContent=gs.roundCount||0;
-    document.getElementById('pool-left').textContent=(gs.availablePokemon||[]).length;
-  } else ri.style.display='none';
+  if(phase!=='lobby'){ri.style.display='';document.getElementById('round-num').textContent=gs.roundCount||0;document.getElementById('pool-left').textContent=(gs.availablePokemon||[]).length;}
+  else ri.style.display='none';
+
+  // Spectator bar
+  renderSpectatorBar();
 
   // Views
-  ['lobby','nom','bid','results'].forEach(v=>{
-    const el=document.getElementById(`v-${v}`);
-    if(el)el.style.display='none';
-  });
+  ['lobby','nom','bid','results'].forEach(v=>{const el=document.getElementById(`v-${v}`);if(el)el.style.display='none';});
 
   if(phase==='lobby'){document.getElementById('v-lobby').style.display='';renderLobby();}
   else if(phase==='nomination'){document.getElementById('v-nom').style.display='';renderNom();}
@@ -1033,10 +1173,18 @@ function render(){
   renderMyTeam();
   renderAllTeams();
 
-  // Update other active tabs
   if(activeTab==='teams')renderTeamsTab();
   if(activeTab==='history')renderHistory();
   if(activeTab==='search')renderPlayerSearch();
+}
+
+function renderSpectatorBar(){
+  const bar=document.getElementById('spectator-bar');
+  const specs=Object.entries(gs.players).filter(([,p])=>p.isSpectator);
+  if(specs.length===0){bar.style.display='none';return;}
+  bar.style.display='flex';
+  bar.innerHTML=`<span style="font-weight:700;margin-right:4px">&#128065; Spectators:</span>`+
+    specs.map(([,p])=>`<span class="spec-name">${esc(p.name)}</span>`).join('');
 }
 
 function renderLobby(){
@@ -1044,35 +1192,34 @@ function renderLobby(){
   ss.style.display=amAdmin?'':'none';
   if(amAdmin){
     document.getElementById('s-timer').value=gs.settings?.timerSecs||30;
-    document.getElementById('s-budget').value=gs.settings?.startingBudget||100;
-    document.getElementById('s-maxmon').value=gs.settings?.maxPokemon||6;
+    document.getElementById('s-budget').value=gs.settings?.startingBudget||10000;
+    document.getElementById('s-maxmon').value=gs.settings?.maxPokemon??6;
+    document.getElementById('s-increment').value=gs.settings?.bidIncrement||25;
     document.getElementById('s-name').value=gs.auctionName||'';
     const bp=gs.settings?.basePriceTier||{};
-    for(const t of['S','A','B','C']){
-      const el=document.getElementById(`s-price-${t}`);
-      if(el)el.value=bp[t]||1;
+    for(const t of['S','A','B','C']){const el=document.getElementById(`s-price-${t}`);if(el)el.value=bp[t]||1;}
+    // Non-participating toggle
+    const me=gs.players[myId];
+    const npBtn=document.getElementById('nonpart-btn');
+    if(npBtn&&me){
+      npBtn.textContent=me.isNonParticipating?'Switch to Participating Player':'Become Auctioneer (Non-Participating)';
+      npBtn.className=me.isNonParticipating?'btn btn-green btn-sm':'btn btn-purple btn-sm';
     }
   }
   const players=Object.entries(gs.players);
   const activePlayers=players.filter(([,p])=>!p.isSpectator);
-  document.getElementById('lobby-player-list').innerHTML=activePlayers.map(([id,p],i)=>pcHTML(id,p,i)).join('');
+  const spectators=players.filter(([,p])=>p.isSpectator);
+  document.getElementById('lobby-player-list').innerHTML=
+    '<div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px">PLAYERS ('+activePlayers.length+')</div>'+
+    (activePlayers.length?activePlayers.map(([id,p],i)=>pcHTML(id,p,i)).join(''):'<div style="color:var(--muted);font-size:10px;padding:8px">No players yet</div>');
+  document.getElementById('lobby-spectator-list').innerHTML=spectators.length?
+    '<div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px;margin-top:8px">SPECTATORS ('+spectators.length+')</div>'+
+    spectators.map(([id,p])=>`<div style="padding:4px 8px;font-size:10px;color:var(--muted)">&#128065; ${esc(p.name)}</div>`).join(''):'';
   const sb=document.getElementById('start-btn');
-  if(sb){sb.style.display=amAdmin?'':'none';sb.disabled=activePlayers.length<1;}
-  document.getElementById('join-url-val').textContent='🔗 '+location.href;
+  if(sb){sb.style.display=amAdmin?'':'none';sb.disabled=activePlayers.filter(([,p])=>!p.isNonParticipating).length<1;}
+  document.getElementById('join-url-text').textContent=location.href;
   document.getElementById('lobby-title').textContent=
     activePlayers.length?`${activePlayers.length} TRAINER${activePlayers.length>1?'S':''} READY`:'WAITING FOR TRAINERS...';
-  if(amAdmin){
-    // Add kick button to header area
-    let hk=document.getElementById('header-kick-btn');
-    if(!hk){
-      hk=document.createElement('button');
-      hk.id='header-kick-btn';
-      hk.className='btn btn-danger btn-xs';
-      hk.textContent='🚫 Manage Players';
-      hk.onclick=showKickModal;
-      document.getElementById('settings-section').insertAdjacentElement('beforebegin',hk);
-    }
-  }
 }
 
 function renderPlayers(){
@@ -1088,40 +1235,46 @@ function renderPlayers(){
 function pcHTML(id,p,i,showBudget=false){
   const isMe=id===myId,isWin=gs.currentBidder===id;
   const col=PC[i%PC.length];
-  const startB=gs.settings?.startingBudget||100;
+  const startB=gs.settings?.startingBudget||10000;
   const bpct=Math.min(100,Math.round((p.budget/startB)*100));
   const passed=gs.passedPlayers?.includes(id);
   const offline=!p.online;
-  return`<div class="player-card ${isMe?'me':''} ${isWin?'winning':''} ${offline?'offline':''}" style="--c:${col}">
+  const maxMon=gs.settings?.maxPokemon||0;
+  const slotsLeft=maxMon>0?maxMon-p.monCount:'';
+  return`<div class="player-card ${isMe?'me':''} ${isWin?'winning':''} ${offline?'offline':''} ${p.isNonParticipating?'non-part':''}">
     <div class="p-av" style="background:${col}22;color:${col};border:2px solid ${col}40">${esc(p.name[0].toUpperCase())}</div>
     <div class="p-info">
-      <div class="p-name">${p.isHost?'👑 ':p.isAdmin?'🛡️ ':''}${esc(p.name)}${isMe?'<span style="color:var(--blue);font-size:8px;margin-left:4px">(you)</span>':''}
+      <div class="p-name">${p.isHost?'&#128081; ':p.isAdmin?'&#128737; ':''}${esc(p.name)}${isMe?'<span style="color:var(--blue);font-size:8px;margin-left:4px">(you)</span>':''}
+        ${p.isNonParticipating?'<span class="nonpart-badge">auctioneer</span>':''}
         ${passed?'<span class="passed-badge">passed</span>':''}
         ${offline?'<span class="offline-badge">offline</span>':''}
+        ${maxMon>0&&!p.isNonParticipating?'<span class="slots-badge">'+slotsLeft+' slots</span>':''}
       </div>
-      <div class="p-stats">
-        <span class="p-stat">💰<span>$${p.budget}</span></span>
-        <span class="p-stat">🎒<span>${p.monCount||0}${gs.settings?.maxPokemon?'/'+gs.settings.maxPokemon:''}</span></span>
+      ${!p.isNonParticipating?`<div class="p-stats">
+        <span class="p-stat">&#128176;<span>$${p.budget}</span></span>
+        <span class="p-stat">&#127890;<span>${p.monCount||0}${maxMon?'/'+maxMon:''}</span></span>
       </div>
-      <div class="budget-bar"><div class="budget-fill" style="width:${bpct}%"></div></div>
+      <div class="budget-bar"><div class="budget-fill" style="width:${bpct}%"></div></div>`:''}
     </div>
-    ${amAdmin&&id!==myId?`<button class="btn btn-ghost btn-xs" onclick="kickPlayer('${id}')" title="Remove player">✕</button>`:''}
   </div>`;
 }
 
 function renderNom(){
   document.getElementById('nom-round-label').textContent=`Round ${(gs.roundCount||0)+1}`;
   const isSpec=amSpectator;
+  const isNP=amNonPart;
   document.getElementById('spectator-nom-banner').style.display=isSpec?'':'none';
-  document.getElementById('nom-controls').style.display=isSpec?'none':'';
-  if(!isSpec)renderGrid();
+  // Admin-only nominations
+  document.getElementById('nom-controls').style.display=amAdmin?'':'none';
+  document.getElementById('nom-waiting-banner').style.display=(!amAdmin&&!isSpec)?'':'none';
+  if(amAdmin)renderGrid();
 }
 
 function renderGrid(){
   const search=(document.getElementById('poke-search')?.value||'').toLowerCase();
   const avail=gs.availablePokemon||[];
   const filtered=avail.filter(p=>(!search||p.name.toLowerCase().includes(search))&&(tierF==='ALL'||p.tier===tierF));
-  document.querySelectorAll('.tier-filters:not(#planner-tier-filters) .tf').forEach(el=>{
+  document.querySelectorAll('#tier-filters .tf').forEach(el=>{
     const t=el.dataset.t;
     el.className='tf'+(tierF===t?(t==='ALL'?' aALL':` a${t}`):'');
   });
@@ -1131,11 +1284,11 @@ function renderGrid(){
     const sel=nomPoke?.id===p.id;
     const basePrice=gs.settings?.basePriceTier?.[p.tier]||1;
     return`<div class="poke-card ${sel?'selected':''}" onclick="selectNom(${p.id})">
-      <img src="${sprite(p.dex)}" width="52" height="52" onerror="this.style.opacity=0">
+      <img src="${sprite(p)}" width="52" height="52" onerror="this.style.opacity=0">
       <div class="poke-name">${esc(p.name)}</div>
-      <div class="poke-tier" style="color:var(--${p.tier})">${p.tier} · $${basePrice}</div>
+      <div class="poke-tier" style="color:var(--${p.tier})">${p.tier} &middot; $${basePrice}</div>
     </div>`;
-  }).join('')||'<div class="empty" style="grid-column:1/-1"><p>No Pokémon found</p></div>';
+  }).join('')||'<div class="empty" style="grid-column:1/-1"><p>No Pokemon found</p></div>';
 }
 
 function setTier(t){tierF=t;renderGrid();}
@@ -1145,18 +1298,18 @@ function selectNom(id){
   if(!p)return;
   nomPoke=p;
   document.getElementById('nom-confirm').style.display='';
-  document.getElementById('nom-prev-img').src=sprite(p.dex);
+  document.getElementById('nom-prev-img').src=sprite(p);
   document.getElementById('nom-prev-name').textContent=p.name;
   document.getElementById('nom-prev-tier').textContent=`Tier ${p.tier}`;
   const basePrice=gs.settings?.basePriceTier?.[p.tier]||1;
-  document.getElementById('nom-price').value=basePrice;
+  document.getElementById('nom-base-price').textContent=`Opening: $${basePrice}`;
   renderGrid();
 }
 
 function renderBid(){
   const{currentPokemon:cp,currentBid:bid,currentBidder:bidder,players,nominatedBy,phase,timerEnd}=gs;
   if(!cp)return;
-  document.getElementById('b-img').src=sprite(cp.dex);
+  document.getElementById('b-img').src=sprite(cp);
   document.getElementById('b-img').style.opacity=1;
   document.getElementById('b-tier').textContent=cp.tier;
   document.getElementById('b-tier').className=`spot-tier t${cp.tier}`;
@@ -1167,6 +1320,10 @@ function renderBid(){
   document.getElementById('b-amount').textContent='$'+bid;
   document.getElementById('b-by').textContent=bidder&&players[bidder]?players[bidder].name:'No bids yet';
 
+  // Green flash on new bid
+  const bb=document.getElementById('bid-box');
+  if(bid>prevBid&&prevBid>0){bb.classList.add('flash-green');setTimeout(()=>bb.classList.remove('flash-green'),600);}
+
   // Timer
   const paused=phase==='paused';
   document.getElementById('t-paused-overlay').style.display=paused?'':'none';
@@ -1174,26 +1331,34 @@ function renderBid(){
   else{
     const rem=Math.max(0,Math.ceil((gs.pausedRemaining||0)/1000));
     document.getElementById('t-text').textContent=rem;
-    setTimerColor(rem,timerTotal);
   }
 
   // Bid controls
   const isSpec=amSpectator;
+  const isNP=amNonPart;
   const isCurrBidder=bidder===myId;
-  document.getElementById('spectator-bid-banner').style.display=isSpec?'':'none';
-  document.getElementById('bid-controls-wrap').style.display=isSpec?'none':'';
-  if(!isSpec){
-    document.getElementById('bid-btn').disabled=isCurrBidder||(phase==='paused');
-    if(isCurrBidder)document.getElementById('pass-btn').disabled=true;
+  document.getElementById('spectator-bid-banner').style.display=(isSpec||isNP)?'':'none';
+  document.getElementById('bid-controls-wrap').style.display=(isSpec||isNP)?'none':'';
+  if(!isSpec&&!isNP){
     const passedIds=gs.passedPlayers||[];
     const myPassed=passedIds.includes(myId);
+    document.getElementById('bid-btn').disabled=isCurrBidder||paused||myPassed;
     document.getElementById('pass-btn').disabled=myPassed||isCurrBidder;
-    document.getElementById('pass-btn').textContent=myPassed?'✓ Passed':'🙅 Pass this Round';
-    const total=Object.values(gs.players).filter(p=>!p.isSpectator).length;
+    document.getElementById('pass-btn').textContent=myPassed?'Passed':'Pass this Round';
+    const total=Object.values(gs.players).filter(p=>!p.isSpectator&&!p.isNonParticipating).length;
     const passedCount=passedIds.length;
     document.getElementById('pass-count').textContent=`${passedCount}/${total} passed`;
+
+    // Quick bid buttons based on increment
+    const inc=gs.settings?.bidIncrement||25;
+    document.getElementById('quick-bids').innerHTML=
+      `<span style="font-size:10px;color:var(--muted);align-self:center;margin-right:2px">Quick:</span>`+
+      [1,2,3,5].map(m=>`<span class="qb" onclick="qBid(${m})">+$${inc*m}</span>`).join('');
+
     const inp=document.getElementById('bid-in');
-    if(!inp.value||parseInt(inp.value)<=bid)inp.value=bid+1;
+    if(!inp.value||parseInt(inp.value)<=bid){
+      inp.value=bid+inc;
+    }
   }
 
   // Admin bar
@@ -1201,21 +1366,43 @@ function renderBid(){
   document.getElementById('undo-bar-bid').style.display=amAdmin?'flex':'none';
   if(amAdmin){
     const pb=document.getElementById('pause-btn');
-    pb.textContent=paused?'▶ Resume':'⏸ Pause';
+    pb.textContent=paused?'Resume':'Pause';
     updateUndoUI();
+  }
+
+  // Join requests section (during pause)
+  const jrSection=document.getElementById('join-requests-section');
+  const joinReqs=gs.joinRequests||[];
+  if(amAdmin&&paused&&joinReqs.length>0){
+    jrSection.style.display='';
+    document.getElementById('join-requests-list').innerHTML=joinReqs.map(id=>{
+      const p=gs.players[id];
+      if(!p)return'';
+      return`<div class="join-req-card">
+        <span style="flex:1;font-size:12px">${esc(p.name)} wants to join</span>
+        <button class="btn btn-green btn-xs" onclick="approveJoin('${id}')">Approve</button>
+        <button class="btn btn-danger btn-xs" onclick="denyJoin('${id}')">Deny</button>
+      </div>`;
+    }).join('');
+  }else{jrSection.style.display='none';}
+
+  // Spectator request button during pause
+  if(amSpectator&&paused){
+    document.getElementById('spectator-bid-banner').innerHTML=
+      'Paused - <button class="btn btn-blue btn-xs" onclick="requestJoinAsPlayer()">Request to Join as Player</button>';
   }
 }
 
 function updateUndoUI(){
   if(!gs)return;
   const ub=document.getElementById('undo-btn'),rb=document.getElementById('redo-btn');
-  if(ub){ub.disabled=!gs.canUndo;ub.textContent=gs.canUndo?`↩ Undo (${gs.undoLabel||'…'})`:' ↩ Undo';}
-  if(rb){rb.disabled=!gs.canRedo;rb.textContent=gs.canRedo?`↪ Redo (${gs.redoLabel||'…'})`:'↪ Redo';}
+  if(ub){ub.disabled=!gs.canUndo;ub.textContent=gs.canUndo?`Undo (${gs.undoLabel||'...'})`:'Undo';}
+  if(rb){rb.disabled=!gs.canRedo;rb.textContent=gs.canRedo?`Redo (${gs.redoLabel||'...'})`:'Redo';}
   const ul=document.getElementById('undo-label');
-  if(ul)ul.textContent=gs.canUndo?`Last: ${gs.undoLabel}`:'—';
+  if(ul)ul.textContent=gs.canUndo?`Last: ${gs.undoLabel}`:'-';
 }
 
-// ─── Timer ─────────────────────────────────────────────────────────────────────
+// ═══ Timer ═══
 function updateTimer(){
   if(!lastTimerEnd)return;
   const rem=Math.max(0,lastTimerEnd-Date.now());
@@ -1223,36 +1410,34 @@ function updateTimer(){
   const frac=Math.min(1,rem/(timerTotal*1000));
   const txt=document.getElementById('t-text');
   if(txt)txt.textContent=secs;
-  setTimerColor(secs,timerTotal);
-  // Update conic gradient
   const td=document.getElementById('timer-display');
   if(td){
     const color=secs<=5?'var(--accent)':secs<=10?'var(--orange)':'var(--green)';
     const deg=Math.round(frac*360);
     td.style.background=`conic-gradient(${color} ${deg}deg,var(--border) ${deg}deg)`;
-    td.style.boxShadow=`0 0 20px ${secs<=5?'rgba(230,57,70,.4)':secs<=10?'rgba(249,115,22,.3)':'rgba(34,211,160,.2)'}`;
+    td.style.boxShadow=`0 0 20px ${secs<=5?'rgba(230,57,70,.5)':secs<=10?'rgba(249,115,22,.3)':'rgba(34,211,160,.2)'}`;
+    if(secs<=5)td.classList.add('timer-pulse');else td.classList.remove('timer-pulse');
   }
-}
-function setTimerColor(secs,total){
-  const td=document.getElementById('timer-display');
-  if(!td)return;
-  const color=secs<=5?'var(--accent)':secs<=10?'var(--orange)':'var(--green)';
-  td.style.boxShadow=`0 0 20px ${secs<=5?'rgba(230,57,70,.5)':secs<=10?'rgba(249,115,22,.3)':'rgba(34,211,160,.2)'}`;
+  // Tick sound in final 5 seconds
+  if(secs<=5&&secs>0){
+    const now=Date.now();
+    const interval=secs<=2?300:500;
+    if(now-lastTickSound>interval){lastTickSound=now;sfxTick();}
+  }
 }
 
 function renderLog(){
   if(!gs)return;
   const entries=(gs.log||[]).slice().reverse();
   const html=entries.map((e,i)=>`<div class="log-entry${i===0?' fresh':''}">${esc(e.msg)}</div>`).join('');
-  const empty='<div style="color:var(--muted);font-size:10px;text-align:center;padding:6px">No activity yet</div>';
   const el=document.getElementById('log-l');
-  if(el)el.innerHTML=html||empty;
+  if(el)el.innerHTML=html||'<div style="color:var(--muted);font-size:10px;text-align:center;padding:6px">No activity yet</div>';
 }
 
 function renderMyTeam(){
   if(!gs||!myId)return;
   const me=gs.players[myId];if(!me)return;
-  const startB=gs.settings?.startingBudget||100;
+  const startB=gs.settings?.startingBudget||10000;
   const maxMon=gs.settings?.maxPokemon||0;
   document.getElementById('my-budget').textContent='$'+me.budget;
   document.getElementById('my-bfill').style.width=`${Math.max(0,Math.min(100,(me.budget/startB)*100))}%`;
@@ -1261,17 +1446,18 @@ function renderMyTeam(){
   const r=document.getElementById('my-roster');
   r.innerHTML=me.roster?.length
     ?me.roster.map(p=>`<div class="roster-card">
-        <img src="${sprite(p.dex)}" width="40" height="40" onerror="this.style.opacity=0">
+        <img src="${sprite(p)}" width="40" height="40" onerror="this.style.opacity=0">
         <div class="roster-name">${esc(p.name)}</div>
         <div class="roster-cost">$${p.paid}</div>
+        ${amAdmin?`<span class="roster-remove admin-visible" onclick="doRemovePokemon('${myId}',${p.id})" title="Remove">&#10005;</span>`:''}
       </div>`).join('')
-    :'<div class="empty" style="grid-column:1/-1"><div class="ei">🥚</div><p>No Pokémon yet</p></div>';
+    :'<div class="empty" style="grid-column:1/-1"><div class="ei">&#129370;</div><p>No Pokemon yet</p></div>';
 }
 
 function renderAllTeams(){
   if(!gs)return;
   const container=document.getElementById('all-teams-view');
-  const players=Object.entries(gs.players).filter(([,p])=>!p.isSpectator);
+  const players=Object.entries(gs.players).filter(([,p])=>!p.isSpectator&&!p.isNonParticipating);
   container.innerHTML=players.map(([id,p],i)=>{
     const isMe=id===myId;
     const col=PC[i%PC.length];
@@ -1281,99 +1467,116 @@ function renderAllTeams(){
         <span style="display:flex;align-items:center;gap:6px">
           <span style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></span>
           <span style="font-weight:700;color:${col}">${esc(p.name)}${isMe?' (you)':''}</span>
-          <span style="color:var(--muted);font-size:10px">🎒${p.roster?.length||0} · 💰$${p.budget}</span>
+          <span style="color:var(--muted);font-size:10px">${p.roster?.length||0} &middot; $${p.budget}</span>
         </span>
-        <span>${isOpen?'▲':'▼'}</span>
+        <span>${isOpen?'&#9650;':'&#9660;'}</span>
       </button>
       <div class="team-roster-drop ${isOpen?'open':''}" id="drop-${id}">
         <div class="roster-grid" style="grid-template-columns:repeat(4,1fr)">
           ${p.roster?.length?p.roster.map(pk=>`<div class="roster-card">
-            <img src="${sprite(pk.dex)}" width="38" height="38" onerror="this.style.opacity=0">
+            <img src="${sprite(pk)}" width="38" height="38" onerror="this.style.opacity=0">
             <div class="roster-name">${esc(pk.name)}</div>
             <div class="roster-cost">$${pk.paid}</div>
-          </div>`).join(''):'<div style="color:var(--muted);font-size:10px;grid-column:1/-1;text-align:center;padding:8px">No Pokémon yet</div>'}
+          </div>`).join(''):'<div style="color:var(--muted);font-size:10px;grid-column:1/-1;text-align:center;padding:8px">No Pokemon yet</div>'}
         </div>
       </div>
     </div>`;
   }).join('');
 }
-function toggleTeamDrop(id){
-  currentDropOpen=currentDropOpen===id?null:id;
-  renderAllTeams();
-}
+function toggleTeamDrop(id){currentDropOpen=currentDropOpen===id?null:id;renderAllTeams();}
 
 function renderResults(){
-  const players=Object.entries(gs.players).filter(([,p])=>!p.isSpectator).sort((a,b)=>b[1].roster.length-a[1].roster.length);
+  const players=Object.entries(gs.players).filter(([,p])=>!p.isSpectator&&!p.isNonParticipating).sort((a,b)=>b[1].roster.length-a[1].roster.length);
+
+  // Post-auction summary
+  let totalSpent=0,totalPokemon=0,mostExpensive={name:'-',paid:0},cheapest={name:'-',paid:Infinity};
+  players.forEach(([,p])=>{
+    (p.roster||[]).forEach(pk=>{
+      totalSpent+=pk.paid;totalPokemon++;
+      if(pk.paid>mostExpensive.paid)mostExpensive=pk;
+      if(pk.paid<cheapest.paid)cheapest=pk;
+    });
+  });
+  const avg=totalPokemon>0?Math.round(totalSpent/totalPokemon):0;
+  if(cheapest.paid===Infinity)cheapest={name:'-',paid:0};
+  document.getElementById('results-summary').innerHTML=
+    `Total Spent: <span>$${totalSpent}</span> &middot; Avg Price: <span>$${avg}</span> &middot; Most Expensive: <span>${esc(mostExpensive.name)} ($${mostExpensive.paid})</span> &middot; Biggest Bargain: <span>${esc(cheapest.name)} ($${cheapest.paid})</span>`;
+
   document.getElementById('results-grid').innerHTML=players.map(([id,p],i)=>{
     const col=PC[i%PC.length];
-    return`<div class="result-card" style="border-color:${col}44">
-      <div class="result-player" style="color:${col}">${p.isHost||p.isAdmin?'👑 ':''}${esc(p.name)}</div>
-      <div class="result-meta">💰 $${p.budget} left · 🎒 ${p.roster?.length||0} Pokémon</div>
+    const delay=i*0.1;
+    const types=new Set();
+    (p.roster||[]).forEach(pk=>{if(pk.type1)types.add(pk.type1);if(pk.type2)types.add(pk.type2);});
+    return`<div class="result-card" style="border-color:${col}44;animation-delay:${delay}s">
+      <div class="result-player" style="color:${col}">${p.isHost||p.isAdmin?'&#128081; ':''}${esc(p.name)}</div>
+      <div class="result-meta">$${p.budget} left &middot; ${p.roster?.length||0} Pokemon &middot; Spent $${(p.roster||[]).reduce((s,pk)=>s+pk.paid,0)}</div>
       <div class="result-roster">
         ${(p.roster||[]).map(pk=>`<div class="rp">
-          <img src="${sprite(pk.dex)}" width="38" height="38" onerror="this.style.opacity=0">
+          <img src="${sprite(pk)}" width="38" height="38" onerror="this.style.opacity=0">
           <div class="rp-name">${esc(pk.name)}</div>
           <div class="rp-cost">$${pk.paid}</div>
         </div>`).join('')}
-        ${!p.roster?.length?'<div style="color:var(--muted);font-size:10px;grid-column:1/-1">No Pokémon won</div>':''}
+        ${!p.roster?.length?'<div style="color:var(--muted);font-size:10px;grid-column:1/-1">No Pokemon won</div>':''}
       </div>
+      ${types.size?`<div style="display:flex;gap:3px;flex-wrap:wrap;margin-top:8px">${[...types].map(t=>`<span class="type-pill" style="background:${TC[t]||'#888'}22;color:${TC[t]||'#888'};border:1px solid ${TC[t]||'#888'}40;font-size:8px">${t}</span>`).join('')}</div>`:''}
     </div>`;
   }).join('');
-  const rb=document.getElementById('reset-btn'),
-        rrb=document.getElementById('restart-btn'),
-        urb=document.getElementById('undo-results-btn');
+  const rb=document.getElementById('reset-btn'),rrb=document.getElementById('restart-btn'),urb=document.getElementById('undo-results-btn');
   if(rb)rb.style.display=amAdmin?'':'none';
   if(rrb)rrb.style.display=amAdmin?'':'none';
   if(urb)urb.style.display=amAdmin&&gs.canUndo?'':'none';
 }
 
-// ─── TEAMS TAB ─────────────────────────────────────────────────────────────────
+// ═══ TEAMS TAB ═══
 function renderTeamsTab(){
-  if(!gs){document.getElementById('teams-content').innerHTML='<div class="empty"><div class="ei">🏟️</div><p>No active auction</p></div>';return;}
-  const players=Object.entries(gs.players).filter(([,p])=>!p.isSpectator);
+  if(!gs){document.getElementById('teams-content').innerHTML='<div class="empty"><div class="ei">&#127935;</div><p>No active auction</p></div>';return;}
+  const players=Object.entries(gs.players).filter(([,p])=>!p.isSpectator&&!p.isNonParticipating);
   document.getElementById('teams-content').innerHTML=`
     <div class="results-grid">
       ${players.map(([id,p],i)=>{
         const col=PC[i%PC.length];
+        const types=new Set();
+        (p.roster||[]).forEach(pk=>{if(pk.type1)types.add(pk.type1);if(pk.type2)types.add(pk.type2);});
         return`<div class="result-card" style="border-color:${col}44">
-          <div class="result-player" style="color:${col}">${p.isHost||p.isAdmin?'👑 ':''}${esc(p.name)}${id===myId?' <span style="font-size:10px;font-weight:400">(you)</span>':''}</div>
-          <div class="result-meta">💰 $${p.budget} remaining · 🎒 ${p.roster?.length||0} Pokémon</div>
+          <div class="result-player" style="color:${col}">${esc(p.name)}${id===myId?' <span style="font-size:10px;font-weight:400">(you)</span>':''}</div>
+          <div class="result-meta">$${p.budget} remaining &middot; ${p.roster?.length||0} Pokemon</div>
           <div class="result-roster">
             ${(p.roster||[]).map(pk=>`<div class="rp">
-              <img src="${sprite(pk.dex)}" width="38" height="38" onerror="this.style.opacity=0">
+              <img src="${sprite(pk)}" width="38" height="38" onerror="this.style.opacity=0">
               <div class="rp-name">${esc(pk.name)}</div>
               <div class="rp-cost">$${pk.paid}</div>
             </div>`).join('')}
-            ${!p.roster?.length?'<div style="color:var(--muted);font-size:10px;grid-column:1/-1;text-align:center;padding:10px">🥚 No Pokémon yet</div>':''}
+            ${!p.roster?.length?'<div style="color:var(--muted);font-size:10px;grid-column:1/-1;text-align:center;padding:10px">No Pokemon yet</div>':''}
           </div>
+          ${types.size?`<div style="display:flex;gap:3px;flex-wrap:wrap;margin-top:8px">${[...types].map(t=>`<span class="type-pill" style="background:${TC[t]||'#888'}22;color:${TC[t]||'#888'};border:1px solid ${TC[t]||'#888'}40;font-size:8px">${t}</span>`).join('')}</div>`:''}
         </div>`;
       }).join('')}
     </div>`;
 }
 
-// ─── HISTORY TAB ──────────────────────────────────────────────────────────────
+// ═══ HISTORY TAB ═══
 function renderHistory(){
   const hist=gs?.auctionHistory||[];
   const container=document.getElementById('history-content');
-  if(!hist.length){container.innerHTML='<div class="empty"><div class="ei">📭</div><p>No past auctions yet</p></div>';return;}
+  if(!hist.length){container.innerHTML='<div class="empty"><div class="ei">&#128237;</div><p>No past auctions yet</p></div>';return;}
   container.innerHTML=hist.map(a=>`
     <div class="history-card">
       <div class="history-card-head">
         <div>
-          <div class="history-name">🏆 ${esc(a.name)}</div>
-          <div class="history-meta">${new Date(a.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} · ${a.rounds} rounds · ${a.players?.length||0} players</div>
+          <div class="history-name">${esc(a.name)}</div>
+          <div class="history-meta">${new Date(a.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} &middot; ${a.rounds} rounds &middot; ${a.players?.length||0} players</div>
         </div>
-        ${amAdmin?`<button class="btn btn-danger btn-xs" onclick="deleteAuction('${a.id}')">🗑️ Delete</button>`:''}
+        ${amAdmin?`<button class="btn btn-danger btn-xs" onclick="deleteAuction('${a.id}')">Delete</button>`:''}
       </div>
       <div class="history-players">
         ${(a.players||[]).map((p,i)=>{
           const col=PC[i%PC.length];
           return`<div class="hp" style="border-left:3px solid ${col}">
             <div class="hp-name" style="color:${col}">${esc(p.name)}</div>
-            <div class="hp-meta">💰 $${p.budget} left · 🎒 ${p.monCount} Pokémon</div>
+            <div class="hp-meta">$${p.budget} left &middot; ${p.monCount} Pokemon</div>
             <div class="hp-mons">
               ${(p.roster||[]).map(pk=>`<div class="hp-mon">
-                <img src="${sprite(pk.dex)}" width="20" height="20" style="image-rendering:pixelated">
+                <img src="${sprite(pk)}" width="20" height="20" style="image-rendering:pixelated">
                 <span>${esc(pk.name)}</span>
               </div>`).join('')}
             </div>
@@ -1385,12 +1588,12 @@ function renderHistory(){
 }
 function deleteAuction(id){if(confirm('Delete this auction from history?'))send({type:'deleteAuction',auctionId:id});}
 
-// ─── POKÉDEX TAB ──────────────────────────────────────────────────────────────
+// ═══ POKEDEX TAB ═══
 function renderDex(){
   const pool=gs?.allPokemon||[];
   const search=(document.getElementById('dex-search')?.value||'').toLowerCase();
   const filtered=pool.filter(p=>
-    (!search||p.name.toLowerCase().includes(search)||p.type1.toLowerCase().includes(search)||p.type2.toLowerCase().includes(search))&&
+    (!search||p.name.toLowerCase().includes(search)||p.type1.toLowerCase().includes(search)||(p.type2||'').toLowerCase().includes(search))&&
     (dexTierF==='ALL'||p.tier===dexTierF)
   );
   document.querySelectorAll('#tab-dex .tf').forEach(el=>{
@@ -1403,21 +1606,21 @@ function renderDex(){
     const basePrice=gs?.settings?.basePriceTier?.[p.tier]||1;
     return`<div class="dex-card" style="${gone?'opacity:0.4':''}" title="${esc(p.name)}">
       <div style="position:relative;display:inline-block">
-        <img src="${sprite(p.dex)}" width="64" height="64" onerror="this.style.opacity=0">
-        ${gone?'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:20px">✓</div>':''}
+        <img src="${sprite(p)}" width="64" height="64" onerror="this.style.opacity=0">
+        ${gone?'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:20px">&#10003;</div>':''}
       </div>
       <div class="dex-name">${esc(p.name)}</div>
       <div class="dex-types">
         <span class="type-pill" style="background:${TC[p.type1]||'#888'}22;color:${TC[p.type1]||'#888'};border:1px solid ${TC[p.type1]||'#888'}40;font-size:9px">${p.type1}</span>
         ${p.type2?`<span class="type-pill" style="background:${TC[p.type2]||'#888'}22;color:${TC[p.type2]||'#888'};border:1px solid ${TC[p.type2]||'#888'}40;font-size:9px">${p.type2}</span>`:''}
       </div>
-      <div class="dex-tier" style="color:var(--${p.tier})">${p.tier} · $${basePrice}</div>
+      <div class="dex-tier" style="color:var(--${p.tier})">${p.tier} &middot; $${basePrice}</div>
     </div>`;
-  }).join('')||'<div class="empty" style="grid-column:1/-1"><p>No Pokémon found</p></div>';
+  }).join('')||'<div class="empty" style="grid-column:1/-1"><p>No Pokemon found</p></div>';
 }
 function setDexTier(t){dexTierF=t;renderDex();}
 
-// ─── TEAM PLANNER TAB ─────────────────────────────────────────────────────────
+// ═══ TEAM PLANNER TAB ═══
 function renderPlannerSlots(){
   const slots=document.getElementById('planner-slots');
   const maxSlots=6;
@@ -1427,24 +1630,20 @@ function renderPlannerSlots(){
     const mon=plannerTeam[i];
     if(mon){
       html+=`<div class="planner-slot filled">
-        <img src="${sprite(mon.dex)}" width="56" height="56" onerror="this.style.opacity=0">
-        <div class="slot-name">${esc(mon.name)}</div>
-        <span class="slot-remove" onclick="removePlanner(${i})">✕ Remove</span>
+        <img src="${sprite(mon)}" width="56" height="56" onerror="this.style.opacity=0">
+        <div style="font-size:9px;font-weight:700">${esc(mon.name)}</div>
+        <span style="font-size:8px;color:var(--accent);cursor:pointer" onclick="removePlanner(${i})">Remove</span>
       </div>`;
-    } else {
-      html+=`<div class="planner-slot" onclick="">
-        <span style="font-size:24px">➕</span>
-        <span>Slot ${i+1}</span>
-      </div>`;
+    }else{
+      html+=`<div class="planner-slot"><span style="font-size:24px">+</span><span>Slot ${i+1}</span></div>`;
     }
   }
   slots.innerHTML=html;
-  // Type coverage
   const allTypes=new Set();
   plannerTeam.forEach(m=>{if(m.type1)allTypes.add(m.type1);if(m.type2)allTypes.add(m.type2);});
   document.getElementById('planner-types').innerHTML=[...allTypes].map(t=>
     `<span class="type-pill" style="background:${TC[t]||'#888'}22;color:${TC[t]||'#888'};border:1px solid ${TC[t]||'#888'}40">${t}</span>`
-  ).join('')||'<span style="color:var(--muted);font-size:10px">Add Pokémon to see coverage</span>';
+  ).join('')||'<span style="color:var(--muted);font-size:10px">Add Pokemon to see coverage</span>';
 }
 function renderPlannerPool(){
   const pool=gs?.allPokemon||[];
@@ -1457,8 +1656,8 @@ function renderPlannerPool(){
   const inTeam=new Set(plannerTeam.map(m=>m.id));
   document.getElementById('planner-pool').innerHTML=filtered.map(p=>{
     const added=inTeam.has(p.id);
-    return`<div class="poke-card ${added?'selected':''}" onclick="addToPlanner(${p.id})" title="${added?'Already in team':'Add to team'}">
-      <img src="${sprite(p.dex)}" width="52" height="52" onerror="this.style.opacity=0">
+    return`<div class="poke-card ${added?'selected':''}" onclick="addToPlanner(${p.id})">
+      <img src="${sprite(p)}" width="52" height="52" onerror="this.style.opacity=0">
       <div class="poke-name">${esc(p.name)}</div>
       <div class="poke-tier" style="color:var(--${p.tier})">${p.tier}</div>
     </div>`;
@@ -1471,21 +1670,21 @@ function addToPlanner(id){
   if(!mon)return;
   if(plannerTeam.find(m=>m.id===id)){toast('Already in your team!','err');return;}
   plannerTeam.push(mon);
+  localStorage.setItem('vgc_planner',JSON.stringify(plannerTeam));
   renderPlannerSlots();renderPlannerPool();
 }
-function removePlanner(i){plannerTeam.splice(i,1);renderPlannerSlots();renderPlannerPool();}
-function clearPlanner(){plannerTeam=[];renderPlannerSlots();renderPlannerPool();}
+function removePlanner(i){plannerTeam.splice(i,1);localStorage.setItem('vgc_planner',JSON.stringify(plannerTeam));renderPlannerSlots();renderPlannerPool();}
+function clearPlanner(){plannerTeam=[];localStorage.setItem('vgc_planner','[]');renderPlannerSlots();renderPlannerPool();}
 function setPlannerTier(t){plannerTierF=t;renderPlannerPool();}
 
-// ─── PLAYER SEARCH TAB ────────────────────────────────────────────────────────
+// ═══ PLAYER SEARCH TAB ═══
 function renderPlayerSearch(){
   const q=(document.getElementById('player-search-in')?.value||'').toLowerCase().trim();
   const container=document.getElementById('player-search-results');
-  if(!q){container.innerHTML='<div class="empty"><div class="ei">🔍</div><p>Search by player name across all auctions</p></div>';return;}
-  // Search in current auction + history
+  if(!q){container.innerHTML='<div class="empty"><div class="ei">&#128270;</div><p>Search by player name across all auctions</p></div>';return;}
   let results=[];
   if(gs){
-    Object.entries(gs.players).filter(([,p])=>!p.isSpectator&&p.name.toLowerCase().includes(q)).forEach(([id,p],i)=>{
+    Object.entries(gs.players).filter(([,p])=>!p.isSpectator&&p.name.toLowerCase().includes(q)).forEach(([id,p])=>{
       results.push({source:'Current: '+esc(gs.auctionName),name:p.name,budget:p.budget,roster:p.roster,isActive:true});
     });
   }
@@ -1495,24 +1694,27 @@ function renderPlayerSearch(){
     });
   });
   if(!results.length){container.innerHTML='<div class="empty"><p>No players found matching "'+esc(q)+'"</p></div>';return;}
-  container.innerHTML=results.map((r,i)=>`
+  container.innerHTML=results.map(r=>`
     <div class="player-result">
-      <div class="player-result-name">${esc(r.name)} <span style="font-size:10px;color:var(--muted)">${r.isActive?'🟢 Active':'📜 Past'}</span></div>
-      <div class="player-result-meta">📅 ${r.source} · 💰 $${r.budget} left · 🎒 ${r.roster?.length||0} Pokémon</div>
+      <div class="player-result-name">${esc(r.name)} <span style="font-size:10px;color:var(--muted)">${r.isActive?'Active':'Past'}</span></div>
+      <div class="player-result-meta">${r.source} &middot; $${r.budget} left &middot; ${r.roster?.length||0} Pokemon</div>
       <div class="result-roster" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:5px">
         ${(r.roster||[]).map(pk=>`<div class="rp">
-          <img src="${sprite(pk.dex)}" width="38" height="38" onerror="this.style.opacity=0">
+          <img src="${sprite(pk)}" width="38" height="38" onerror="this.style.opacity=0">
           <div class="rp-name">${esc(pk.name)}</div>
           <div class="rp-cost">$${pk.paid}</div>
         </div>`).join('')}
-        ${!r.roster?.length?'<div style="color:var(--muted);font-size:10px">No Pokémon</div>':''}
+        ${!r.roster?.length?'<div style="color:var(--muted);font-size:10px">No Pokemon</div>':''}
       </div>
     </div>
   `).join('');
 }
 
-// ─── Utils ─────────────────────────────────────────────────────────────────────
-function sprite(dex){return`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex}.png`;}
+// ═══ Utils ═══
+function sprite(p){
+  const id=p.spriteId||p.dex;
+  return`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 let _toastT;
@@ -1523,18 +1725,18 @@ function toast(msg,type=''){
   _toastT=setTimeout(()=>el.className='',3200);
 }
 
-// ─── Keyboard shortcuts ────────────────────────────────────────────────────────
+// ═══ Keyboard shortcuts ═══
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'){
     const ls=document.getElementById('login-screen');
     if(ls.style.display!=='none'){
       const active=document.querySelector('.login-tab-content.active')?.id;
       if(active==='tab-player')joinAsPlayer();
+      else if(active==='tab-spectator')joinAsSpectator();
       else if(active==='tab-admin')adminLogin();
       else if(active==='tab-register')adminRegister();
       return;
     }
-    if(gs?.phase==='bidding'&&document.activeElement?.id==='bid-in')return;// handled by button
   }
   if(e.ctrlKey||e.metaKey){
     if(e.key==='z'){e.preventDefault();doUndo();}
@@ -1542,18 +1744,11 @@ document.addEventListener('keydown',e=>{
   }
 });
 
-// ─── Timer loop ────────────────────────────────────────────────────────────────
+// ═══ Timer loop ═══
 setInterval(updateTimer,250);
 
-// Initial Dex render when switching tab
-document.addEventListener('DOMContentLoaded',()=>{
-  if(!gs?.allPokemon){
-    // Pre-populate dex with the known pool from backend without needing gs
-    // Will be updated when state arrives
-  }
-});
-
-// ─── Init ──────────────────────────────────────────────────────────────────────
+// ═══ Init ═══
+document.getElementById('mute-btn').textContent=audioMuted?'\u{1F507}':'\u{1F50A}';
 connect();
 </script>
 </body>
