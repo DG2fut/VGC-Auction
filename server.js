@@ -1093,8 +1093,10 @@ function handleMessage(clientId, msg) {
       const pokeIdx = target.roster.findIndex(p => p.id === msg.pokemonId);
       if (pokeIdx < 0) return err('Pokémon not found in roster.');
       const removed = target.roster.splice(pokeIdx, 1)[0];
+      const refund = removed.paid || 0;
+      target.budget += refund;
       state.auctionedPokemon.delete(removed.id);
-      addLog(`🔄 Admin removed ${removed.name} from ${target.name}'s roster (returned to pool)`);
+      addLog(`🔄 Admin removed ${removed.name} from ${target.name}'s roster — $${refund} refunded (returned to pool)`);
       broadcastState();
       persistState();
       break;
