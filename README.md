@@ -17,7 +17,7 @@ node server.js
 The server will:
 1. Start at http://localhost:3000
 2. Load the Pokémon pool from `pokemon-pool.json`
-3. Load Google Sheets credentials if `credentials.json` exists
+3. Connect to Discord webhook if `DISCORD_WEBHOOK_URL` env var is set
 
 Deploy to [Render](https://render.com) or any Node.js host for public access.
 
@@ -145,35 +145,30 @@ The `id` field in the response is the `spriteId` you need. Examples:
 
 ---
 
-## Google Sheets Live Logging
+## Discord Live Logging
 
-The auction can log every nomination, bid, and round result to a Google Sheet in real-time.
+Every auction event is posted in real-time to a Discord channel via webhook — nominations, bids, round results, and final standings.
 
 ### Setup
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a project (or use an existing one)
-3. Enable the **Google Sheets API**
-4. Go to **Credentials** → **Create Credentials** → **Service Account**
-5. Create a key for the service account (JSON format)
-6. Download the JSON key file and save it as **`credentials.json`** in the project root
-7. Open your Google Sheet and click **Share**
-8. Share the sheet with the service account email (found in `credentials.json` as `client_email`) — give **Editor** access
-9. Restart the server — you should see `Google Sheets credentials loaded` in the console
+1. Right-click a Discord channel → **Edit Channel** → **Integrations** → **Webhooks**
+2. Click **New Webhook**, name it, and click **Copy Webhook URL**
+3. On Render: go to your service → **Environment** → add `DISCORD_WEBHOOK_URL` with the webhook URL
+4. Redeploy — you should see `Discord webhook logging enabled` in the logs
 
-The spreadsheet ID is configured in `server.js` (variable `SPREADSHEET_ID`).
+### What gets posted
 
-### What gets logged
+| Event | Embed |
+|-------|-------|
+| 🎉 **Auction Start** | Player count, budget, timer, increment |
+| 📣 **Nomination** | Pokémon name, tier, sprite thumbnail, nominated by |
+| 💰 **Bid** | Bidder name, amount |
+| 🏆 **Sold** | Winner, final price, full bid history, who passed |
+| ❌ **Unsold** | Pokémon removed, who passed |
+| ⏭️ **Skipped** | Pokémon removed from pool |
+| 🏁 **Auction End** | Final standings with spend totals |
 
-| Type | When | Columns |
-|------|------|---------|
-| `NOMINATION` | Admin nominates a Pokémon | Round, Pokémon, Tier, Nominated by |
-| `BID` | A player places a bid | Round, Pokémon, Bidder, Amount |
-| `WON` | Round ends with a winner | Round, Pokémon, Tier, Winner, Final Bid, All Bids, Passed Players |
-| `UNSOLD` | Round ends with no bids | Round, Pokémon, Tier |
-| `SKIPPED` | Admin skips a Pokémon | Round, Pokémon, Tier |
-
-If `credentials.json` is missing, the server runs normally without Sheets logging.
+If no webhook URL is set, the server runs normally without Discord logging.
 
 ---
 
@@ -182,7 +177,7 @@ If `credentials.json` is missing, the server runs normally without Sheets loggin
 ```
 ├── server.js           # WebSocket server (zero npm dependencies)
 ├── pokemon-pool.json   # Pokémon pool — edit this for each auction
-├── credentials.json    # Google Sheets service account key (gitignored)
+├── .gitignore          # Excludes node_modules/, data/, .claude/
 ├── public/
 │   └── index.html      # Single-page client app
 ├── data/               # Created at runtime (gitignored)

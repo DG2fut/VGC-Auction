@@ -17,158 +17,147 @@ const DATA_DIR = path.join(__dirname, 'data');
 try { fs.mkdirSync(DATA_DIR, { recursive: true }); } catch {}
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   GOOGLE SHEETS INTEGRATION (zero-dependency, uses raw HTTPS + JWT)
+   DISCORD WEBHOOK LOGGING
+   Posts live auction events to a Discord channel via webhook.
+   Set DISCORD_WEBHOOK_URL env var on Render, or falls back to hardcoded URL.
    ═══════════════════════════════════════════════════════════════════════════════ */
-const SHEETS_CREDS_FILE = path.join(__dirname, 'credentials.json');
-const SPREADSHEET_ID = '1sGE_AgiMiFWt_9wjpmLNjfr4rFfTuVibWZfKsPX3dKY';
-const SHEET_NAME = 'Sheet1'; // default tab
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL
+  || 'https://discord.com/api/webhooks/1487217544262582343/dk-y5OcPtAFyofl6D1Ihi6MHqI8Y84Uyj-BR6tgMD4CGr3LhNO9ZbZMxweisX2AdJb2Z';
 
-let sheetsCreds = null;
-let sheetsToken = null;
-let sheetsTokenExpiry = 0;
+if (DISCORD_WEBHOOK_URL) console.log('  Discord webhook logging enabled');
+else console.log('  No Discord webhook URL — Discord logging disabled');
 
-try {
-  if (fs.existsSync(SHEETS_CREDS_FILE)) {
-    sheetsCreds = JSON.parse(fs.readFileSync(SHEETS_CREDS_FILE, 'utf8'));
-    console.log('  Google Sheets credentials loaded');
-  } else {
-    console.log('  No credentials.json found — Google Sheets logging disabled');
-  }
-} catch (e) {
-  console.log('  Failed to load credentials.json:', e.message);
-}
-
-// Base64url encoding for JWT
-function b64url(buf) {
-  return (Buffer.isBuffer(buf) ? buf : Buffer.from(buf))
-    .toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
-}
-
-// Create a signed JWT for Google Sheets API
-function createJWT() {
-  if (!sheetsCreds) return null;
-  const now = Math.floor(Date.now() / 1000);
-  const header = { alg: 'RS256', typ: 'JWT' };
-  const payload = {
-    iss: sheetsCreds.client_email,
-    scope: 'https://www.googleapis.com/auth/spreadsheets',
-    aud: 'https://oauth2.googleapis.com/token',
-    iat: now,
-    exp: now + 3600,
-  };
-  const unsigned = b64url(JSON.stringify(header)) + '.' + b64url(JSON.stringify(payload));
-  const sign = crypto.createSign('RSA-SHA256');
-  sign.update(unsigned);
-  const signature = sign.sign(sheetsCreds.private_key);
-  return unsigned + '.' + b64url(signature);
-}
-
-// Get an access token (cached, refreshes every ~55 min)
-async function getSheetsToken() {
-  if (!sheetsCreds) return null;
-  if (sheetsToken && Date.now() < sheetsTokenExpiry) return sheetsToken;
-  const jwt = createJWT();
-  if (!jwt) return null;
-  return new Promise((resolve) => {
-    const body = `grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=${jwt}`;
-    const req = https.request({
-      method: 'POST',
-      hostname: 'oauth2.googleapis.com',
-      path: '/token',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': Buffer.byteLength(body) },
-    }, res => {
-      let data = '';
-      res.on('data', d => data += d);
-      res.on('end', () => {
+// Fire-and-forget: post a Discord embed (non-blocking, errors silently logged)
+function discordPost(embeds) {
+  if (!DISCORD_WEBHOOK_URL) return;
+  const body = JSON.stringify({ embeds });
+  const url = new URL(DISCORD_WEBHOOK_URL);
+  const req = https.request({
+    method: 'POST',
+    hostname: url.hostname,
+    path: url.pathname,
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(body),
+    },
+  }, res => {
+    let data = '';
+    res.on('data', d => data += d);
+    res.on('end', () => {
+      if (res.statusCode === 429) {
+        // Rate limited — retry after delay
         try {
-          const parsed = JSON.parse(data);
-          sheetsToken = parsed.access_token;
-          sheetsTokenExpiry = Date.now() + 55 * 60 * 1000; // refresh a bit early
-          resolve(sheetsToken);
-        } catch { resolve(null); }
-      });
+          const r = JSON.parse(data);
+          const wait = (r.retry_after || 1) * 1000;
+          setTimeout(() => discordPost(embeds), wait);
+        } catch {}
+      } else if (res.statusCode >= 400) {
+        console.error('Discord webhook error:', res.statusCode, data.slice(0, 200));
+      }
     });
-    req.on('error', () => resolve(null));
-    req.write(body);
-    req.end();
   });
+  req.on('error', e => console.error('Discord request error:', e.message));
+  req.write(body);
+  req.end();
 }
 
-// Append rows to Google Sheet (fire-and-forget, non-blocking)
-function appendToSheet(rows) {
-  if (!sheetsCreds || !rows.length) return;
-  getSheetsToken().then(token => {
-    if (!token) return;
-    const body = JSON.stringify({ values: rows });
-    const encodedRange = encodeURIComponent(`${SHEET_NAME}!A:J`);
-    const apiPath = `/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodedRange}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
-    const req = https.request({
-      method: 'POST',
-      hostname: 'sheets.googleapis.com',
-      path: apiPath,
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(body),
-      },
-    }, res => {
-      let data = '';
-      res.on('data', d => data += d);
-      res.on('end', () => {
-        if (res.statusCode >= 400) console.error('Sheets API error:', res.statusCode, data.slice(0, 200));
-      });
-    });
-    req.on('error', e => console.error('Sheets request error:', e.message));
-    req.write(body);
-    req.end();
-  }).catch(e => console.error('Sheets token error:', e.message));
-}
+// Colour constants for embeds (Discord uses decimal colour values)
+const DC = { nomination: 0xf8c200, bid: 0x4cc9f0, won: 0x22d3a0, unsold: 0xe63946, skipped: 0xf97316, ended: 0x8b5cf6, info: 0x5a5a8a };
 
-// Helper: log a nomination start to the sheet
+// ── Discord log helpers ──
+
 function sheetsLogNomination(roundNum, pokemonName, tier, nominatedBy) {
-  appendToSheet([[
-    'NOMINATION',
-    roundNum,
-    pokemonName,
-    tier,
-    '', // winner
-    '', // final bid
-    `Nominated by ${nominatedBy}`,
-    '', // passed
-    new Date().toISOString(),
-  ]]);
+  discordPost([{
+    title: `📣 Round ${roundNum} — Nomination`,
+    description: `**${pokemonName}** (${tier} Tier) nominated by **${nominatedBy}**`,
+    color: DC.nomination,
+    thumbnail: { url: pokeSpriteUrl(pokemonName) },
+    footer: { text: `Round ${roundNum}` },
+    timestamp: new Date().toISOString(),
+  }]);
 }
 
-// Helper: log a bid to the sheet
 function sheetsLogBid(roundNum, pokemonName, bidderName, amount) {
-  appendToSheet([[
-    'BID',
-    roundNum,
-    pokemonName,
-    '', // tier
-    bidderName,
-    amount,
-    '', // all bids
-    '', // passed
-    new Date().toISOString(),
-  ]]);
+  discordPost([{
+    title: `💰 Bid — ${pokemonName}`,
+    description: `**${bidderName}** bid **$${amount}**`,
+    color: DC.bid,
+    footer: { text: `Round ${roundNum}` },
+    timestamp: new Date().toISOString(),
+  }]);
 }
 
-// Helper: log a round result (WON / UNSOLD / SKIPPED) to the sheet
 function sheetsLogRoundEnd(roundNum, pokemonName, tier, winner, finalBid, allBids, passedNames) {
-  const bidsSummary = allBids.map(b => `${b.player}: $${b.amount}`).join('; ');
-  const passedSummary = passedNames.join(', ');
-  appendToSheet([[
-    winner === 'skipped' ? 'SKIPPED' : winner === 'unsold' ? 'UNSOLD' : 'WON',
-    roundNum,
-    pokemonName,
-    tier,
-    winner === 'skipped' || winner === 'unsold' ? winner : winner,
-    finalBid || 0,
-    bidsSummary,
-    passedSummary,
-    new Date().toISOString(),
-  ]]);
+  const bidsSummary = allBids.map(b => `${b.player}: $${b.amount}`).join(' → ');
+  const passedSummary = passedNames.length ? passedNames.join(', ') : 'None';
+
+  if (winner === 'skipped') {
+    discordPost([{
+      title: `⏭️ Skipped — ${pokemonName}`,
+      description: `Removed from pool, no winner.`,
+      color: DC.skipped,
+      fields: [
+        ...(bidsSummary ? [{ name: 'Bids', value: bidsSummary, inline: false }] : []),
+        { name: 'Passed', value: passedSummary, inline: false },
+      ],
+      footer: { text: `Round ${roundNum} · ${tier} Tier` },
+      timestamp: new Date().toISOString(),
+    }]);
+  } else if (winner === 'unsold' || !winner) {
+    discordPost([{
+      title: `❌ Unsold — ${pokemonName}`,
+      description: `No bids placed. Removed from pool.`,
+      color: DC.unsold,
+      fields: [
+        { name: 'Passed', value: passedSummary, inline: false },
+      ],
+      footer: { text: `Round ${roundNum} · ${tier} Tier` },
+      timestamp: new Date().toISOString(),
+    }]);
+  } else {
+    discordPost([{
+      title: `🏆 SOLD — ${pokemonName}`,
+      description: `Winner: **${winner}** for **$${finalBid}**`,
+      color: DC.won,
+      thumbnail: { url: pokeSpriteUrl(pokemonName) },
+      fields: [
+        { name: 'Bid History', value: bidsSummary || 'Opening bid only', inline: false },
+        { name: 'Passed', value: passedSummary, inline: false },
+      ],
+      footer: { text: `Round ${roundNum} · ${tier} Tier` },
+      timestamp: new Date().toISOString(),
+    }]);
+  }
+}
+
+function discordLogAuctionEnd(results) {
+  const playerLines = results.map(r =>
+    `**${r.name}** — ${r.monCount} Pokémon, $${r.budget} left, spent $${r.spent}`
+  ).join('\n');
+  discordPost([{
+    title: '🏁 Auction Complete!',
+    description: playerLines || 'No results.',
+    color: DC.ended,
+    timestamp: new Date().toISOString(),
+  }]);
+}
+
+function discordLogAuctionStart(auctionName, playerCount, budget, timer, increment) {
+  discordPost([{
+    title: `🎉 ${auctionName} Started!`,
+    description: `**${playerCount}** trainers | $${budget} each | ${timer}s timer | $${increment} increments`,
+    color: DC.info,
+    timestamp: new Date().toISOString(),
+  }]);
+}
+
+// Helper: try to get a sprite URL from a Pokemon name (best effort for embed thumbnails)
+function pokeSpriteUrl(name) {
+  if (!name) return '';
+  const mon = POKEMON_POOL.find(p => p.name === name);
+  if (!mon) return '';
+  const id = mon.spriteId || mon.dex;
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
@@ -846,6 +835,7 @@ function handleMessage(clientId, msg) {
       for (const p of activePlayers) p.budget = state.settings.startingBudget;
       state.phase = 'nomination';
       addLog(`🎉 "${state.auctionName}" started! ${activePlayers.length} trainers | $${state.settings.startingBudget} each | ${state.settings.timerSecs}s timer | $${state.settings.bidIncrement} increments`);
+      discordLogAuctionStart(state.auctionName, activePlayers.length, state.settings.startingBudget, state.settings.timerSecs, state.settings.bidIncrement);
       broadcastState();
       persistState();
       break;
@@ -1106,6 +1096,16 @@ function handleMessage(clientId, msg) {
       state.passedPlayers.clear();
       saveToHistory();
       addLog('🏁 Auction ended by admin.');
+      // Discord log with final results
+      const endResults = [...state.players.entries()]
+        .filter(([, p]) => !p.isSpectator && !p.isNonParticipating)
+        .map(([, p]) => ({
+          name: p.name,
+          budget: p.budget,
+          monCount: p.roster.length,
+          spent: state.settings.startingBudget - p.budget,
+        }));
+      discordLogAuctionEnd(endResults);
       broadcastState();
       persistState();
       break;
