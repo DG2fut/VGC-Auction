@@ -62,7 +62,7 @@ function discordPost(embeds) {
 }
 
 // Colour constants for embeds (Discord uses decimal colour values)
-const DC = { nomination: 0xf8c200, bid: 0x4cc9f0, won: 0x22d3a0, unsold: 0xe63946, skipped: 0xf97316, ended: 0x8b5cf6, info: 0x5a5a8a };
+const DC = { nomination: 0x60b8ff, bid: 0x38bdf8, won: 0x3b82f6, unsold: 0xef4444, skipped: 0xf59e0b, ended: 0x818cf8, info: 0x4a6a8a };
 
 // ── Discord log helpers ──
 
@@ -1358,22 +1358,31 @@ function handleMessage(clientId, msg) {
           spent: state.settings.startingBudget - p.budget,
           roster: p.roster,
         }));
-      // Send one main embed per player + separate sprite embeds for team preview
+      // Send one message per player: main embed + sprite embeds for team preview
       const spriteUrl = (pk) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pk.spriteId || pk.dex}.png`;
-      const embeds = results.map((r, i) => ({
-        title: `${r.name}`,
-        description: `**$${r.budget}** remaining · **${r.monCount}** Pokémon · Spent **$${r.spent}**\n\n` +
-          r.roster.map(pk => `**${pk.name}** — $${pk.paid}`).join(' | '),
-        color: [0xe63946, 0x4cc9f0, 0xf8c200, 0x22d3a0, 0x8b5cf6, 0xf97316][i % 6],
-        fields: r.roster.map(pk => ({
-          name: pk.name,
-          value: `$${pk.paid} · [sprite](${spriteUrl(pk)})`,
-          inline: true,
-        })),
-      }));
-      // Discord max 10 embeds per message
-      for (let i = 0; i < embeds.length; i += 10) {
-        discordPost(embeds.slice(i, i + 10));
+      const colors = [0x3b82f6, 0x60b8ff, 0x38bdf8, 0x818cf8, 0x06b6d4, 0xa78bfa];
+      for (let i = 0; i < results.length; i++) {
+        const r = results[i];
+        const col = colors[i % colors.length];
+        // Use a shared URL so Discord groups the image embeds into a gallery row
+        const groupUrl = `https://pokemondb.net/pokedex/all#player-${i}`;
+        // Main embed with player info + first Pokemon as image
+        const mainEmbed = {
+          title: `${r.name}'s Team`,
+          url: groupUrl,
+          description: `**$${r.budget}** remaining · **${r.monCount}** Pokémon · Spent **$${r.spent}**\n\n` +
+            r.roster.map(pk => `**${pk.name}** — $${pk.paid}`).join('\n'),
+          color: col,
+          image: r.roster.length ? { url: spriteUrl(r.roster[0]) } : undefined,
+        };
+        // Each additional Pokemon gets its own embed with shared URL for gallery display
+        const spriteEmbeds = r.roster.slice(1).map(pk => ({
+          url: groupUrl,
+          image: { url: spriteUrl(pk) },
+          color: col,
+        }));
+        // Discord allows up to 10 embeds per message
+        discordPost([mainEmbed, ...spriteEmbeds].slice(0, 10));
       }
       addLog('📤 Results exported to Discord!');
       ws.send(clientId, { type: 'error', msg: 'Results sent to Discord!' });
