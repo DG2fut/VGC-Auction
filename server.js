@@ -1358,20 +1358,18 @@ function handleMessage(clientId, msg) {
           spent: state.settings.startingBudget - p.budget,
           roster: p.roster,
         }));
-      // Send one embed per player with sprite images
+      // Send one main embed per player + separate sprite embeds for team preview
       const spriteUrl = (pk) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pk.spriteId || pk.dex}.png`;
       const embeds = results.map((r, i) => ({
         title: `${r.name}`,
         description: `**$${r.budget}** remaining · **${r.monCount}** Pokémon · Spent **$${r.spent}**\n\n` +
-          r.roster.map(pk => `${pk.name} — $${pk.paid}`).join('\n'),
+          r.roster.map(pk => `**${pk.name}** — $${pk.paid}`).join(' | '),
         color: [0xe63946, 0x4cc9f0, 0xf8c200, 0x22d3a0, 0x8b5cf6, 0xf97316][i % 6],
-        thumbnail: r.roster.length ? { url: spriteUrl(r.roster[0]) } : undefined,
-        image: r.roster.length > 1 ? { url: spriteUrl(r.roster[r.roster.length - 1]) } : undefined,
-        fields: r.roster.length ? [{
-          name: 'Team',
-          value: r.roster.map(pk => `[${pk.name}](${spriteUrl(pk)})`).join(' · '),
-          inline: false,
-        }] : [],
+        fields: r.roster.map(pk => ({
+          name: pk.name,
+          value: `$${pk.paid} · [sprite](${spriteUrl(pk)})`,
+          inline: true,
+        })),
       }));
       // Discord max 10 embeds per message
       for (let i = 0; i < embeds.length; i += 10) {

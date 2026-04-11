@@ -759,7 +759,7 @@ header{
               </div>
             </div>
             <div class="panel">
-              <div class="panel-head">ALL TEAMS</div>
+              <div class="panel-head">ALL TEAMS <button class="btn btn-ghost btn-xs" id="randomize-order-btn" onclick="randomizeTeamOrder()" style="display:none;margin-left:auto">🔀 Randomize</button></div>
               <div class="panel-body" style="padding:8px">
                 <div id="all-teams-view"></div>
               </div>
@@ -771,7 +771,7 @@ header{
       <!-- ══ TEAMS TAB ══ -->
       <div id="tab-teams" class="tab-panel" style="display:none">
         <div class="panel">
-          <div class="panel-head">ALL PLAYER TEAMS <button class="btn btn-ghost btn-xs" id="randomize-order-btn" onclick="randomizeTeamOrder()" style="display:none;margin-left:auto">🔀 Randomize</button></div>
+          <div class="panel-head">ALL PLAYER TEAMS</div>
           <div class="panel-body"><div id="teams-content"><div class="empty"><div class="ei">&#127935;</div><p>No active auction</p></div></div></div>
         </div>
       </div>
@@ -1678,8 +1678,11 @@ function renderMyTeam(){
 
 function renderAllTeams(){
   if(!gs)return;
+  const rb=document.getElementById('randomize-order-btn');
+  if(rb)rb.style.display=amAdmin?'':'none';
   const container=document.getElementById('all-teams-view');
-  const players=Object.entries(gs.players).filter(([,p])=>!p.isSpectator&&!p.isNonParticipating);
+  const order=gs.playerOrder&&gs.playerOrder.length?gs.playerOrder:Object.keys(gs.players);
+  const players=order.map(id=>[id,gs.players[id]]).filter(([,p])=>p&&!p.isSpectator&&!p.isNonParticipating);
   container.innerHTML=players.map(([id,p],i)=>{
     const isMe=id===myId;
     const col=PC[i%PC.length];
@@ -1755,11 +1758,8 @@ function renderResults(){
 
 // ═══ TEAMS TAB ═══
 function renderTeamsTab(){
-  const rb=document.getElementById('randomize-order-btn');
-  if(rb)rb.style.display=amAdmin?'':'none';
   if(!gs){document.getElementById('teams-content').innerHTML='<div class="empty"><div class="ei">&#127935;</div><p>No active auction</p></div>';return;}
-  const order=gs.playerOrder&&gs.playerOrder.length?gs.playerOrder:Object.keys(gs.players);
-  const players=order.map(id=>[id,gs.players[id]]).filter(([,p])=>p&&!p.isSpectator&&!p.isNonParticipating);
+  const players=Object.entries(gs.players).filter(([,p])=>!p.isSpectator&&!p.isNonParticipating);
   document.getElementById('teams-content').innerHTML=`
     <div class="results-grid">
       ${players.map(([id,p],i)=>{
