@@ -298,10 +298,58 @@ header{
 .rp{background:var(--bg2);border-radius:5px;padding:5px;text-align:center}
 .rp img{width:38px;height:38px;image-rendering:pixelated}
 .rp-name{font-size:8px;font-weight:700}
+.rp-types{display:flex;gap:2px;justify-content:center;margin-top:2px;flex-wrap:wrap}
+
+/* PASSED PLAYERS GRAYED OUT */
+.player-card.passed-round{opacity:.45;filter:grayscale(.5)}
+.player-card.passed-round .p-name{text-decoration:line-through}
+
+/* LIVE LOG PANEL */
+.live-log-panel{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px;margin-top:8px;max-height:100px;overflow:hidden}
+.live-log-panel .log-entry{animation:log-fade .4s ease}
+@keyframes log-fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* REACTION FLOATS */
+.reaction-float{position:fixed;font-size:32px;pointer-events:none;z-index:400;animation:react-float 2s ease-out forwards}
+@keyframes react-float{0%{opacity:1;transform:translateY(0) scale(1)}60%{opacity:1}100%{opacity:0;transform:translateY(-200px) scale(1.3)}}
+.reaction-bar{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;padding:6px}
+.reaction-btn{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:18px;cursor:pointer;transition:all .15s}
+.reaction-btn:hover{transform:scale(1.2);border-color:var(--gold)}
+
+/* PREVIEW TOOLTIP */
+.poke-preview{position:fixed;z-index:500;background:var(--panel);border:2px solid var(--border2);border-radius:12px;padding:14px;text-align:center;pointer-events:none;box-shadow:0 10px 40px rgba(0,0,0,.6);min-width:160px}
+.poke-preview img{width:96px;height:96px;image-rendering:pixelated}
+.poke-preview .pv-name{font-weight:800;font-size:13px;margin:4px 0 2px}
+.poke-preview .pv-types{display:flex;gap:4px;justify-content:center;margin-bottom:4px}
+.poke-preview .pv-info{font-size:10px;color:var(--muted)}
+
+/* WISHLIST */
+.wishlisted{border-color:var(--gold)!important;box-shadow:0 0 8px rgba(248,194,0,.2)}
+.wish-star{position:absolute;top:3px;right:3px;font-size:12px;cursor:pointer;z-index:2}
+
+/* BUDGET BAR COLORS */
+.budget-fill.bud-green{background:linear-gradient(90deg,var(--green),#22d3a0cc)}
+.budget-fill.bud-amber{background:linear-gradient(90deg,var(--orange),#f97316cc)}
+.budget-fill.bud-red{background:linear-gradient(90deg,var(--accent),#e63946cc)}
+
+/* DRAG HANDLE */
+.drag-handle{cursor:grab;font-size:14px;color:var(--muted);padding:0 6px;user-select:none}
+.drag-handle:active{cursor:grabbing}
+.planner-slot{position:relative}
+.planner-slot.drag-over{border:2px dashed var(--gold)!important}
+.planner-slot .drag-grip{position:absolute;top:4px;left:4px;cursor:grab;font-size:10px;color:var(--muted)}
+
+/* LOGOUT */
+#logout-btn{position:fixed;top:10px;right:60px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--muted);font-size:10px;font-weight:700;cursor:pointer;z-index:150;transition:all .15s}
+#logout-btn:hover{color:var(--accent);border-color:var(--accent)}
+
+/* CONFETTI CANVAS */
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:350}
 .rp-cost{font-size:8px;color:var(--gold)}
 
 /* TEAMS DROPDOWN */
-.team-viewer{margin-bottom:12px}
+.team-viewer{margin-bottom:12px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.team-viewer .team-roster-drop{width:100%}
 .team-dropdown-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;font-size:12px;font-weight:600;transition:all .2s}
 .team-dropdown-btn:hover{border-color:var(--border2)}
 .team-roster-drop{display:none;background:var(--bg2);border:1px solid var(--border);border-radius:0 0 8px 8px;padding:10px;margin-top:-1px}
@@ -586,6 +634,7 @@ header{
                     <span class="tf" data-t="A" onclick="setTier('A')">A</span>
                     <span class="tf" data-t="B" onclick="setTier('B')">B</span>
                     <span class="tf" data-t="C" onclick="setTier('C')">C</span>
+                    <span class="tf" data-t="SKIP" onclick="setTier('SKIP')">⏭ Skipped</span>
                   </div>
                   <div id="poke-grid" class="poke-grid"></div>
                   <div id="nom-confirm" style="display:none">
@@ -657,6 +706,19 @@ header{
                   </div>
                 </div>
 
+                <!-- LIVE LOG PANEL -->
+                <div class="live-log-panel" id="live-log-panel"></div>
+
+                <!-- REACTION BAR -->
+                <div class="reaction-bar" id="reaction-bar">
+                  <span class="reaction-btn" onclick="sendReaction('🔥')">🔥</span>
+                  <span class="reaction-btn" onclick="sendReaction('😮')">😮</span>
+                  <span class="reaction-btn" onclick="sendReaction('👏')">👏</span>
+                  <span class="reaction-btn" onclick="sendReaction('😂')">😂</span>
+                  <span class="reaction-btn" onclick="sendReaction('💀')">💀</span>
+                  <span class="reaction-btn" onclick="sendReaction('⚡')">⚡</span>
+                </div>
+
                 <div class="admin-bar" id="admin-bid-bar" style="display:none">
                   <span class="admin-label">ADMIN:</span>
                   <button class="btn btn-ghost btn-sm" id="pause-btn" onclick="doPause()">Pause</button>
@@ -684,6 +746,7 @@ header{
                   <button class="btn btn-ghost btn-sm" onclick="doUndo()" id="undo-results-btn" style="display:none">Undo Last</button>
                   <button class="btn btn-blue btn-sm" onclick="confirmRestart()" id="restart-btn" style="display:none">Restart Auction</button>
                   <button class="btn btn-gold btn-sm" onclick="confirmReset()" id="reset-btn" style="display:none">New Auction</button>
+                  <button class="btn btn-purple btn-sm" onclick="exportToDiscord()" id="export-discord-btn" style="display:none">📤 Export to Discord</button>
                 </div>
               </div>
             </div>
@@ -808,6 +871,18 @@ header{
 <!-- MUTE BUTTON -->
 <button id="mute-btn" onclick="toggleMute()" title="Toggle Sound">&#128266;</button>
 
+<!-- LOGOUT BUTTON -->
+<button id="logout-btn" onclick="doLogout()" style="display:none">Log Out</button>
+
+<!-- CONFETTI CANVAS -->
+<canvas id="confetti-canvas"></canvas>
+
+<!-- PREVIEW TOOLTIP -->
+<div class="poke-preview" id="poke-preview" style="display:none"></div>
+
+<!-- REACTION CONTAINER -->
+<div id="reaction-container"></div>
+
 <!-- KICK MODAL -->
 <div class="modal-bg" id="kick-modal">
   <div class="modal">
@@ -845,6 +920,9 @@ let activeTab='auction';
 let currentDropOpen=null;
 let prevBidder=null, prevPhase=null, prevBid=0;
 let lastTickSound=0;
+let wishlist=JSON.parse(localStorage.getItem('vgc_wishlist')||'[]');
+let lastReactionTime=0;
+let countdownPlayed={};
 
 // ═══ Session persistence ═══
 function getSessionToken(){
@@ -886,12 +964,125 @@ function sfxApplause(){
   s.connect(f);f.connect(g);g.connect(audioCtx.destination);s.start();
 }
 
+function sfxCountdown(sec){
+  if(audioMuted||!audioCtx)return;resumeAudio();
+  // 3=low, 2=mid, 1=high, 0=hammer
+  if(sec===3)playTone(440,.15,'square',.25);
+  else if(sec===2)playTone(554,.15,'square',.25);
+  else if(sec===1)playTone(659,.15,'square',.25);
+  else if(sec===0){
+    // Hammer strike
+    playTone(880,.08,'sawtooth',.35);
+    setTimeout(()=>playTone(220,.3,'triangle',.3),60);
+  }
+}
+function sfxFanfare(){
+  if(audioMuted||!audioCtx)return;resumeAudio();
+  [523,659,784,1047].forEach((f,i)=>setTimeout(()=>playTone(f,.12,'square',.2),i*70));
+  setTimeout(()=>playTone(1047,.3,'sine',.25),300);
+}
+
 function toggleMute(){
   audioMuted=!audioMuted;
   localStorage.setItem('vgc_mute',audioMuted?'1':'0');
   document.getElementById('mute-btn').textContent=audioMuted?'\u{1F507}':'\u{1F50A}';
   if(!audioMuted)initAudio();
 }
+
+// ═══ Confetti ═══
+function fireConfetti(full){
+  const canvas=document.getElementById('confetti-canvas');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const ctx=canvas.getContext('2d');
+  const pieces=[];const colors=['#f8c200','#e63946','#4cc9f0','#22d3a0','#8b5cf6','#f97316','#ec4899','#fff'];
+  const count=full?150:40;
+  for(let i=0;i<count;i++){
+    pieces.push({x:full?Math.random()*canvas.width:canvas.width/2,y:full?-20:canvas.height*0.3,
+      vx:(Math.random()-0.5)*8,vy:-(Math.random()*6+2),
+      w:Math.random()*8+4,h:Math.random()*6+2,
+      color:colors[Math.floor(Math.random()*colors.length)],
+      rot:Math.random()*360,rv:(Math.random()-0.5)*10,g:0.12+Math.random()*0.08,
+      life:1});
+  }
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive=false;
+    pieces.forEach(p=>{
+      if(p.life<=0)return;alive=true;
+      p.x+=p.vx;p.y+=p.vy;p.vy+=p.g;p.rot+=p.rv;
+      p.life-=0.006;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);
+      ctx.globalAlpha=Math.max(0,p.life);
+      ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    });
+    frame++;
+    if(alive&&frame<180)requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  draw();
+}
+
+// ═══ Reactions ═══
+function sendReaction(emoji){
+  const now=Date.now();
+  if(now-lastReactionTime<3000){toast('Wait a moment...','err');return;}
+  lastReactionTime=now;
+  send({type:'reaction',emoji});
+}
+function showReactionFloat(emoji){
+  const el=document.createElement('div');
+  el.className='reaction-float';el.textContent=emoji;
+  el.style.left=(Math.random()*80+10)+'%';el.style.bottom='80px';
+  document.getElementById('reaction-container').appendChild(el);
+  setTimeout(()=>el.remove(),2100);
+}
+
+// ═══ Logout ═══
+function doLogout(){
+  localStorage.removeItem('vgc_autojoin');
+  localStorage.removeItem('vgc_session');
+  socket?.close();
+  location.reload();
+}
+
+// ═══ Export to Discord ═══
+function exportToDiscord(){send({type:'exportDiscord'});}
+
+// ═══ Wishlist ═══
+function toggleWishlist(id){
+  const idx=wishlist.indexOf(id);
+  if(idx>=0)wishlist.splice(idx,1);else wishlist.push(id);
+  localStorage.setItem('vgc_wishlist',JSON.stringify(wishlist));
+  if(activeTab==='planner'){renderPlannerSlots();renderPlannerPool();}
+  renderGrid();
+}
+function isWishlisted(id){return wishlist.includes(id);}
+
+// ═══ Preview tooltip ═══
+let previewTimeout=null;
+function showPreview(e,p){
+  clearTimeout(previewTimeout);
+  const el=document.getElementById('poke-preview');
+  const bp=gs?.settings?.basePriceTier?.[p.tier]||1;
+  el.innerHTML=`<img src="${sprite(p)}" width="96" height="96" style="image-rendering:pixelated">
+    <div class="pv-name">${esc(p.name)}</div>
+    <div class="pv-types">${[p.type1,p.type2].filter(Boolean).map(t=>`<span class="type-pill" style="background:${TC[t]||'#888'}22;color:${TC[t]||'#888'};border:1px solid ${TC[t]||'#888'}40">${t}</span>`).join('')}</div>
+    <div class="pv-info">${p.tier} Tier · Base $${bp}</div>`;
+  const rect=e.target.closest('.poke-card,.dex-card').getBoundingClientRect();
+  el.style.left=Math.min(rect.left,window.innerWidth-180)+'px';
+  el.style.top=Math.max(0,rect.top-200)+'px';
+  el.style.display='';
+}
+function hidePreview(){
+  clearTimeout(previewTimeout);
+  document.getElementById('poke-preview').style.display='none';
+}
+function startPreviewLongPress(e,p){
+  previewTimeout=setTimeout(()=>{e.preventDefault();showPreview(e,p);},400);
+}
+function cancelPreviewLongPress(){clearTimeout(previewTimeout);}
 
 // ═══ WebSocket ═══
 function wsURL(){const proto=location.protocol==='https:'?'wss':'ws';return`${proto}://${location.host}`;}
@@ -942,7 +1133,15 @@ function handle(msg){
       break;
     case 'sold':
       if(msg.unsold){sfxUnsold();}
-      else{sfxWin();showSoldOverlay(msg);}
+      else{
+        sfxWin();showSoldOverlay(msg);
+        if(msg.winnerId===myId){fireConfetti(true);sfxFanfare();}
+        else{fireConfetti(false);}
+      }
+      countdownPlayed={};
+      break;
+    case 'reaction':
+      showReactionFloat(msg.emoji);
       break;
     case 'kicked':
       if(msg.targetId===myId){toast('You were removed by an admin.','err');localStorage.removeItem('vgc_autojoin');setTimeout(()=>location.reload(),2000);}
@@ -1048,17 +1247,18 @@ function qBid(mult){
   document.getElementById('bid-in').value=nb;
 }
 function qBidBase(){
-  if(!gs)return;
+  if(!gs||!gs.currentPokemon)return;
   const inc=gs.settings?.bidIncrement||25;
   const isFirstBid=!gs.currentBidder;
-  // First bid: exact base price. After that: current + increment.
-  const minBid=isFirstBid?gs.currentBid:gs.currentBid+inc;
+  const baseBidPrice=gs.settings?.basePriceTier?.[gs.currentPokemon.tier]||1;
+  const minBid=isFirstBid?baseBidPrice:gs.currentBid+inc;
   document.getElementById('bid-in').value=minBid;
   placeBid();
 }
 function qBidFixed(amount){
-  if(!gs)return;
-  document.getElementById('bid-in').value=gs.currentBid+amount;
+  if(!gs||!gs.currentPokemon)return;
+  const base=gs.currentBid>0?gs.currentBid:(gs.settings?.basePriceTier?.[gs.currentPokemon.tier]||1);
+  document.getElementById('bid-in').value=base+amount;
   placeBid();
 }
 function doPass(){send({type:'pass'});}
@@ -1175,6 +1375,10 @@ function render(){
   else if(phase==='bidding'||phase==='paused'){document.getElementById('v-bid').style.display='';renderBid();}
   else if(phase==='ended'){document.getElementById('v-results').style.display='';renderResults();}
 
+  // Logout button
+  const logBtn=document.getElementById('logout-btn');
+  if(logBtn)logBtn.style.display=myId?'':'none';
+
   renderPlayers();
   renderLog();
   renderMyTeam();
@@ -1252,20 +1456,22 @@ function pcHTML(id,p,i,showBudget=false){
   const offline=!p.online;
   const maxMon=gs.settings?.maxPokemon||0;
   const slotsLeft=maxMon>0?maxMon-p.monCount:'';
-  return`<div class="player-card ${isMe?'me':''} ${isWin?'winning':''} ${offline?'offline':''} ${p.isNonParticipating?'non-part':''}">
+  const budColor=bpct>50?'bud-green':bpct>20?'bud-amber':'bud-red';
+  const lastMon=p.roster&&p.roster.length?p.roster[p.roster.length-1]:null;
+  return`<div class="player-card ${isMe?'me':''} ${isWin?'winning':''} ${offline?'offline':''} ${p.isNonParticipating?'non-part':''} ${passed?'passed-round':''}">
     <div class="p-av" style="background:${col}22;color:${col};border:2px solid ${col}40">${esc(p.name[0].toUpperCase())}</div>
     <div class="p-info">
       <div class="p-name">${p.isHost?'&#128081; ':p.isAdmin?'&#128737; ':''}${esc(p.name)}${isMe?'<span style="color:var(--blue);font-size:8px;margin-left:4px">(you)</span>':''}
         ${p.isNonParticipating?'<span class="nonpart-badge">auctioneer</span>':''}
         ${passed?'<span class="passed-badge">passed</span>':''}
         ${offline?'<span class="offline-badge">offline</span>':''}
-        ${maxMon>0&&!p.isNonParticipating?'<span class="slots-badge">'+slotsLeft+' slots</span>':''}
       </div>
       ${!p.isNonParticipating?`<div class="p-stats">
-        <span class="p-stat">&#128176;<span>$${p.budget}</span></span>
+        <span class="p-stat" style="font-weight:800;color:var(--gold)">$${p.budget}</span>
         <span class="p-stat">&#127890;<span>${p.monCount||0}${maxMon?'/'+maxMon:''}</span></span>
       </div>
-      <div class="budget-bar"><div class="budget-fill" style="width:${bpct}%"></div></div>`:''}
+      <div class="budget-bar"><div class="budget-fill ${budColor}" style="width:${bpct}%"></div></div>
+      ${lastMon?`<div style="display:flex;align-items:center;gap:4px;margin-top:3px"><img src="${sprite(lastMon)}" width="18" height="18" style="image-rendering:pixelated"><span style="font-size:8px;color:var(--muted)">${esc(lastMon.name)}</span><span style="font-size:8px;color:var(--gold)">$${lastMon.paid}</span></div>`:''}`:''}
     </div>
   </div>`;
 }
@@ -1286,23 +1492,44 @@ function renderNom(){
 function renderGrid(){
   const search=(document.getElementById('poke-search')?.value||'').toLowerCase();
   const avail=gs.availablePokemon||[];
-  const filtered=avail.filter(p=>(!search||p.name.toLowerCase().includes(search))&&(tierF==='ALL'||p.tier===tierF));
+  const skipped=gs.skippedPokemon||[];
+  let filtered;
+  if(tierF==='SKIP'){
+    filtered=skipped.filter(p=>!search||p.name.toLowerCase().includes(search));
+  }else{
+    filtered=avail.filter(p=>(!search||p.name.toLowerCase().includes(search))&&(tierF==='ALL'||p.tier===tierF));
+  }
   document.querySelectorAll('#tier-filters .tf').forEach(el=>{
     const t=el.dataset.t;
-    el.className='tf'+(tierF===t?(t==='ALL'?' aALL':` a${t}`):'');
+    el.className='tf'+(tierF===t?(t==='ALL'?' aALL':t==='SKIP'?' aALL':` a${t}`):'');
   });
   const grid=document.getElementById('poke-grid');
   if(!grid)return;
-  grid.innerHTML=filtered.map(p=>{
-    const sel=nomPoke?.id===p.id;
-    const basePrice=gs.settings?.basePriceTier?.[p.tier]||1;
-    return`<div class="poke-card ${sel?'selected':''}" onclick="selectNom(${p.id})">
-      <img src="${sprite(p)}" width="52" height="52" onerror="this.style.opacity=0">
-      <div class="poke-name">${esc(p.name)}</div>
-      <div class="poke-tier" style="color:var(--${p.tier})">${p.tier} &middot; $${basePrice}</div>
-    </div>`;
-  }).join('')||'<div class="empty" style="grid-column:1/-1"><p>No Pokemon found</p></div>';
+  if(tierF==='SKIP'){
+    grid.innerHTML=filtered.length?filtered.map(p=>{
+      const basePrice=gs.settings?.basePriceTier?.[p.tier]||1;
+      return`<div class="poke-card" style="opacity:.7" onmouseenter="showPreview(event,gs.skippedPokemon.find(x=>x.id===${p.id})||${JSON.stringify(p).replace(/"/g,'&quot;')})" onmouseleave="hidePreview()" ontouchstart="startPreviewLongPress(event,${JSON.stringify(p).replace(/"/g,'&quot;')})" ontouchend="cancelPreviewLongPress();hidePreview()">
+        <img src="${sprite(p)}" width="52" height="52" onerror="this.style.opacity=0">
+        <div class="poke-name">${esc(p.name)}</div>
+        <div class="poke-tier" style="color:var(--muted)">Skipped &middot; $${basePrice}</div>
+        ${amAdmin?`<div style="margin-top:4px"><button class="btn btn-blue btn-xs" onclick="event.stopPropagation();unskipPokemon(${p.id})">↩ Return</button></div>`:''}
+      </div>`;
+    }).join(''):'<div class="empty" style="grid-column:1/-1"><p>No skipped Pokemon</p></div>';
+  }else{
+    grid.innerHTML=filtered.map(p=>{
+      const sel=nomPoke?.id===p.id;
+      const basePrice=gs.settings?.basePriceTier?.[p.tier]||1;
+      const wished=isWishlisted(p.id);
+      return`<div class="poke-card ${sel?'selected':''} ${wished?'wishlisted':''}" onclick="selectNom(${p.id})" onmouseenter="showPreview(event,${JSON.stringify(p).replace(/"/g,'&quot;')})" onmouseleave="hidePreview()" ontouchstart="startPreviewLongPress(event,${JSON.stringify(p).replace(/"/g,'&quot;')})" ontouchend="cancelPreviewLongPress();hidePreview()">
+        <span class="wish-star" onclick="event.stopPropagation();toggleWishlist(${p.id})">${wished?'⭐':'☆'}</span>
+        <img src="${sprite(p)}" width="52" height="52" onerror="this.style.opacity=0">
+        <div class="poke-name">${esc(p.name)}</div>
+        <div class="poke-tier" style="color:var(--${p.tier})">${p.tier} &middot; $${basePrice}</div>
+      </div>`;
+    }).join('')||'<div class="empty" style="grid-column:1/-1"><p>No Pokemon found</p></div>';
+  }
 }
+function unskipPokemon(id){send({type:'unskipPokemon',pokemonId:id});}
 
 function setTier(t){tierF=t;renderGrid();}
 
@@ -1330,8 +1557,9 @@ function renderBid(){
   document.getElementById('b-types').innerHTML=[cp.type1,cp.type2].filter(Boolean)
     .map(t=>`<span class="type-pill" style="background:${TC[t]||'#888'}22;color:${TC[t]||'#888'};border:1px solid ${TC[t]||'#888'}40">${t}</span>`).join('');
   document.getElementById('b-nom').textContent=nominatedBy&&players[nominatedBy]?`Nominated by ${players[nominatedBy].name}`:'';
-  document.getElementById('b-amount').textContent='$'+bid;
-  document.getElementById('b-by').textContent=bidder&&players[bidder]?players[bidder].name:'No bids yet';
+  const baseBidPrice=gs.settings?.basePriceTier?.[cp.tier]||1;
+  document.getElementById('b-amount').textContent=bid>0?'$'+bid:'$0';
+  document.getElementById('b-by').textContent=bidder&&players[bidder]?players[bidder].name:`Base: $${baseBidPrice}`;
 
   // Green flash on new bid
   const bb=document.getElementById('bid-box');
@@ -1365,7 +1593,7 @@ function renderBid(){
     // Quick bid buttons: MIN (lowest valid bid), +25, +50, +100
     const inc=gs.settings?.bidIncrement||25;
     const isFirstBid=!gs.currentBidder;
-    const minBid=isFirstBid?bid:bid+inc;
+    const minBid=isFirstBid?baseBidPrice:bid+inc;
     document.getElementById('quick-bids').innerHTML=
       `<button class="qb qb-large" onclick="qBidBase()">MIN $${minBid}</button>`+
       `<button class="qb qb-large" onclick="qBidFixed(25)">+$25</button>`+
@@ -1373,7 +1601,7 @@ function renderBid(){
       `<button class="qb qb-large" onclick="qBidFixed(100)">+$100</button>`;
 
     const inp=document.getElementById('bid-in');
-    if(!inp.value||parseInt(inp.value)<=bid){
+    if(!inp.value||parseInt(inp.value)<minBid){
       inp.value=minBid;
     }
   }
@@ -1407,6 +1635,13 @@ function renderBid(){
   if(amSpectator&&paused){
     document.getElementById('spectator-bid-banner').innerHTML=
       'Paused - <button class="btn btn-blue btn-xs" onclick="requestJoinAsPlayer()">Request to Join as Player</button>';
+  }
+
+  // Live log panel — last 3 entries
+  const llp=document.getElementById('live-log-panel');
+  if(llp){
+    const entries=(gs.log||[]).slice(-3).reverse();
+    llp.innerHTML=entries.map(e=>`<div class="log-entry" style="font-size:9px;padding:3px 6px;margin-bottom:2px">${esc(e.msg)}</div>`).join('');
   }
 }
 
@@ -1448,6 +1683,11 @@ function updateTimer(){
     const interval=secs<=2?300:500;
     if(now-lastTickSound>interval){lastTickSound=now;sfxTick();}
   }
+  // Countdown audio: 3, 2, 1, SOLD!
+  if(secs<=3&&secs>=0&&rem>=0){
+    if(!countdownPlayed[secs]){countdownPlayed[secs]=true;sfxCountdown(secs);}
+  }
+  if(secs>4)countdownPlayed={};
 }
 
 function renderLog(){
@@ -1463,8 +1703,12 @@ function renderMyTeam(){
   const me=gs.players[myId];if(!me)return;
   const startB=gs.settings?.startingBudget||10000;
   const maxMon=gs.settings?.maxPokemon||0;
+  const bpct=Math.max(0,Math.min(100,(me.budget/startB)*100));
+  const budColor=bpct>50?'bud-green':bpct>20?'bud-amber':'bud-red';
   document.getElementById('my-budget').textContent='$'+me.budget;
-  document.getElementById('my-bfill').style.width=`${Math.max(0,Math.min(100,(me.budget/startB)*100))}%`;
+  const bfill=document.getElementById('my-bfill');
+  bfill.style.width=bpct+'%';
+  bfill.className='budget-fill '+budColor;
   document.getElementById('my-mon-count').textContent=me.roster?.length||0;
   document.getElementById('my-mon-cap').textContent=maxMon?`/ ${maxMon} max`:'';
   const r=document.getElementById('my-roster');
@@ -1480,13 +1724,15 @@ function renderMyTeam(){
 function renderAllTeams(){
   if(!gs)return;
   const container=document.getElementById('all-teams-view');
-  const players=Object.entries(gs.players).filter(([,p])=>!p.isSpectator&&!p.isNonParticipating);
+  const order=gs.playerOrder||Object.keys(gs.players);
+  const players=order.map(id=>[id,gs.players[id]]).filter(([,p])=>p&&!p.isSpectator&&!p.isNonParticipating);
   container.innerHTML=players.map(([id,p],i)=>{
     const isMe=id===myId;
     const col=PC[i%PC.length];
     const isOpen=currentDropOpen===id;
-    return`<div class="team-viewer">
-      <button class="team-dropdown-btn" onclick="toggleTeamDrop('${id}')" style="border-color:${col}44">
+    return`<div class="team-viewer" data-pid="${id}">
+      ${amAdmin?`<span class="drag-handle" draggable="true" ondragstart="dragPlayer(event,'${id}')" ondragover="event.preventDefault()" ondrop="dropPlayer(event,'${id}')">☰</span>`:''}
+      <button class="team-dropdown-btn" onclick="toggleTeamDrop('${id}')" style="border-color:${col}44;flex:1">
         <span style="display:flex;align-items:center;gap:6px">
           <span style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></span>
           <span style="font-weight:700;color:${col}">${esc(p.name)}${isMe?' (you)':''}</span>
@@ -1505,6 +1751,12 @@ function renderAllTeams(){
       </div>
     </div>`;
   }).join('');
+}
+let _dragPid=null;
+function dragPlayer(e,id){_dragPid=id;e.dataTransfer.effectAllowed='move';}
+function dropPlayer(e,targetId){
+  e.preventDefault();if(!_dragPid||_dragPid===targetId)return;
+  send({type:'reorderPlayers',fromId:_dragPid,toId:targetId});_dragPid=null;
 }
 function toggleTeamDrop(id){currentDropOpen=currentDropOpen===id?null:id;renderAllTeams();}
 
@@ -1538,6 +1790,7 @@ function renderResults(){
           <img src="${sprite(pk)}" width="38" height="38" onerror="this.style.opacity=0">
           <div class="rp-name">${esc(pk.name)}</div>
           <div class="rp-cost">$${pk.paid}</div>
+          <div class="rp-types">${pk.type1?`<span class="type-pill" style="background:${TC[pk.type1]||'#888'}22;color:${TC[pk.type1]||'#888'};border:1px solid ${TC[pk.type1]||'#888'}40;font-size:7px;padding:1px 4px">${pk.type1}</span>`:''}${pk.type2?`<span class="type-pill" style="background:${TC[pk.type2]||'#888'}22;color:${TC[pk.type2]||'#888'};border:1px solid ${TC[pk.type2]||'#888'}40;font-size:7px;padding:1px 4px">${pk.type2}</span>`:''}</div>
         </div>`).join('')}
         ${!p.roster?.length?'<div style="color:var(--muted);font-size:10px;grid-column:1/-1">No Pokemon won</div>':''}
       </div>
@@ -1548,6 +1801,8 @@ function renderResults(){
   if(rb)rb.style.display=amAdmin?'':'none';
   if(rrb)rrb.style.display=amAdmin?'':'none';
   if(urb)urb.style.display=amAdmin&&gs.canUndo?'':'none';
+  const edb=document.getElementById('export-discord-btn');
+  if(edb)edb.style.display=amAdmin?'':'none';
 }
 
 // ═══ TEAMS TAB ═══
@@ -1568,6 +1823,7 @@ function renderTeamsTab(){
               <img src="${sprite(pk)}" width="38" height="38" onerror="this.style.opacity=0">
               <div class="rp-name">${esc(pk.name)}</div>
               <div class="rp-cost">$${pk.paid}</div>
+              <div class="rp-types">${pk.type1?`<span class="type-pill" style="background:${TC[pk.type1]||'#888'}22;color:${TC[pk.type1]||'#888'};border:1px solid ${TC[pk.type1]||'#888'}40;font-size:7px;padding:1px 4px">${pk.type1}</span>`:''}${pk.type2?`<span class="type-pill" style="background:${TC[pk.type2]||'#888'}22;color:${TC[pk.type2]||'#888'};border:1px solid ${TC[pk.type2]||'#888'}40;font-size:7px;padding:1px 4px">${pk.type2}</span>`:''}</div>
             </div>`).join('')}
             ${!p.roster?.length?'<div style="color:var(--muted);font-size:10px;grid-column:1/-1;text-align:center;padding:10px">No Pokemon yet</div>':''}
           </div>
@@ -1627,7 +1883,7 @@ function renderDex(){
   document.getElementById('dex-grid').innerHTML=filtered.map(p=>{
     const gone=auctioned.has(p.id);
     const basePrice=gs?.settings?.basePriceTier?.[p.tier]||1;
-    return`<div class="dex-card" style="${gone?'opacity:0.4':''}" title="${esc(p.name)}">
+    return`<div class="dex-card" style="${gone?'opacity:0.4':''}" onmouseenter="showPreview(event,${JSON.stringify(p).replace(/"/g,'&quot;')})" onmouseleave="hidePreview()" ontouchstart="startPreviewLongPress(event,${JSON.stringify(p).replace(/"/g,'&quot;')})" ontouchend="cancelPreviewLongPress();hidePreview()">
       <div style="position:relative;display:inline-block">
         <img src="${sprite(p)}" width="64" height="64" onerror="this.style.opacity=0">
         ${gone?'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:20px">&#10003;</div>':''}
@@ -1646,19 +1902,20 @@ function setDexTier(t){dexTierF=t;renderDex();}
 // ═══ TEAM PLANNER TAB ═══
 function renderPlannerSlots(){
   const slots=document.getElementById('planner-slots');
-  const maxSlots=6;
+  const maxSetting=gs?.settings?.maxPokemon||6;
+  const maxSlots=maxSetting===0?12:maxSetting;
   document.getElementById('planner-count').textContent=`${plannerTeam.length}/${maxSlots}`;
   let html='';
   for(let i=0;i<maxSlots;i++){
     const mon=plannerTeam[i];
     if(mon){
-      html+=`<div class="planner-slot filled">
+      html+=`<div class="planner-slot filled" draggable="true" ondragstart="dragPlanSlot(event,${i})" ondragover="event.preventDefault()" ondrop="dropPlanSlot(event,${i})">
         <img src="${sprite(mon)}" width="56" height="56" onerror="this.style.opacity=0">
         <div style="font-size:9px;font-weight:700">${esc(mon.name)}</div>
         <span style="font-size:8px;color:var(--accent);cursor:pointer" onclick="removePlanner(${i})">Remove</span>
       </div>`;
     }else{
-      html+=`<div class="planner-slot"><span style="font-size:24px">+</span><span>Slot ${i+1}</span></div>`;
+      html+=`<div class="planner-slot" ondragover="event.preventDefault()" ondrop="dropPlanSlot(event,${i})"><span style="font-size:24px">+</span><span>Slot ${i+1}</span></div>`;
     }
   }
   slots.innerHTML=html;
@@ -1679,7 +1936,9 @@ function renderPlannerPool(){
   const inTeam=new Set(plannerTeam.map(m=>m.id));
   document.getElementById('planner-pool').innerHTML=filtered.map(p=>{
     const added=inTeam.has(p.id);
-    return`<div class="poke-card ${added?'selected':''}" onclick="addToPlanner(${p.id})">
+    const wished=isWishlisted(p.id);
+    return`<div class="poke-card ${added?'selected':''} ${wished?'wishlisted':''}" onclick="addToPlanner(${p.id})" style="position:relative">
+      <span class="wish-star" onclick="event.stopPropagation();toggleWishlist(${p.id});renderPlannerPool()">${wished?'⭐':'☆'}</span>
       <img src="${sprite(p)}" width="52" height="52" onerror="this.style.opacity=0">
       <div class="poke-name">${esc(p.name)}</div>
       <div class="poke-tier" style="color:var(--${p.tier})">${p.tier}</div>
@@ -1687,7 +1946,9 @@ function renderPlannerPool(){
   }).join('')||'<div class="empty" style="grid-column:1/-1"><p>No results</p></div>';
 }
 function addToPlanner(id){
-  if(plannerTeam.length>=6){toast('Team is full! (6 max)','err');return;}
+  const maxSetting=gs?.settings?.maxPokemon||6;
+  const maxSlots=maxSetting===0?12:maxSetting;
+  if(plannerTeam.length>=maxSlots){toast(`Team is full! (${maxSlots} max)`,'err');return;}
   const pool=gs?.allPokemon||[];
   const mon=pool.find(m=>m.id===id);
   if(!mon)return;
@@ -1699,6 +1960,18 @@ function addToPlanner(id){
 function removePlanner(i){plannerTeam.splice(i,1);localStorage.setItem('vgc_planner',JSON.stringify(plannerTeam));renderPlannerSlots();renderPlannerPool();}
 function clearPlanner(){plannerTeam=[];localStorage.setItem('vgc_planner','[]');renderPlannerSlots();renderPlannerPool();}
 function setPlannerTier(t){plannerTierF=t;renderPlannerPool();}
+let _dragPlanIdx=null;
+function dragPlanSlot(e,i){_dragPlanIdx=i;e.dataTransfer.effectAllowed='move';}
+function dropPlanSlot(e,targetIdx){
+  e.preventDefault();if(_dragPlanIdx===null||_dragPlanIdx===targetIdx)return;
+  const mon=plannerTeam[_dragPlanIdx];
+  plannerTeam.splice(_dragPlanIdx,1);
+  if(targetIdx>plannerTeam.length)targetIdx=plannerTeam.length;
+  plannerTeam.splice(targetIdx,0,mon);
+  _dragPlanIdx=null;
+  localStorage.setItem('vgc_planner',JSON.stringify(plannerTeam));
+  renderPlannerSlots();renderPlannerPool();
+}
 
 // ═══ PLAYER SEARCH TAB ═══
 function renderPlayerSearch(){

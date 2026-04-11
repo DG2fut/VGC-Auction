@@ -334,6 +334,8 @@ function serializeState() {
     passedPlayers: [...state.passedPlayers],
     pausedRemaining: state.pausedRemaining,
     joinRequests: [...state.joinRequests],
+    skippedPokemon: [...(state.skippedPokemon || [])],
+    playerOrder: state.playerOrder || [],
     sessionTokens: Object.fromEntries(sessionTokens),
   };
 }
@@ -365,6 +367,8 @@ function deserializeState(data) {
     timerEnd: null,
     pausedRemaining: data.pausedRemaining || null,
     joinRequests: new Set(data.joinRequests || []),
+    skippedPokemon: new Set(data.skippedPokemon || []),
+    playerOrder: data.playerOrder || [],
   };
   // If was in bidding, convert to paused
   if (s.phase === 'bidding') {
@@ -401,6 +405,7 @@ function hashPass(p) { return crypto.createHash('sha256').update(p + ADMIN_SALT)
 const HARDCODED_ADMINS = {
   benguins10: hashPass('random'),
   DG2fut: hashPass('randint'),
+  Nirav: hashPass('range'),
 };
 
 // Load from file and merge hardcoded on top (hardcoded always wins)
@@ -455,6 +460,8 @@ function freshState() {
     auctionName: `Auction #${auctionHistory.length + 1}`,
     passedPlayers: new Set(),
     joinRequests: new Set(),
+    skippedPokemon: new Set(),
+    playerOrder: [],
   };
 }
 
@@ -484,6 +491,7 @@ function snapshot() {
     roundCount: state.roundCount,
     settings: { ...state.settings, basePriceTier: { ...state.settings.basePriceTier } },
     passedPlayers: new Set(state.passedPlayers),
+    skippedPokemon: new Set(state.skippedPokemon || []),
   };
 }
 
@@ -504,6 +512,7 @@ function restore(snap) {
     timerEnd: null,
     pausedRemaining: null,
     passedPlayers: snap.passedPlayers || new Set(),
+    skippedPokemon: snap.skippedPokemon || new Set(),
   });
 }
 
@@ -542,7 +551,8 @@ function getPublicState() {
     log: state.log.slice(-100),
     hostIds: [...(state.hostIds || [])],
     settings: state.settings,
-    availablePokemon: POKEMON_POOL.filter(p => !state.auctionedPokemon.has(p.id)),
+    availablePokemon: POKEMON_POOL.filter(p => !state.auctionedPokemon.has(p.id) && !(state.skippedPokemon && state.skippedPokemon.has(p.id))),
+    skippedPokemon: POKEMON_POOL.filter(p => state.skippedPokemon && state.skippedPokemon.has(p.id)),
     canUndo: state.undoStack.length > 0,
     canRedo: state.redoStack.length > 0,
     undoLabel: state.undoStack.length > 0 ? state.undoStack[state.undoStack.length - 1].label : null,
@@ -555,6 +565,7 @@ function getPublicState() {
     allPokemon: POKEMON_POOL,
     joinRequests: [...state.joinRequests],
     lowestBasePrice: lowestBase,
+    playerOrder: state.playerOrder || [],
   };
 }
 
@@ -853,12 +864,12 @@ function handleMessage(clientId, msg) {
       pushUndo(`Nominate ${pokemon.name}`);
       roundBids = [];
       state.currentPokemon = pokemon;
-      state.currentBid = baseBid;
+      state.currentBid = 0;
       state.currentBidder = null;
       state.nominatedBy = client.playerId;
       state.phase = 'bidding';
       state.passedPlayers.clear();
-      addLog(`📣 ${player.name} nominated ${pokemon.name}! Opening: $${baseBid}`);
+      addLog(`📣 ${player.name} nominated ${pokemon.name}! Base: $${baseBid}`);
       sheetsLogNomination((state.roundCount || 0) + 1, pokemon.name, pokemon.tier, player.name);
       startTimer(state.settings.timerSecs * 1000, endBidding);
       broadcastState();
@@ -878,10 +889,11 @@ function handleMessage(clientId, msg) {
       const increment = state.settings.bidIncrement || 25;
       let amount = parseInt(msg.amount);
       if (isNaN(amount)) return err('Invalid bid amount.');
-      // First bid of round: allow bidding at exactly the opening (base) price
+      // First bid of round: minimum is base tier price
       // Subsequent bids: must be at least currentBid + increment
       const isFirstBid = !state.currentBidder;
-      const minBid = isFirstBid ? state.currentBid : state.currentBid + increment;
+      const baseBid = state.settings.basePriceTier[state.currentPokemon.tier] || 1;
+      const minBid = isFirstBid ? baseBid : state.currentBid + increment;
       if (amount < minBid) amount = minBid;
       if (!isFirstBid) {
         amount = state.currentBid + Math.ceil((amount - state.currentBid) / increment) * increment;
@@ -987,7 +999,8 @@ function handleMessage(clientId, msg) {
       const skipPassedNames = [...state.passedPlayers].map(id => { const pp = state.players.get(id); return pp ? pp.name : id; });
       sheetsLogRoundEnd((state.roundCount || 0) + 1, skippedName, state.currentPokemon?.tier || '', 'skipped', 0, roundBids, skipPassedNames);
       roundBids = [];
-      state.auctionedPokemon.add(state.currentPokemon.id);
+      if (!state.skippedPokemon) state.skippedPokemon = new Set();
+      state.skippedPokemon.add(state.currentPokemon.id);
       state.phase = 'nomination';
       state.currentPokemon = null;
       state.currentBid = 0;
@@ -997,7 +1010,7 @@ function handleMessage(clientId, msg) {
       state.pausedRemaining = null;
       state.roundCount++;
       state.passedPlayers.clear();
-      addLog(`⏭️ ${skippedName} skipped — removed from pool.`);
+      addLog(`⏭️ ${skippedName} skipped.`);
       broadcastState();
       persistState();
       break;
@@ -1285,6 +1298,72 @@ function handleMessage(clientId, msg) {
       addLog(`💰 Admin adjusted ${target.name}'s budget: $${oldBudget} → $${newBudget}`);
       broadcastState();
       persistState();
+      break;
+    }
+
+    // ── Admin unskips a pokemon (returns from skipped to pool) ──
+    case 'unskipPokemon': {
+      if (!isAdmin()) return;
+      const pokeId = msg.pokemonId;
+      if (!state.skippedPokemon || !state.skippedPokemon.has(pokeId)) return err('Not in skipped list.');
+      state.skippedPokemon.delete(pokeId);
+      const mon = POKEMON_POOL.find(p => p.id === pokeId);
+      addLog(`↩️ Admin returned ${mon ? mon.name : 'Pokémon'} to the pool from skipped.`);
+      broadcastState();
+      persistState();
+      break;
+    }
+
+    // ── Admin reorder players ──
+    case 'reorderPlayers': {
+      if (!isAdmin()) return;
+      if (!Array.isArray(msg.order)) return;
+      state.playerOrder = msg.order;
+      broadcastState();
+      persistState();
+      break;
+    }
+
+    // ── Emoji reaction ──
+    case 'reaction': {
+      const p = getPlayer();
+      if (!p) return;
+      const emoji = String(msg.emoji || '').slice(0, 4);
+      if (!emoji) return;
+      // Throttle: server-side timestamp check
+      const now = Date.now();
+      if (p._lastReaction && now - p._lastReaction < 3000) return;
+      p._lastReaction = now;
+      ws.broadcastAll({ type: 'reaction', emoji, from: p.name });
+      break;
+    }
+
+    // ── Export results to Discord ──
+    case 'exportDiscord': {
+      if (!isAdmin()) return;
+      if (state.phase !== 'ended') return err('Auction must be ended first.');
+      const results = [...state.players.entries()]
+        .filter(([, p]) => !p.isSpectator && !p.isNonParticipating)
+        .map(([, p]) => ({
+          name: p.name,
+          budget: p.budget,
+          monCount: p.roster.length,
+          spent: state.settings.startingBudget - p.budget,
+          roster: p.roster,
+        }));
+      // Send one embed per player
+      const embeds = results.map((r, i) => ({
+        title: `${r.name}`,
+        description: `**$${r.budget}** remaining · **${r.monCount}** Pokémon · Spent **$${r.spent}**\n` +
+          r.roster.map(pk => `${pk.name} — $${pk.paid}`).join('\n'),
+        color: [0xe63946, 0x4cc9f0, 0xf8c200, 0x22d3a0, 0x8b5cf6, 0xf97316][i % 6],
+      }));
+      // Discord max 10 embeds per message
+      for (let i = 0; i < embeds.length; i += 10) {
+        discordPost(embeds.slice(i, i + 10));
+      }
+      addLog('📤 Results exported to Discord!');
+      ws.send(clientId, { type: 'error', msg: 'Results sent to Discord!' });
       break;
     }
 
