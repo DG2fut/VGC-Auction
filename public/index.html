@@ -304,8 +304,8 @@ header{
 .player-card.passed-round{opacity:.45;filter:grayscale(.5)}
 .player-card.passed-round .p-name{text-decoration:line-through}
 
-/* LIVE LOG PANEL */
-.live-log-panel{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px;margin-top:8px;max-height:100px;overflow:hidden}
+/* LIVE LOG PANEL — mobile only */
+.live-log-panel{display:none;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px;margin-top:8px;max-height:100px;overflow:hidden}
 .live-log-panel .log-entry{animation:log-fade .4s ease}
 @keyframes log-fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
@@ -316,13 +316,6 @@ header{
 .reaction-btn{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:18px;cursor:pointer;transition:all .15s}
 .reaction-btn:hover{transform:scale(1.2);border-color:var(--gold)}
 
-/* PREVIEW TOOLTIP */
-.poke-preview{position:fixed;z-index:500;background:var(--panel);border:2px solid var(--border2);border-radius:12px;padding:14px;text-align:center;pointer-events:none;box-shadow:0 10px 40px rgba(0,0,0,.6);min-width:160px}
-.poke-preview img{width:96px;height:96px;image-rendering:pixelated}
-.poke-preview .pv-name{font-weight:800;font-size:13px;margin:4px 0 2px}
-.poke-preview .pv-types{display:flex;gap:4px;justify-content:center;margin-bottom:4px}
-.poke-preview .pv-info{font-size:10px;color:var(--muted)}
-
 /* WISHLIST */
 .wishlisted{border-color:var(--gold)!important;box-shadow:0 0 8px rgba(248,194,0,.2)}
 .wish-star{position:absolute;top:3px;right:3px;font-size:12px;cursor:pointer;z-index:2}
@@ -332,24 +325,16 @@ header{
 .budget-fill.bud-amber{background:linear-gradient(90deg,var(--orange),#f97316cc)}
 .budget-fill.bud-red{background:linear-gradient(90deg,var(--accent),#e63946cc)}
 
-/* DRAG HANDLE */
-.drag-handle{cursor:grab;font-size:14px;color:var(--muted);padding:0 6px;user-select:none}
-.drag-handle:active{cursor:grabbing}
 .planner-slot{position:relative}
 .planner-slot.drag-over{border:2px dashed var(--gold)!important}
 .planner-slot .drag-grip{position:absolute;top:4px;left:4px;cursor:grab;font-size:10px;color:var(--muted)}
-
-/* LOGOUT */
-#logout-btn{position:fixed;top:10px;right:60px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--muted);font-size:10px;font-weight:700;cursor:pointer;z-index:150;transition:all .15s}
-#logout-btn:hover{color:var(--accent);border-color:var(--accent)}
 
 /* CONFETTI CANVAS */
 #confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:350}
 .rp-cost{font-size:8px;color:var(--gold)}
 
 /* TEAMS DROPDOWN */
-.team-viewer{margin-bottom:12px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
-.team-viewer .team-roster-drop{width:100%}
+.team-viewer{margin-bottom:12px}
 .team-dropdown-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;font-size:12px;font-weight:600;transition:all .2s}
 .team-dropdown-btn:hover{border-color:var(--border2)}
 .team-roster-drop{display:none;background:var(--bg2);border:1px solid var(--border);border-radius:0 0 8px 8px;padding:10px;margin-top:-1px}
@@ -428,6 +413,7 @@ header{
   .btn-pass-mobile{min-height:54px;font-size:16px;font-weight:900;padding:14px 20px;width:100%;justify-content:center}
   .bid-input{min-height:48px;font-size:18px}
   .bid-controls .bid-input-row .btn{min-height:48px;font-size:16px;padding:12px 24px}
+  .live-log-panel{display:block}
 }
 </style>
 </head>
@@ -505,8 +491,9 @@ header{
       <div id="phase-chip" class="phase-chip phase-lobby">LOBBY</div>
       <div id="round-info" style="display:none;font-size:10px;color:var(--muted)">Round <span id="round-num">0</span> &middot; <span id="pool-left">?</span> left</div>
     </div>
-    <div style="display:flex;gap:6px;align-items:center">
-      <span id="my-badge" style="font-size:10px;color:var(--muted)"></span>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span id="my-badge" style="font-size:9px;color:var(--muted);background:var(--bg3);padding:3px 8px;border-radius:12px;border:1px solid var(--border)"></span>
+      <button id="logout-btn-header" onclick="doLogout()" class="btn btn-danger btn-xs" style="display:none">Log Out</button>
     </div>
   </header>
 
@@ -712,11 +699,13 @@ header{
                 <!-- REACTION BAR -->
                 <div class="reaction-bar" id="reaction-bar">
                   <span class="reaction-btn" onclick="sendReaction('🔥')">🔥</span>
-                  <span class="reaction-btn" onclick="sendReaction('😮')">😮</span>
+                  <span class="reaction-btn" onclick="sendReaction('🥺')">🥺</span>
                   <span class="reaction-btn" onclick="sendReaction('👏')">👏</span>
                   <span class="reaction-btn" onclick="sendReaction('😂')">😂</span>
                   <span class="reaction-btn" onclick="sendReaction('💀')">💀</span>
-                  <span class="reaction-btn" onclick="sendReaction('⚡')">⚡</span>
+                  <span class="reaction-btn" onclick="sendReaction('😭')">😭</span>
+                  <span class="reaction-btn" onclick="sendReaction('🥰')">🥰</span>
+                  <span class="reaction-btn" onclick="sendReaction('🍆')">🍆</span>
                 </div>
 
                 <div class="admin-bar" id="admin-bid-bar" style="display:none">
@@ -782,7 +771,7 @@ header{
       <!-- ══ TEAMS TAB ══ -->
       <div id="tab-teams" class="tab-panel" style="display:none">
         <div class="panel">
-          <div class="panel-head">ALL PLAYER TEAMS</div>
+          <div class="panel-head">ALL PLAYER TEAMS <button class="btn btn-ghost btn-xs" id="randomize-order-btn" onclick="randomizeTeamOrder()" style="display:none;margin-left:auto">🔀 Randomize</button></div>
           <div class="panel-body"><div id="teams-content"><div class="empty"><div class="ei">&#127935;</div><p>No active auction</p></div></div></div>
         </div>
       </div>
@@ -871,14 +860,8 @@ header{
 <!-- MUTE BUTTON -->
 <button id="mute-btn" onclick="toggleMute()" title="Toggle Sound">&#128266;</button>
 
-<!-- LOGOUT BUTTON -->
-<button id="logout-btn" onclick="doLogout()" style="display:none">Log Out</button>
-
 <!-- CONFETTI CANVAS -->
 <canvas id="confetti-canvas"></canvas>
-
-<!-- PREVIEW TOOLTIP -->
-<div class="poke-preview" id="poke-preview" style="display:none"></div>
 
 <!-- REACTION CONTAINER -->
 <div id="reaction-container"></div>
@@ -921,7 +904,6 @@ let currentDropOpen=null;
 let prevBidder=null, prevPhase=null, prevBid=0;
 let lastTickSound=0;
 let wishlist=JSON.parse(localStorage.getItem('vgc_wishlist')||'[]');
-let lastReactionTime=0;
 let countdownPlayed={};
 
 // ═══ Session persistence ═══
@@ -1026,9 +1008,6 @@ function fireConfetti(full){
 
 // ═══ Reactions ═══
 function sendReaction(emoji){
-  const now=Date.now();
-  if(now-lastReactionTime<3000){toast('Wait a moment...','err');return;}
-  lastReactionTime=now;
   send({type:'reaction',emoji});
 }
 function showReactionFloat(emoji){
@@ -1059,30 +1038,6 @@ function toggleWishlist(id){
   renderGrid();
 }
 function isWishlisted(id){return wishlist.includes(id);}
-
-// ═══ Preview tooltip ═══
-let previewTimeout=null;
-function showPreview(e,p){
-  clearTimeout(previewTimeout);
-  const el=document.getElementById('poke-preview');
-  const bp=gs?.settings?.basePriceTier?.[p.tier]||1;
-  el.innerHTML=`<img src="${sprite(p)}" width="96" height="96" style="image-rendering:pixelated">
-    <div class="pv-name">${esc(p.name)}</div>
-    <div class="pv-types">${[p.type1,p.type2].filter(Boolean).map(t=>`<span class="type-pill" style="background:${TC[t]||'#888'}22;color:${TC[t]||'#888'};border:1px solid ${TC[t]||'#888'}40">${t}</span>`).join('')}</div>
-    <div class="pv-info">${p.tier} Tier · Base $${bp}</div>`;
-  const rect=e.target.closest('.poke-card,.dex-card').getBoundingClientRect();
-  el.style.left=Math.min(rect.left,window.innerWidth-180)+'px';
-  el.style.top=Math.max(0,rect.top-200)+'px';
-  el.style.display='';
-}
-function hidePreview(){
-  clearTimeout(previewTimeout);
-  document.getElementById('poke-preview').style.display='none';
-}
-function startPreviewLongPress(e,p){
-  previewTimeout=setTimeout(()=>{e.preventDefault();showPreview(e,p);},400);
-}
-function cancelPreviewLongPress(){clearTimeout(previewTimeout);}
 
 // ═══ WebSocket ═══
 function wsURL(){const proto=location.protocol==='https:'?'wss':'ws';return`${proto}://${location.host}`;}
@@ -1375,8 +1330,8 @@ function render(){
   else if(phase==='bidding'||phase==='paused'){document.getElementById('v-bid').style.display='';renderBid();}
   else if(phase==='ended'){document.getElementById('v-results').style.display='';renderResults();}
 
-  // Logout button
-  const logBtn=document.getElementById('logout-btn');
+  // Logout button in header
+  const logBtn=document.getElementById('logout-btn-header');
   if(logBtn)logBtn.style.display=myId?'':'none';
 
   renderPlayers();
@@ -1508,7 +1463,7 @@ function renderGrid(){
   if(tierF==='SKIP'){
     grid.innerHTML=filtered.length?filtered.map(p=>{
       const basePrice=gs.settings?.basePriceTier?.[p.tier]||1;
-      return`<div class="poke-card" style="opacity:.7" onmouseenter="showPreview(event,gs.skippedPokemon.find(x=>x.id===${p.id})||${JSON.stringify(p).replace(/"/g,'&quot;')})" onmouseleave="hidePreview()" ontouchstart="startPreviewLongPress(event,${JSON.stringify(p).replace(/"/g,'&quot;')})" ontouchend="cancelPreviewLongPress();hidePreview()">
+      return`<div class="poke-card" style="opacity:.7">
         <img src="${sprite(p)}" width="52" height="52" onerror="this.style.opacity=0">
         <div class="poke-name">${esc(p.name)}</div>
         <div class="poke-tier" style="color:var(--muted)">Skipped &middot; $${basePrice}</div>
@@ -1520,7 +1475,7 @@ function renderGrid(){
       const sel=nomPoke?.id===p.id;
       const basePrice=gs.settings?.basePriceTier?.[p.tier]||1;
       const wished=isWishlisted(p.id);
-      return`<div class="poke-card ${sel?'selected':''} ${wished?'wishlisted':''}" onclick="selectNom(${p.id})" onmouseenter="showPreview(event,${JSON.stringify(p).replace(/"/g,'&quot;')})" onmouseleave="hidePreview()" ontouchstart="startPreviewLongPress(event,${JSON.stringify(p).replace(/"/g,'&quot;')})" ontouchend="cancelPreviewLongPress();hidePreview()">
+      return`<div class="poke-card ${sel?'selected':''} ${wished?'wishlisted':''}" onclick="selectNom(${p.id})" style="position:relative">
         <span class="wish-star" onclick="event.stopPropagation();toggleWishlist(${p.id})">${wished?'⭐':'☆'}</span>
         <img src="${sprite(p)}" width="52" height="52" onerror="this.style.opacity=0">
         <div class="poke-name">${esc(p.name)}</div>
@@ -1724,15 +1679,13 @@ function renderMyTeam(){
 function renderAllTeams(){
   if(!gs)return;
   const container=document.getElementById('all-teams-view');
-  const order=gs.playerOrder||Object.keys(gs.players);
-  const players=order.map(id=>[id,gs.players[id]]).filter(([,p])=>p&&!p.isSpectator&&!p.isNonParticipating);
+  const players=Object.entries(gs.players).filter(([,p])=>!p.isSpectator&&!p.isNonParticipating);
   container.innerHTML=players.map(([id,p],i)=>{
     const isMe=id===myId;
     const col=PC[i%PC.length];
     const isOpen=currentDropOpen===id;
-    return`<div class="team-viewer" data-pid="${id}">
-      ${amAdmin?`<span class="drag-handle" draggable="true" ondragstart="dragPlayer(event,'${id}')" ondragover="event.preventDefault()" ondrop="dropPlayer(event,'${id}')">☰</span>`:''}
-      <button class="team-dropdown-btn" onclick="toggleTeamDrop('${id}')" style="border-color:${col}44;flex:1">
+    return`<div class="team-viewer">
+      <button class="team-dropdown-btn" onclick="toggleTeamDrop('${id}')" style="border-color:${col}44">
         <span style="display:flex;align-items:center;gap:6px">
           <span style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></span>
           <span style="font-weight:700;color:${col}">${esc(p.name)}${isMe?' (you)':''}</span>
@@ -1752,13 +1705,8 @@ function renderAllTeams(){
     </div>`;
   }).join('');
 }
-let _dragPid=null;
-function dragPlayer(e,id){_dragPid=id;e.dataTransfer.effectAllowed='move';}
-function dropPlayer(e,targetId){
-  e.preventDefault();if(!_dragPid||_dragPid===targetId)return;
-  send({type:'reorderPlayers',fromId:_dragPid,toId:targetId});_dragPid=null;
-}
 function toggleTeamDrop(id){currentDropOpen=currentDropOpen===id?null:id;renderAllTeams();}
+function randomizeTeamOrder(){send({type:'randomizeOrder'});}
 
 function renderResults(){
   const players=Object.entries(gs.players).filter(([,p])=>!p.isSpectator&&!p.isNonParticipating).sort((a,b)=>b[1].roster.length-a[1].roster.length);
@@ -1807,8 +1755,11 @@ function renderResults(){
 
 // ═══ TEAMS TAB ═══
 function renderTeamsTab(){
+  const rb=document.getElementById('randomize-order-btn');
+  if(rb)rb.style.display=amAdmin?'':'none';
   if(!gs){document.getElementById('teams-content').innerHTML='<div class="empty"><div class="ei">&#127935;</div><p>No active auction</p></div>';return;}
-  const players=Object.entries(gs.players).filter(([,p])=>!p.isSpectator&&!p.isNonParticipating);
+  const order=gs.playerOrder&&gs.playerOrder.length?gs.playerOrder:Object.keys(gs.players);
+  const players=order.map(id=>[id,gs.players[id]]).filter(([,p])=>p&&!p.isSpectator&&!p.isNonParticipating);
   document.getElementById('teams-content').innerHTML=`
     <div class="results-grid">
       ${players.map(([id,p],i)=>{
@@ -1883,7 +1834,7 @@ function renderDex(){
   document.getElementById('dex-grid').innerHTML=filtered.map(p=>{
     const gone=auctioned.has(p.id);
     const basePrice=gs?.settings?.basePriceTier?.[p.tier]||1;
-    return`<div class="dex-card" style="${gone?'opacity:0.4':''}" onmouseenter="showPreview(event,${JSON.stringify(p).replace(/"/g,'&quot;')})" onmouseleave="hidePreview()" ontouchstart="startPreviewLongPress(event,${JSON.stringify(p).replace(/"/g,'&quot;')})" ontouchend="cancelPreviewLongPress();hidePreview()">
+    return`<div class="dex-card" style="${gone?'opacity:0.4':''}" title="${esc(p.name)}">
       <div style="position:relative;display:inline-block">
         <img src="${sprite(p)}" width="64" height="64" onerror="this.style.opacity=0">
         ${gone?'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:20px">&#10003;</div>':''}

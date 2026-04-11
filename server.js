@@ -625,8 +625,10 @@ function endBidding(reason) {
       roundEntry.finalBid = state.currentBid;
     }
   } else if (state.currentPokemon) {
-    state.auctionedPokemon.add(state.currentPokemon.id);
-    addLog(`⏩ No bids — ${state.currentPokemon.name} goes unsold.`);
+    // Unsold Pokemon go to skipped pool (can be returned later)
+    if (!state.skippedPokemon) state.skippedPokemon = new Set();
+    state.skippedPokemon.add(state.currentPokemon.id);
+    addLog(`⏩ No bids — ${state.currentPokemon.name} goes unsold (moved to Skipped).`);
     soldEvent = { winner: null, pokemon: state.currentPokemon.name, amount: 0, unsold: true };
     roundEntry.winner = 'unsold';
   }
@@ -1315,10 +1317,19 @@ function handleMessage(clientId, msg) {
     }
 
     // ── Admin reorder players ──
-    case 'reorderPlayers': {
+    case 'randomizeOrder': {
       if (!isAdmin()) return;
-      if (!Array.isArray(msg.order)) return;
-      state.playerOrder = msg.order;
+      // Shuffle the player IDs (Fisher-Yates)
+      const ids = [...state.players.keys()].filter(id => {
+        const p = state.players.get(id);
+        return p && !p.isSpectator && !p.isNonParticipating;
+      });
+      for (let i = ids.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [ids[i], ids[j]] = [ids[j], ids[i]];
+      }
+      state.playerOrder = ids;
+      addLog('🔀 Draft order randomized by admin.');
       broadcastState();
       persistState();
       break;
@@ -1330,10 +1341,6 @@ function handleMessage(clientId, msg) {
       if (!p) return;
       const emoji = String(msg.emoji || '').slice(0, 4);
       if (!emoji) return;
-      // Throttle: server-side timestamp check
-      const now = Date.now();
-      if (p._lastReaction && now - p._lastReaction < 3000) return;
-      p._lastReaction = now;
       ws.broadcastAll({ type: 'reaction', emoji, from: p.name });
       break;
     }
@@ -1351,12 +1358,20 @@ function handleMessage(clientId, msg) {
           spent: state.settings.startingBudget - p.budget,
           roster: p.roster,
         }));
-      // Send one embed per player
+      // Send one embed per player with sprite images
+      const spriteUrl = (pk) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pk.spriteId || pk.dex}.png`;
       const embeds = results.map((r, i) => ({
         title: `${r.name}`,
-        description: `**$${r.budget}** remaining · **${r.monCount}** Pokémon · Spent **$${r.spent}**\n` +
+        description: `**$${r.budget}** remaining · **${r.monCount}** Pokémon · Spent **$${r.spent}**\n\n` +
           r.roster.map(pk => `${pk.name} — $${pk.paid}`).join('\n'),
         color: [0xe63946, 0x4cc9f0, 0xf8c200, 0x22d3a0, 0x8b5cf6, 0xf97316][i % 6],
+        thumbnail: r.roster.length ? { url: spriteUrl(r.roster[0]) } : undefined,
+        image: r.roster.length > 1 ? { url: spriteUrl(r.roster[r.roster.length - 1]) } : undefined,
+        fields: r.roster.length ? [{
+          name: 'Team',
+          value: r.roster.map(pk => `[${pk.name}](${spriteUrl(pk)})`).join(' · '),
+          inline: false,
+        }] : [],
       }));
       // Discord max 10 embeds per message
       for (let i = 0; i < embeds.length; i += 10) {
