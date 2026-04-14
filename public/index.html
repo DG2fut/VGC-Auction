@@ -48,7 +48,7 @@ input,button,select{font-family:'Inter',sans-serif}
 @keyframes hero-in{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
 .pokeball-spin{
   width:160px;height:160px;border-radius:50%;margin:0 auto 24px;
-  background:conic-gradient(#f63b3b(--accent) 0deg 180deg,#c8ddf5 180deg 360deg);
+  background:conic-gradient(var(--accent) 0deg 180deg,#c8ddf5 180deg 360deg);
   position:relative;border:4px solid rgba(91,190,245,0.25);
   box-shadow:0 0 80px rgba(59,130,246,0.4),0 0 160px rgba(56,189,248,0.15);
   animation:spin-art 10s linear infinite;
@@ -164,7 +164,7 @@ header{
 
 /* LOBBY */
 .lobby-hero{text-align:center;padding:32px 20px}
-.lobby-pokeball{width:80px;height:80px;margin:0 auto 16px;border-radius:50%;background:conic-gradient(#f63b3b(--accent) 0deg 180deg,#c8ddf5 180deg 360deg);position:relative;border:3px solid var(--border2);animation:spin-art 8s linear infinite;box-shadow:0 0 40px rgba(59,130,246,.3)}
+.lobby-pokeball{width:80px;height:80px;margin:0 auto 16px;border-radius:50%;background:conic-gradient(var(--accent) 0deg 180deg,#c8ddf5 180deg 360deg);position:relative;border:3px solid var(--border2);animation:spin-art 8s linear infinite;box-shadow:0 0 40px rgba(59,130,246,.3)}
 .lobby-pokeball::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:var(--bg);border:3px solid var(--border2)}
 .lobby-pokeball::before{content:'';position:absolute;top:50%;left:0;right:0;height:3px;background:var(--border2);transform:translateY(-50%)}
 .lobby-title{font-family:'Press Start 2P',monospace;font-size:13px;color:var(--gold);margin-bottom:6px}
