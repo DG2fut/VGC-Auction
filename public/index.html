@@ -48,14 +48,15 @@ input,button,select{font-family:'Inter',sans-serif}
 @keyframes hero-in{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
 .pokeball-spin{
   width:160px;height:160px;border-radius:50%;margin:0 auto 24px;
-  background:conic-gradient(var(--accent) 0deg 180deg,#c8ddf5 180deg 360deg);
-  position:relative;border:4px solid rgba(91,190,245,0.25);
-  box-shadow:0 0 80px rgba(59,130,246,0.4),0 0 160px rgba(56,189,248,0.15);
+  background:linear-gradient(to bottom, #f63b3b 0%, #f63b3b 47%, #222 47%, #222 53%, #fff 53%, #fff 100%);
+  position:relative;border:4px solid #333;
+  box-shadow:0 0 60px rgba(246,59,59,0.3),0 0 120px rgba(59,130,246,0.15);
   animation:spin-art 10s linear infinite;
+  overflow:hidden;
 }
 @keyframes spin-art{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.pokeball-spin::before{content:'';position:absolute;top:50%;left:0;right:0;height:4px;background:rgba(96,184,255,0.2);transform:translateY(-50%)}
-.pokeball-spin::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:var(--bg);border:4px solid rgba(96,184,255,0.2);z-index:1}
+.pokeball-spin::before{content:'';position:absolute;top:50%;left:0;right:0;height:8px;background:#222;transform:translateY(-50%);z-index:1}
+.pokeball-spin::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:#fff;border:6px solid #333;z-index:2;box-shadow:0 0 0 4px #555,0 0 20px rgba(0,0,0,0.5)}
 .hero-title{font-family:'Press Start 2P',monospace;font-size:22px;color:var(--gold);text-shadow:0 0 30px rgba(96,184,255,0.5);line-height:1.5;margin-bottom:8px}
 .hero-sub{color:var(--muted);font-size:13px;letter-spacing:1px}
 .login-card{background:var(--panel);border:1px solid var(--border2);border-radius:20px;padding:36px;width:400px;max-width:95vw;animation:card-in 0.8s ease-out 0.2s both}
@@ -164,9 +165,9 @@ header{
 
 /* LOBBY */
 .lobby-hero{text-align:center;padding:32px 20px}
-.lobby-pokeball{width:80px;height:80px;margin:0 auto 16px;border-radius:50%;background:conic-gradient(var(--accent) 0deg 180deg,#c8ddf5 180deg 360deg);position:relative;border:3px solid var(--border2);animation:spin-art 8s linear infinite;box-shadow:0 0 40px rgba(59,130,246,.3)}
-.lobby-pokeball::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:var(--bg);border:3px solid var(--border2)}
-.lobby-pokeball::before{content:'';position:absolute;top:50%;left:0;right:0;height:3px;background:var(--border2);transform:translateY(-50%)}
+.lobby-pokeball{width:80px;height:80px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(to bottom, #f63b3b 0%, #f63b3b 47%, #222 47%, #222 53%, #fff 53%, #fff 100%);position:relative;border:3px solid #333;animation:spin-art 8s linear infinite;box-shadow:0 0 40px rgba(246,59,59,.2);overflow:hidden}
+.lobby-pokeball::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:#fff;border:4px solid #333;z-index:2;box-shadow:0 0 0 3px #555}
+.lobby-pokeball::before{content:'';position:absolute;top:50%;left:0;right:0;height:6px;background:#222;transform:translateY(-50%);z-index:1}
 .lobby-title{font-family:'Press Start 2P',monospace;font-size:13px;color:var(--gold);margin-bottom:6px}
 .lobby-sub{font-size:12px;color:var(--muted)}
 .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
@@ -368,10 +369,16 @@ header{
 
 /* TEAM PLANNER TAB */
 .planner-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:16px}
-.planner-slot{background:var(--bg3);border:2px dashed var(--border);border-radius:10px;height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:10px;color:var(--muted);gap:6px}
+.planner-slot{background:var(--bg3);border:2px dashed var(--border);border-radius:10px;min-height:100px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:10px;color:var(--muted);gap:4px}
 .planner-slot:hover{border-color:var(--border2);background:var(--bg2)}
 .planner-slot.filled{border-style:solid;border-color:var(--border2)}
 .planner-slot img{width:56px;height:56px;image-rendering:pixelated}
+.planner-budget-tracker{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px}
+.planner-budget-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.planner-budget-lbl{font-size:10px;color:var(--muted);font-weight:600}
+.planner-budget-val{font-family:'Press Start 2P',monospace;font-size:9px;color:var(--gold)}
+.planner-budget-bar{height:6px;background:var(--border);border-radius:3px;margin-top:8px;overflow:hidden}
+.planner-budget-fill{height:100%;border-radius:3px;transition:width .4s}
 
 /* PLAYER SEARCH TAB */
 .player-search-box{padding:10px 14px;background:var(--bg3);border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;width:100%;margin-bottom:12px}
@@ -814,6 +821,21 @@ header{
           <div class="panel-head">MY PLANNED TEAM <span id="planner-count" style="color:var(--muted)">0/6</span></div>
           <div class="panel-body">
             <div id="planner-slots" class="planner-grid"></div>
+            <div id="planner-budget-section" class="planner-budget-tracker">
+              <div class="planner-budget-row">
+                <span class="planner-budget-lbl">Starting Budget</span>
+                <span class="planner-budget-val" id="planner-start-budget">$0</span>
+              </div>
+              <div class="planner-budget-row">
+                <span class="planner-budget-lbl">Estimated Cost</span>
+                <span class="planner-budget-val" id="planner-est-cost" style="color:var(--orange)">$0</span>
+              </div>
+              <div class="planner-budget-row">
+                <span class="planner-budget-lbl">Remaining Budget</span>
+                <span class="planner-budget-val" id="planner-remaining">$0</span>
+              </div>
+              <div class="planner-budget-bar"><div class="planner-budget-fill" id="planner-bfill" style="width:100%"></div></div>
+            </div>
             <div class="div"></div>
             <div style="font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:700">TYPE COVERAGE</div>
             <div id="planner-types" style="display:flex;gap:4px;flex-wrap:wrap"></div>
@@ -1735,8 +1757,6 @@ function renderResults(){
   document.getElementById('results-grid').innerHTML=players.map(([id,p],i)=>{
     const col=PC[i%PC.length];
     const delay=i*0.1;
-    const types=new Set();
-    (p.roster||[]).forEach(pk=>{if(pk.type1)types.add(pk.type1);if(pk.type2)types.add(pk.type2);});
     return`<div class="result-card" style="border-color:${col}44;animation-delay:${delay}s">
       <div class="result-player" style="color:${col}">${p.isHost||p.isAdmin?'&#128081; ':''}${esc(p.name)}</div>
       <div class="result-meta">$${p.budget} left &middot; ${p.roster?.length||0} Pokemon &middot; Spent $${(p.roster||[]).reduce((s,pk)=>s+pk.paid,0)}</div>
@@ -1749,7 +1769,6 @@ function renderResults(){
         </div>`).join('')}
         ${!p.roster?.length?'<div style="color:var(--muted);font-size:10px;grid-column:1/-1">No Pokemon won</div>':''}
       </div>
-      ${types.size?`<div style="display:flex;gap:3px;flex-wrap:wrap;margin-top:8px">${[...types].map(t=>`<span class="type-pill" style="background:${TC[t]||'#888'}22;color:${TC[t]||'#888'};border:1px solid ${TC[t]||'#888'}40;font-size:8px">${t}</span>`).join('')}</div>`:''}
     </div>`;
   }).join('');
   const rb=document.getElementById('reset-btn'),rrb=document.getElementById('restart-btn'),urb=document.getElementById('undo-results-btn');
@@ -1768,8 +1787,6 @@ function renderTeamsTab(){
     <div class="results-grid">
       ${players.map(([id,p],i)=>{
         const col=PC[i%PC.length];
-        const types=new Set();
-        (p.roster||[]).forEach(pk=>{if(pk.type1)types.add(pk.type1);if(pk.type2)types.add(pk.type2);});
         return`<div class="result-card" style="border-color:${col}44">
           <div class="result-player" style="color:${col}">${esc(p.name)}${id===myId?' <span style="font-size:10px;font-weight:400">(you)</span>':''}</div>
           <div class="result-meta">$${p.budget} remaining &middot; ${p.roster?.length||0} Pokemon</div>
@@ -1782,7 +1799,6 @@ function renderTeamsTab(){
             </div>`).join('')}
             ${!p.roster?.length?'<div style="color:var(--muted);font-size:10px;grid-column:1/-1;text-align:center;padding:10px">No Pokemon yet</div>':''}
           </div>
-          ${types.size?`<div style="display:flex;gap:3px;flex-wrap:wrap;margin-top:8px">${[...types].map(t=>`<span class="type-pill" style="background:${TC[t]||'#888'}22;color:${TC[t]||'#888'};border:1px solid ${TC[t]||'#888'}40;font-size:8px">${t}</span>`).join('')}</div>`:''}
         </div>`;
       }).join('')}
     </div>`;
@@ -1860,13 +1876,21 @@ function renderPlannerSlots(){
   const maxSetting=gs?.settings?.maxPokemon||6;
   const maxSlots=maxSetting===0?12:maxSetting;
   document.getElementById('planner-count').textContent=`${plannerTeam.length}/${maxSlots}`;
+  const basePrices=gs?.settings?.basePriceTier||{S:500,A:250,B:100,C:50};
   let html='';
+  let totalEstCost=0;
   for(let i=0;i<maxSlots;i++){
     const mon=plannerTeam[i];
     if(mon){
+      const basePrice=basePrices[mon.tier]||0;
+      totalEstCost+=basePrice;
       html+=`<div class="planner-slot filled" draggable="true" ondragstart="dragPlanSlot(event,${i})" ondragover="event.preventDefault()" ondrop="dropPlanSlot(event,${i})">
         <img src="${sprite(mon)}" width="56" height="56" onerror="this.style.opacity=0">
         <div style="font-size:9px;font-weight:700">${esc(mon.name)}</div>
+        <div style="display:flex;gap:4px;align-items:center">
+          <span class="poke-tier" style="color:var(--${mon.tier});font-size:8px;font-weight:800">${mon.tier}</span>
+          <span style="font-size:8px;color:var(--gold)">$${basePrice}</span>
+        </div>
         <span style="font-size:8px;color:var(--accent);cursor:pointer" onclick="removePlanner(${i})">Remove</span>
       </div>`;
     }else{
@@ -1874,6 +1898,21 @@ function renderPlannerSlots(){
     }
   }
   slots.innerHTML=html;
+
+  // Update budget tracker
+  const startBudget=gs?.settings?.startingBudget||10000;
+  const remaining=startBudget-totalEstCost;
+  const bpct=Math.max(0,Math.min(100,(remaining/startBudget)*100));
+  const budColor=bpct>50?'bud-green':bpct>20?'bud-amber':'bud-red';
+  document.getElementById('planner-start-budget').textContent='$'+startBudget;
+  document.getElementById('planner-est-cost').textContent='$'+totalEstCost;
+  const remEl=document.getElementById('planner-remaining');
+  remEl.textContent='$'+remaining;
+  remEl.style.color=remaining<0?'#ef4444':remaining<startBudget*0.2?'var(--orange)':'var(--gold)';
+  const bfill=document.getElementById('planner-bfill');
+  bfill.style.width=bpct+'%';
+  bfill.className='planner-budget-fill budget-fill '+budColor;
+
   const allTypes=new Set();
   plannerTeam.forEach(m=>{if(m.type1)allTypes.add(m.type1);if(m.type2)allTypes.add(m.type2);});
   document.getElementById('planner-types').innerHTML=[...allTypes].map(t=>

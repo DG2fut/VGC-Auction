@@ -1214,9 +1214,18 @@ function handleMessage(clientId, msg) {
       p.isSpectator = false; // Non-participating admins are NOT spectators
       if (p.isNonParticipating) {
         p.budget = 0;
+        // Remove from playerOrder if present
+        if (state.playerOrder && state.playerOrder.length) {
+          state.playerOrder = state.playerOrder.filter(id => id !== client.playerId);
+        }
         addLog(`🎙️ ${p.name} is now a non-participating auctioneer.`);
       } else {
         p.budget = state.settings.startingBudget;
+        p.roster = p.roster || [];
+        // Re-add to playerOrder if it exists and they're not already in it
+        if (state.playerOrder && state.playerOrder.length && !state.playerOrder.includes(client.playerId)) {
+          state.playerOrder.push(client.playerId);
+        }
         addLog(`⚔️ ${p.name} is now a participating player.`);
       }
       broadcastState();
