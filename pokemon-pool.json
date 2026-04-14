@@ -5,7 +5,8 @@
     "dex": 6,
     "type1": "Fire",
     "type2": "Flying",
-    "tier": "S"
+    "tier": "S",
+    "spriteId": 10035
   },
   {
     "id": 2,
@@ -13,7 +14,8 @@
     "dex": 38,
     "type1": "Ice",
     "type2": "Fairy",
-    "tier": "S"
+    "tier": "S",
+    "spriteId": 10104
   },
   {
     "id": 3,
@@ -21,7 +23,8 @@
     "dex": 94,
     "type1": "Ghost",
     "type2": "Poison",
-    "tier": "S"
+    "tier": "S",
+    "spriteId": 10038
   },
   {
     "id": 4,
@@ -37,7 +40,8 @@
     "dex": 149,
     "type1": "Dragon",
     "type2": "Flying",
-    "tier": "S"
+    "tier": "S",
+    "spriteId": 10281
   },
   {
     "id": 6,
@@ -53,7 +57,8 @@
     "dex": 248,
     "type1": "Rock",
     "type2": "Dark",
-    "tier": "S"
+    "tier": "S",
+    "spriteId": 10049
   },
   {
     "id": 8,
@@ -85,7 +90,8 @@
     "dex": 478,
     "type1": "Ice",
     "type2": "Ghost",
-    "tier": "S"
+    "tier": "S",
+    "spriteId": 10285
   },
   {
     "id": 12,
@@ -101,7 +107,8 @@
     "dex": 670,
     "type1": "Fairy",
     "type2": null,
-    "tier": "S"
+    "tier": "S",
+    "spriteId": 10296
   },
   {
     "id": 14,
@@ -117,7 +124,8 @@
     "dex": 902,
     "type1": "Water",
     "type2": "Ghost",
-    "tier": "S"
+    "tier": "S",
+    "spriteId": 902
   },
   {
     "id": 16,
@@ -125,7 +133,8 @@
     "dex": 903,
     "type1": "Poison",
     "type2": "Fighting",
-    "tier": "S"
+    "tier": "S",
+    "spriteId": 903
   },
   {
     "id": 17,
@@ -149,7 +158,8 @@
     "dex": 3,
     "type1": "Grass",
     "type2": "Poison",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10033
   },
   {
     "id": 20,
@@ -157,7 +167,8 @@
     "dex": 6,
     "type1": "Fire",
     "type2": "Dragon",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10034
   },
   {
     "id": 21,
@@ -165,7 +176,8 @@
     "dex": 9,
     "type1": "Water",
     "type2": null,
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10036
   },
   {
     "id": 22,
@@ -181,7 +193,8 @@
     "dex": 36,
     "type1": "Fairy",
     "type2": "Flying",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10278
   },
   {
     "id": 24,
@@ -205,7 +218,8 @@
     "dex": 59,
     "type1": "Fire",
     "type2": "Rock",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10230
   },
   {
     "id": 27,
@@ -221,7 +235,8 @@
     "dex": 115,
     "type1": "Normal",
     "type2": null,
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10039
   },
   {
     "id": 29,
@@ -229,7 +244,8 @@
     "dex": 121,
     "type1": "Water",
     "type2": "Psychic",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10280
   },
   {
     "id": 30,
@@ -245,7 +261,8 @@
     "dex": 130,
     "type1": "Water",
     "type2": "Dark",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10041
   },
   {
     "id": 32,
@@ -253,7 +270,8 @@
     "dex": 142,
     "type1": "Rock",
     "type2": "Flying",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10042
   },
   {
     "id": 33,
@@ -269,7 +287,8 @@
     "dex": 154,
     "type1": "Grass",
     "type2": "Fairy",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10282
   },
   {
     "id": 35,
@@ -277,7 +296,8 @@
     "dex": 157,
     "type1": "Fire",
     "type2": "Ghost",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10233
   },
   {
     "id": 36,
@@ -285,7 +305,8 @@
     "dex": 160,
     "type1": "Water",
     "type2": "Dragon",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10283
   },
   {
     "id": 37,
@@ -309,7 +330,8 @@
     "dex": 212,
     "type1": "Bug",
     "type2": "Steel",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10046
   },
   {
     "id": 40,
@@ -317,7 +339,8 @@
     "dex": 227,
     "type1": "Steel",
     "type2": "Flying",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10284
   },
   {
     "id": 41,
@@ -325,7 +348,8 @@
     "dex": 282,
     "type1": "Psychic",
     "type2": "Fairy",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10051
   },
   {
     "id": 42,
@@ -341,7 +365,8 @@
     "dex": 302,
     "type1": "Dark",
     "type2": "Ghost",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10066
   },
   {
     "id": 44,
@@ -349,7 +374,8 @@
     "dex": 308,
     "type1": "Fighting",
     "type2": "Psychic",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10054
   },
   {
     "id": 45,
@@ -357,7 +383,8 @@
     "dex": 310,
     "type1": "Electric",
     "type2": null,
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10055
   },
   {
     "id": 46,
@@ -373,7 +400,8 @@
     "dex": 428,
     "type1": "Normal",
     "type2": "Fighting",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10088
   },
   {
     "id": 48,
@@ -381,7 +409,8 @@
     "dex": 445,
     "type1": "Dragon",
     "type2": "Ground",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10058
   },
   {
     "id": 49,
@@ -389,7 +418,8 @@
     "dex": 448,
     "type1": "Fighting",
     "type2": "Steel",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10059
   },
   {
     "id": 50,
@@ -405,7 +435,8 @@
     "dex": 475,
     "type1": "Psychic",
     "type2": "Fighting",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10068
   },
   {
     "id": 52,
@@ -421,7 +452,8 @@
     "dex": 479,
     "type1": "Electric",
     "type2": "Water",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10009
   },
   {
     "id": 54,
@@ -429,7 +461,8 @@
     "dex": 479,
     "type1": "Electric",
     "type2": "Fire",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10008
   },
   {
     "id": 55,
@@ -445,7 +478,8 @@
     "dex": 530,
     "type1": "Ground",
     "type2": "Steel",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10287
   },
   {
     "id": 57,
@@ -461,7 +495,8 @@
     "dex": 571,
     "type1": "Normal",
     "type2": "Ghost",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10239
   },
   {
     "id": 59,
@@ -469,7 +504,8 @@
     "dex": 609,
     "type1": "Ghost",
     "type2": "Fire",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10291
   },
   {
     "id": 60,
@@ -477,7 +513,8 @@
     "dex": 623,
     "type1": "Ghost",
     "type2": "Ground",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10313
   },
   {
     "id": 61,
@@ -501,7 +538,8 @@
     "dex": 655,
     "type1": "Fire",
     "type2": "Psychic",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10293
   },
   {
     "id": 64,
@@ -509,7 +547,8 @@
     "dex": 658,
     "type1": "Water",
     "type2": "Dark",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10294
   },
   {
     "id": 65,
@@ -533,7 +572,8 @@
     "dex": 670,
     "type1": "Fairy",
     "type2": null,
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10061
   },
   {
     "id": 68,
@@ -557,7 +597,8 @@
     "dex": 701,
     "type1": "Fighting",
     "type2": "Flying",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10300
   },
   {
     "id": 71,
@@ -581,7 +622,8 @@
     "dex": 740,
     "type1": "Fighting",
     "type2": "Ice",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10315
   },
   {
     "id": 74,
@@ -605,7 +647,8 @@
     "dex": 780,
     "type1": "Normal",
     "type2": "Dragon",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10302
   },
   {
     "id": 77,
@@ -653,7 +696,8 @@
     "dex": 952,
     "type1": "Grass",
     "type2": "Fire",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10320
   },
   {
     "id": 83,
@@ -677,7 +721,8 @@
     "dex": 970,
     "type1": "Rock",
     "type2": "Poison",
-    "tier": "A"
+    "tier": "A",
+    "spriteId": 10321
   },
   {
     "id": 86,
@@ -725,7 +770,8 @@
     "dex": 15,
     "type1": "Bug",
     "type2": "Poison",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10090
   },
   {
     "id": 92,
@@ -733,7 +779,8 @@
     "dex": 18,
     "type1": "Normal",
     "type2": "Flying",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10073
   },
   {
     "id": 93,
@@ -749,7 +796,8 @@
     "dex": 26,
     "type1": "Electric",
     "type2": "Psychic",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10100
   },
   {
     "id": 95,
@@ -757,7 +805,8 @@
     "dex": 65,
     "type1": "Psychic",
     "type2": null,
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10037
   },
   {
     "id": 96,
@@ -789,7 +838,8 @@
     "dex": 80,
     "type1": "Water",
     "type2": "Psychic",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10071
   },
   {
     "id": 100,
@@ -821,7 +871,8 @@
     "dex": 127,
     "type1": "Bug",
     "type2": "Flying",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10040
   },
   {
     "id": 104,
@@ -829,7 +880,8 @@
     "dex": 128,
     "type1": "Fighting",
     "type2": "Water",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10252
   },
   {
     "id": 105,
@@ -837,7 +889,8 @@
     "dex": 128,
     "type1": "Fighting",
     "type2": "Fire",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10251
   },
   {
     "id": 106,
@@ -893,7 +946,8 @@
     "dex": 181,
     "type1": "Electric",
     "type2": "Dragon",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10045
   },
   {
     "id": 113,
@@ -917,7 +971,8 @@
     "dex": 208,
     "type1": "Steel",
     "type2": "Ground",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10072
   },
   {
     "id": 116,
@@ -933,7 +988,8 @@
     "dex": 214,
     "type1": "Bug",
     "type2": "Fighting",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10047
   },
   {
     "id": 118,
@@ -949,7 +1005,8 @@
     "dex": 229,
     "type1": "Dark",
     "type2": "Fire",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10048
   },
   {
     "id": 120,
@@ -973,7 +1030,8 @@
     "dex": 306,
     "type1": "Steel",
     "type2": null,
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10053
   },
   {
     "id": 123,
@@ -997,7 +1055,8 @@
     "dex": 319,
     "type1": "Water",
     "type2": "Dark",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10070
   },
   {
     "id": 126,
@@ -1005,7 +1064,8 @@
     "dex": 323,
     "type1": "Fire",
     "type2": "Ground",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10087
   },
   {
     "id": 127,
@@ -1013,7 +1073,8 @@
     "dex": 334,
     "type1": "Dragon",
     "type2": "Fairy",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10067
   },
   {
     "id": 128,
@@ -1021,7 +1082,8 @@
     "dex": 354,
     "type1": "Ghost",
     "type2": null,
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10056
   },
   {
     "id": 129,
@@ -1029,7 +1091,8 @@
     "dex": 358,
     "type1": "Psychic",
     "type2": "Steel",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10306
   },
   {
     "id": 130,
@@ -1037,7 +1100,8 @@
     "dex": 359,
     "type1": "Dark",
     "type2": null,
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10057
   },
   {
     "id": 131,
@@ -1045,7 +1109,8 @@
     "dex": 362,
     "type1": "Ice",
     "type2": null,
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10074
   },
   {
     "id": 132,
@@ -1117,7 +1182,8 @@
     "dex": 460,
     "type1": "Grass",
     "type2": "Ice",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10060
   },
   {
     "id": 141,
@@ -1173,7 +1239,8 @@
     "dex": 479,
     "type1": "Electric",
     "type2": "Ice",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10010
   },
   {
     "id": 148,
@@ -1189,7 +1256,8 @@
     "dex": 500,
     "type1": "Fire",
     "type2": "Fighting",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10286
   },
   {
     "id": 150,
@@ -1197,7 +1265,8 @@
     "dex": 503,
     "type1": "Water",
     "type2": "Dark",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10236
   },
   {
     "id": 151,
@@ -1261,7 +1330,8 @@
     "dex": 652,
     "type1": "Grass",
     "type2": "Fighting",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10292
   },
   {
     "id": 159,
@@ -1301,7 +1371,8 @@
     "dex": 678,
     "type1": "Psychic",
     "type2": null,
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10314
   },
   {
     "id": 164,
@@ -1333,7 +1404,8 @@
     "dex": 706,
     "type1": "Steel",
     "type2": "Dragon",
-    "tier": "B"
+    "tier": "B",
+    "spriteId": 10242
   },
   {
     "id": 168,
@@ -1525,7 +1597,8 @@
     "dex": 71,
     "type1": "Grass",
     "type2": "Poison",
-    "tier": "C"
+    "tier": "C",
+    "spriteId": 10279
   },
   {
     "id": 192,
@@ -1533,7 +1606,8 @@
     "dex": 80,
     "type1": "Poison",
     "type2": "Psychic",
-    "tier": "C"
+    "tier": "C",
+    "spriteId": 10165
   },
   {
     "id": 193,
@@ -1557,7 +1631,8 @@
     "dex": 128,
     "type1": "Fighting",
     "type2": null,
-    "tier": "C"
+    "tier": "C",
+    "spriteId": 10250
   },
   {
     "id": 196,
@@ -1605,7 +1680,8 @@
     "dex": 199,
     "type1": "Poison",
     "type2": "Psychic",
-    "tier": "C"
+    "tier": "C",
+    "spriteId": 10172
   },
   {
     "id": 202,
@@ -1749,7 +1825,8 @@
     "dex": 479,
     "type1": "Electric",
     "type2": "Grass",
-    "tier": "C"
+    "tier": "C",
+    "spriteId": 10012
   },
   {
     "id": 220,
@@ -1813,7 +1890,8 @@
     "dex": 531,
     "type1": "Normal",
     "type2": "Fairy",
-    "tier": "C"
+    "tier": "C",
+    "spriteId": 10069
   },
   {
     "id": 228,
@@ -1861,7 +1939,8 @@
     "dex": 618,
     "type1": "Ground",
     "type2": "Steel",
-    "tier": "C"
+    "tier": "C",
+    "spriteId": 10180
   },
   {
     "id": 234,
@@ -1957,7 +2036,8 @@
     "dex": 713,
     "type1": "Ice",
     "type2": "Rock",
-    "tier": "C"
+    "tier": "C",
+    "spriteId": 10243
   },
   {
     "id": 246,
@@ -1973,7 +2053,8 @@
     "dex": 724,
     "type1": "Grass",
     "type2": "Fighting",
-    "tier": "C"
+    "tier": "C",
+    "spriteId": 10244
   },
   {
     "id": 248,
