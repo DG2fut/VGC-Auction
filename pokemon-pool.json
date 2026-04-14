@@ -1,200 +1,2106 @@
 [
-  { "id": 1, "name": "Venusaur", "dex": 3, "type1": "Grass", "type2": "Poison", "tier": "B" },
-  { "id": 2, "name": "Charizard", "dex": 6, "type1": "Fire", "type2": "Flying", "tier": "B" },
-  { "id": 3, "name": "Blastoise", "dex": 9, "type1": "Water", "type2": "", "tier": "B" },
-  { "id": 4, "name": "Beedrill", "dex": 15, "type1": "Bug", "type2": "Poison", "tier": "C" },
-  { "id": 5, "name": "Pidgeot", "dex": 18, "type1": "Normal", "type2": "Flying", "tier": "C" },
-  { "id": 6, "name": "Arbok", "dex": 24, "type1": "Poison", "type2": "", "tier": "C" },
-  { "id": 7, "name": "Pikachu", "dex": 25, "type1": "Electric", "type2": "", "tier": "C" },
-  { "id": 8, "name": "Raichu", "dex": 26, "type1": "Electric", "type2": "", "tier": "B" },
-  { "id": 9, "name": "Alolan Raichu", "dex": 26, "spriteId": 10100, "type1": "Electric", "type2": "Psychic", "tier": "B" },
-  { "id": 10, "name": "Clefable", "dex": 36, "type1": "Fairy", "type2": "", "tier": "A" },
-  { "id": 11, "name": "Ninetales", "dex": 38, "type1": "Fire", "type2": "", "tier": "B" },
-  { "id": 12, "name": "Alolan Ninetales", "dex": 38, "spriteId": 10104, "type1": "Ice", "type2": "Fairy", "tier": "A" },
-  { "id": 13, "name": "Arcanine", "dex": 59, "type1": "Fire", "type2": "", "tier": "A" },
-  { "id": 14, "name": "Hisuian Arcanine", "dex": 59, "spriteId": 10229, "type1": "Fire", "type2": "Rock", "tier": "A" },
-  { "id": 15, "name": "Alakazam", "dex": 65, "type1": "Psychic", "type2": "", "tier": "A" },
-  { "id": 16, "name": "Machamp", "dex": 68, "type1": "Fighting", "type2": "", "tier": "A" },
-  { "id": 17, "name": "Victreebel", "dex": 71, "type1": "Grass", "type2": "Poison", "tier": "B" },
-  { "id": 18, "name": "Slowbro", "dex": 80, "type1": "Water", "type2": "Psychic", "tier": "A" },
-  { "id": 19, "name": "Galarian Slowbro", "dex": 80, "spriteId": 10164, "type1": "Poison", "type2": "Psychic", "tier": "B" },
-  { "id": 20, "name": "Gengar", "dex": 94, "type1": "Ghost", "type2": "Poison", "tier": "A" },
-  { "id": 21, "name": "Kangaskhan", "dex": 115, "type1": "Normal", "type2": "", "tier": "A" },
-  { "id": 22, "name": "Starmie", "dex": 121, "type1": "Water", "type2": "Psychic", "tier": "A" },
-  { "id": 23, "name": "Pinsir", "dex": 127, "type1": "Bug", "type2": "", "tier": "B" },
-  { "id": 24, "name": "Tauros", "dex": 128, "type1": "Normal", "type2": "", "tier": "B" },
-  { "id": 25, "name": "Paldean Tauros", "dex": 128, "spriteId": 10250, "type1": "Fighting", "type2": "", "tier": "B" },
-  { "id": 26, "name": "Gyarados", "dex": 130, "type1": "Water", "type2": "Flying", "tier": "A" },
-  { "id": 27, "name": "Ditto", "dex": 132, "type1": "Normal", "type2": "", "tier": "C" },
-  { "id": 28, "name": "Vaporeon", "dex": 134, "type1": "Water", "type2": "", "tier": "B" },
-  { "id": 29, "name": "Jolteon", "dex": 135, "type1": "Electric", "type2": "", "tier": "B" },
-  { "id": 30, "name": "Flareon", "dex": 136, "type1": "Fire", "type2": "", "tier": "B" },
-  { "id": 31, "name": "Aerodactyl", "dex": 142, "type1": "Rock", "type2": "Flying", "tier": "A" },
-  { "id": 32, "name": "Snorlax", "dex": 143, "type1": "Normal", "type2": "", "tier": "S" },
-  { "id": 33, "name": "Dragonite", "dex": 149, "type1": "Dragon", "type2": "Flying", "tier": "S" },
-  { "id": 34, "name": "Meganium", "dex": 154, "type1": "Grass", "type2": "", "tier": "B" },
-  { "id": 35, "name": "Typhlosion", "dex": 157, "type1": "Fire", "type2": "", "tier": "B" },
-  { "id": 36, "name": "Hisuian Typhlosion", "dex": 157, "spriteId": 10230, "type1": "Fire", "type2": "Ghost", "tier": "B" },
-  { "id": 37, "name": "Feraligatr", "dex": 160, "type1": "Water", "type2": "", "tier": "B" },
-  { "id": 38, "name": "Ariados", "dex": 168, "type1": "Bug", "type2": "Poison", "tier": "C" },
-  { "id": 39, "name": "Ampharos", "dex": 181, "type1": "Electric", "type2": "", "tier": "B" },
-  { "id": 40, "name": "Azumarill", "dex": 184, "type1": "Water", "type2": "Fairy", "tier": "A" },
-  { "id": 41, "name": "Politoed", "dex": 186, "type1": "Water", "type2": "", "tier": "A" },
-  { "id": 42, "name": "Espeon", "dex": 196, "type1": "Psychic", "type2": "", "tier": "B" },
-  { "id": 43, "name": "Umbreon", "dex": 197, "type1": "Dark", "type2": "", "tier": "A" },
-  { "id": 44, "name": "Slowking", "dex": 199, "type1": "Water", "type2": "Psychic", "tier": "B" },
-  { "id": 45, "name": "Galarian Slowking", "dex": 199, "spriteId": 10172, "type1": "Poison", "type2": "Psychic", "tier": "B" },
-  { "id": 46, "name": "Forretress", "dex": 205, "type1": "Bug", "type2": "Steel", "tier": "B" },
-  { "id": 47, "name": "Steelix", "dex": 208, "type1": "Steel", "type2": "Ground", "tier": "B" },
-  { "id": 48, "name": "Scizor", "dex": 212, "type1": "Bug", "type2": "Steel", "tier": "A" },
-  { "id": 49, "name": "Heracross", "dex": 214, "type1": "Bug", "type2": "Fighting", "tier": "A" },
-  { "id": 50, "name": "Skarmory", "dex": 227, "type1": "Steel", "type2": "Flying", "tier": "A" },
-  { "id": 51, "name": "Houndoom", "dex": 229, "type1": "Dark", "type2": "Fire", "tier": "B" },
-  { "id": 52, "name": "Tyranitar", "dex": 248, "type1": "Rock", "type2": "Dark", "tier": "S" },
-  { "id": 53, "name": "Pelipper", "dex": 279, "type1": "Water", "type2": "Flying", "tier": "A" },
-  { "id": 54, "name": "Gardevoir", "dex": 282, "type1": "Psychic", "type2": "Fairy", "tier": "A" },
-  { "id": 55, "name": "Sableye", "dex": 302, "type1": "Dark", "type2": "Ghost", "tier": "B" },
-  { "id": 56, "name": "Aggron", "dex": 306, "type1": "Steel", "type2": "Rock", "tier": "B" },
-  { "id": 57, "name": "Medicham", "dex": 308, "type1": "Fighting", "type2": "Psychic", "tier": "B" },
-  { "id": 58, "name": "Manectric", "dex": 310, "type1": "Electric", "type2": "", "tier": "B" },
-  { "id": 59, "name": "Sharpedo", "dex": 319, "type1": "Water", "type2": "Dark", "tier": "B" },
-  { "id": 60, "name": "Camerupt", "dex": 323, "type1": "Fire", "type2": "Ground", "tier": "C" },
-  { "id": 61, "name": "Torkoal", "dex": 324, "type1": "Fire", "type2": "", "tier": "A" },
-  { "id": 62, "name": "Altaria", "dex": 334, "type1": "Dragon", "type2": "Flying", "tier": "B" },
-  { "id": 63, "name": "Milotic", "dex": 350, "type1": "Water", "type2": "", "tier": "A" },
-  { "id": 64, "name": "Castform", "dex": 351, "type1": "Normal", "type2": "", "tier": "C" },
-  { "id": 65, "name": "Banette", "dex": 354, "type1": "Ghost", "type2": "", "tier": "C" },
-  { "id": 66, "name": "Chimecho", "dex": 358, "type1": "Psychic", "type2": "", "tier": "C" },
-  { "id": 67, "name": "Absol", "dex": 359, "type1": "Dark", "type2": "", "tier": "B" },
-  { "id": 68, "name": "Glalie", "dex": 362, "type1": "Ice", "type2": "", "tier": "C" },
-  { "id": 69, "name": "Torterra", "dex": 389, "type1": "Grass", "type2": "Ground", "tier": "B" },
-  { "id": 70, "name": "Infernape", "dex": 392, "type1": "Fire", "type2": "Fighting", "tier": "A" },
-  { "id": 71, "name": "Empoleon", "dex": 395, "type1": "Water", "type2": "Steel", "tier": "A" },
-  { "id": 72, "name": "Luxray", "dex": 405, "type1": "Electric", "type2": "", "tier": "B" },
-  { "id": 73, "name": "Roserade", "dex": 407, "type1": "Grass", "type2": "Poison", "tier": "A" },
-  { "id": 74, "name": "Rampardos", "dex": 409, "type1": "Rock", "type2": "", "tier": "C" },
-  { "id": 75, "name": "Bastiodon", "dex": 411, "type1": "Rock", "type2": "Steel", "tier": "C" },
-  { "id": 76, "name": "Lopunny", "dex": 428, "type1": "Normal", "type2": "", "tier": "B" },
-  { "id": 77, "name": "Spiritomb", "dex": 442, "type1": "Ghost", "type2": "Dark", "tier": "B" },
-  { "id": 78, "name": "Garchomp", "dex": 445, "type1": "Dragon", "type2": "Ground", "tier": "S" },
-  { "id": 79, "name": "Lucario", "dex": 448, "type1": "Fighting", "type2": "Steel", "tier": "A" },
-  { "id": 80, "name": "Hippowdon", "dex": 450, "type1": "Ground", "type2": "", "tier": "A" },
-  { "id": 81, "name": "Toxicroak", "dex": 454, "type1": "Poison", "type2": "Fighting", "tier": "B" },
-  { "id": 82, "name": "Abomasnow", "dex": 460, "type1": "Grass", "type2": "Ice", "tier": "B" },
-  { "id": 83, "name": "Weavile", "dex": 461, "type1": "Dark", "type2": "Ice", "tier": "A" },
-  { "id": 84, "name": "Rhyperior", "dex": 464, "type1": "Ground", "type2": "Rock", "tier": "B" },
-  { "id": 85, "name": "Leafeon", "dex": 470, "type1": "Grass", "type2": "", "tier": "B" },
-  { "id": 86, "name": "Glaceon", "dex": 471, "type1": "Ice", "type2": "", "tier": "B" },
-  { "id": 87, "name": "Gliscor", "dex": 472, "type1": "Ground", "type2": "Flying", "tier": "A" },
-  { "id": 88, "name": "Mamoswine", "dex": 473, "type1": "Ice", "type2": "Ground", "tier": "A" },
-  { "id": 89, "name": "Gallade", "dex": 475, "type1": "Psychic", "type2": "Fighting", "tier": "B" },
-  { "id": 90, "name": "Froslass", "dex": 478, "type1": "Ice", "type2": "Ghost", "tier": "B" },
-  { "id": 91, "name": "Rotom", "dex": 479, "type1": "Electric", "type2": "Ghost", "tier": "A" },
-  { "id": 92, "name": "Serperior", "dex": 497, "type1": "Grass", "type2": "", "tier": "A" },
-  { "id": 93, "name": "Emboar", "dex": 500, "type1": "Fire", "type2": "Fighting", "tier": "B" },
-  { "id": 94, "name": "Samurott", "dex": 503, "type1": "Water", "type2": "", "tier": "B" },
-  { "id": 95, "name": "Hisuian Samurott", "dex": 503, "spriteId": 10231, "type1": "Water", "type2": "Dark", "tier": "A" },
-  { "id": 96, "name": "Watchog", "dex": 505, "type1": "Normal", "type2": "", "tier": "C" },
-  { "id": 97, "name": "Liepard", "dex": 510, "type1": "Dark", "type2": "", "tier": "C" },
-  { "id": 98, "name": "Simisage", "dex": 512, "type1": "Grass", "type2": "", "tier": "C" },
-  { "id": 99, "name": "Simisear", "dex": 514, "type1": "Fire", "type2": "", "tier": "C" },
-  { "id": 100, "name": "Simipour", "dex": 516, "type1": "Water", "type2": "", "tier": "C" },
-  { "id": 101, "name": "Excadrill", "dex": 530, "type1": "Ground", "type2": "Steel", "tier": "A" },
-  { "id": 102, "name": "Audino", "dex": 531, "type1": "Normal", "type2": "", "tier": "C" },
-  { "id": 103, "name": "Conkeldurr", "dex": 534, "type1": "Fighting", "type2": "", "tier": "A" },
-  { "id": 104, "name": "Whimsicott", "dex": 547, "type1": "Grass", "type2": "Fairy", "tier": "A" },
-  { "id": 105, "name": "Krookodile", "dex": 553, "type1": "Ground", "type2": "Dark", "tier": "B" },
-  { "id": 106, "name": "Cofagrigus", "dex": 563, "type1": "Ghost", "type2": "", "tier": "B" },
-  { "id": 107, "name": "Garbodor", "dex": 569, "type1": "Poison", "type2": "", "tier": "B" },
-  { "id": 108, "name": "Zoroark", "dex": 571, "type1": "Dark", "type2": "", "tier": "B" },
-  { "id": 109, "name": "Hisuian Zoroark", "dex": 571, "spriteId": 10233, "type1": "Normal", "type2": "Ghost", "tier": "A" },
-  { "id": 110, "name": "Reuniclus", "dex": 579, "type1": "Psychic", "type2": "", "tier": "B" },
-  { "id": 111, "name": "Vanilluxe", "dex": 584, "type1": "Ice", "type2": "", "tier": "C" },
-  { "id": 112, "name": "Emolga", "dex": 587, "type1": "Electric", "type2": "Flying", "tier": "C" },
-  { "id": 113, "name": "Chandelure", "dex": 609, "type1": "Ghost", "type2": "Fire", "tier": "A" },
-  { "id": 114, "name": "Beartic", "dex": 614, "type1": "Ice", "type2": "", "tier": "C" },
-  { "id": 115, "name": "Stunfisk", "dex": 618, "type1": "Ground", "type2": "Electric", "tier": "C" },
-  { "id": 116, "name": "Galarian Stunfisk", "dex": 618, "spriteId": 10180, "type1": "Ground", "type2": "Steel", "tier": "C" },
-  { "id": 117, "name": "Golurk", "dex": 623, "type1": "Ground", "type2": "Ghost", "tier": "B" },
-  { "id": 118, "name": "Hydreigon", "dex": 635, "type1": "Dark", "type2": "Dragon", "tier": "A" },
-  { "id": 119, "name": "Volcarona", "dex": 637, "type1": "Bug", "type2": "Fire", "tier": "A" },
-  { "id": 120, "name": "Chesnaught", "dex": 652, "type1": "Grass", "type2": "Fighting", "tier": "B" },
-  { "id": 121, "name": "Delphox", "dex": 655, "type1": "Fire", "type2": "Psychic", "tier": "B" },
-  { "id": 122, "name": "Greninja", "dex": 658, "type1": "Water", "type2": "Dark", "tier": "A" },
-  { "id": 123, "name": "Diggersby", "dex": 660, "type1": "Normal", "type2": "Ground", "tier": "B" },
-  { "id": 124, "name": "Talonflame", "dex": 663, "type1": "Fire", "type2": "Flying", "tier": "A" },
-  { "id": 125, "name": "Vivillon", "dex": 666, "type1": "Bug", "type2": "Flying", "tier": "C" },
-  { "id": 126, "name": "Floette", "dex": 670, "type1": "Fairy", "type2": "", "tier": "C" },
-  { "id": 127, "name": "Florges", "dex": 671, "type1": "Fairy", "type2": "", "tier": "A" },
-  { "id": 128, "name": "Pangoro", "dex": 675, "type1": "Fighting", "type2": "Dark", "tier": "B" },
-  { "id": 129, "name": "Furfrou", "dex": 676, "type1": "Normal", "type2": "", "tier": "C" },
-  { "id": 130, "name": "Dedenne", "dex": 702, "type1": "Electric", "type2": "Fairy", "tier": "C" },
-  { "id": 131, "name": "Goodra", "dex": 706, "type1": "Dragon", "type2": "", "tier": "A" },
-  { "id": 132, "name": "Hisuian Goodra", "dex": 706, "spriteId": 10234, "type1": "Dragon", "type2": "Steel", "tier": "S" },
-  { "id": 133, "name": "Mudsdale", "dex": 750, "type1": "Ground", "type2": "", "tier": "A" },
-  { "id": 134, "name": "Araquanid", "dex": 752, "type1": "Water", "type2": "Bug", "tier": "B" },
-  { "id": 135, "name": "Salazzle", "dex": 758, "type1": "Poison", "type2": "Fire", "tier": "B" },
-  { "id": 136, "name": "Mimikyu", "dex": 778, "type1": "Ghost", "type2": "Fairy", "tier": "A" },
-  { "id": 137, "name": "Drampa", "dex": 780, "type1": "Normal", "type2": "Dragon", "tier": "C" },
-  { "id": 138, "name": "Alcremie", "dex": 869, "type1": "Fairy", "type2": "", "tier": "B" },
-  { "id": 139, "name": "Morpeko", "dex": 877, "type1": "Electric", "type2": "Dark", "tier": "C" },
-  { "id": 140, "name": "Dragapult", "dex": 887, "type1": "Dragon", "type2": "Ghost", "tier": "S" },
-  { "id": 141, "name": "Kingambit", "dex": 983, "type1": "Dark", "type2": "Steel", "tier": "S" },
-  { "id": 142, "name": "Sinistcha", "dex": 1013, "type1": "Grass", "type2": "Ghost", "tier": "A" },
-  { "id": 143, "name": "Archaludon", "dex": 1018, "type1": "Steel", "type2": "Dragon", "tier": "S" },
-  { "id": 144, "name": "Hydrapple", "dex": 1019, "type1": "Grass", "type2": "Dragon", "tier": "A" },
-
-  { "id": 1001, "name": "Mega Venusaur", "dex": 3, "spriteId": 10033, "type1": "Grass", "type2": "Poison", "tier": "S" },
-  { "id": 1002, "name": "Mega Charizard X", "dex": 6, "spriteId": 10034, "type1": "Fire", "type2": "Dragon", "tier": "S" },
-  { "id": 1003, "name": "Mega Charizard Y", "dex": 6, "spriteId": 10035, "type1": "Fire", "type2": "Flying", "tier": "S" },
-  { "id": 1004, "name": "Mega Blastoise", "dex": 9, "spriteId": 10036, "type1": "Water", "type2": "", "tier": "S" },
-  { "id": 1005, "name": "Mega Beedrill", "dex": 15, "spriteId": 10090, "type1": "Bug", "type2": "Poison", "tier": "S" },
-  { "id": 1006, "name": "Mega Pidgeot", "dex": 18, "spriteId": 10073, "type1": "Normal", "type2": "Flying", "tier": "S" },
-  { "id": 1007, "name": "Mega Clefable", "dex": 36, "type1": "Fairy", "type2": "", "tier": "S" },
-  { "id": 1008, "name": "Mega Alakazam", "dex": 65, "spriteId": 10037, "type1": "Psychic", "type2": "", "tier": "S" },
-  { "id": 1009, "name": "Mega Victreebel", "dex": 71, "type1": "Grass", "type2": "Poison", "tier": "S" },
-  { "id": 1010, "name": "Mega Slowbro", "dex": 80, "spriteId": 10071, "type1": "Water", "type2": "Psychic", "tier": "S" },
-  { "id": 1011, "name": "Mega Gengar", "dex": 94, "spriteId": 10038, "type1": "Ghost", "type2": "Poison", "tier": "S" },
-  { "id": 1012, "name": "Mega Kangaskhan", "dex": 115, "spriteId": 10039, "type1": "Normal", "type2": "", "tier": "S" },
-  { "id": 1013, "name": "Mega Starmie", "dex": 121, "type1": "Water", "type2": "Psychic", "tier": "S" },
-  { "id": 1014, "name": "Mega Pinsir", "dex": 127, "spriteId": 10040, "type1": "Bug", "type2": "Flying", "tier": "S" },
-  { "id": 1015, "name": "Mega Gyarados", "dex": 130, "spriteId": 10041, "type1": "Water", "type2": "Dark", "tier": "S" },
-  { "id": 1016, "name": "Mega Aerodactyl", "dex": 142, "spriteId": 10042, "type1": "Rock", "type2": "Flying", "tier": "S" },
-  { "id": 1017, "name": "Mega Dragonite", "dex": 149, "type1": "Dragon", "type2": "Flying", "tier": "S" },
-  { "id": 1018, "name": "Mega Meganium", "dex": 154, "type1": "Grass", "type2": "", "tier": "S" },
-  { "id": 1019, "name": "Mega Feraligatr", "dex": 160, "type1": "Water", "type2": "", "tier": "S" },
-  { "id": 1020, "name": "Mega Ampharos", "dex": 181, "spriteId": 10045, "type1": "Electric", "type2": "Dragon", "tier": "S" },
-  { "id": 1021, "name": "Mega Steelix", "dex": 208, "spriteId": 10072, "type1": "Steel", "type2": "Ground", "tier": "S" },
-  { "id": 1022, "name": "Mega Scizor", "dex": 212, "spriteId": 10046, "type1": "Bug", "type2": "Steel", "tier": "S" },
-  { "id": 1023, "name": "Mega Heracross", "dex": 214, "spriteId": 10047, "type1": "Bug", "type2": "Fighting", "tier": "S" },
-  { "id": 1024, "name": "Mega Skarmory", "dex": 227, "type1": "Steel", "type2": "Flying", "tier": "S" },
-  { "id": 1025, "name": "Mega Houndoom", "dex": 229, "spriteId": 10048, "type1": "Dark", "type2": "Fire", "tier": "S" },
-  { "id": 1026, "name": "Mega Tyranitar", "dex": 248, "spriteId": 10049, "type1": "Rock", "type2": "Dark", "tier": "S" },
-  { "id": 1027, "name": "Mega Gardevoir", "dex": 282, "spriteId": 10051, "type1": "Psychic", "type2": "Fairy", "tier": "S" },
-  { "id": 1028, "name": "Mega Sableye", "dex": 302, "spriteId": 10066, "type1": "Dark", "type2": "Ghost", "tier": "S" },
-  { "id": 1029, "name": "Mega Aggron", "dex": 306, "spriteId": 10053, "type1": "Steel", "type2": "", "tier": "S" },
-  { "id": 1030, "name": "Mega Medicham", "dex": 308, "spriteId": 10054, "type1": "Fighting", "type2": "Psychic", "tier": "S" },
-  { "id": 1031, "name": "Mega Manectric", "dex": 310, "spriteId": 10055, "type1": "Electric", "type2": "", "tier": "S" },
-  { "id": 1032, "name": "Mega Sharpedo", "dex": 319, "spriteId": 10070, "type1": "Water", "type2": "Dark", "tier": "S" },
-  { "id": 1033, "name": "Mega Camerupt", "dex": 323, "spriteId": 10087, "type1": "Fire", "type2": "Ground", "tier": "S" },
-  { "id": 1034, "name": "Mega Altaria", "dex": 334, "spriteId": 10067, "type1": "Dragon", "type2": "Fairy", "tier": "S" },
-  { "id": 1035, "name": "Mega Banette", "dex": 354, "spriteId": 10056, "type1": "Ghost", "type2": "", "tier": "S" },
-  { "id": 1036, "name": "Mega Chimecho", "dex": 358, "type1": "Psychic", "type2": "", "tier": "S" },
-  { "id": 1037, "name": "Mega Absol", "dex": 359, "spriteId": 10057, "type1": "Dark", "type2": "", "tier": "S" },
-  { "id": 1038, "name": "Mega Glalie", "dex": 362, "spriteId": 10074, "type1": "Ice", "type2": "", "tier": "S" },
-  { "id": 1039, "name": "Mega Lopunny", "dex": 428, "spriteId": 10088, "type1": "Normal", "type2": "Fighting", "tier": "S" },
-  { "id": 1040, "name": "Mega Garchomp", "dex": 445, "spriteId": 10058, "type1": "Dragon", "type2": "Ground", "tier": "S" },
-  { "id": 1041, "name": "Mega Lucario", "dex": 448, "spriteId": 10059, "type1": "Fighting", "type2": "Steel", "tier": "S" },
-  { "id": 1042, "name": "Mega Abomasnow", "dex": 460, "spriteId": 10060, "type1": "Grass", "type2": "Ice", "tier": "S" },
-  { "id": 1043, "name": "Mega Gallade", "dex": 475, "spriteId": 10068, "type1": "Psychic", "type2": "Fighting", "tier": "S" },
-  { "id": 1044, "name": "Mega Froslass", "dex": 478, "type1": "Ice", "type2": "Ghost", "tier": "S" },
-  { "id": 1045, "name": "Mega Emboar", "dex": 500, "type1": "Fire", "type2": "Fighting", "tier": "S" },
-  { "id": 1046, "name": "Mega Excadrill", "dex": 530, "type1": "Ground", "type2": "Steel", "tier": "S" },
-  { "id": 1047, "name": "Mega Audino", "dex": 531, "spriteId": 10069, "type1": "Normal", "type2": "Fairy", "tier": "S" },
-  { "id": 1048, "name": "Mega Chandelure", "dex": 609, "type1": "Ghost", "type2": "Fire", "tier": "S" },
-  { "id": 1049, "name": "Mega Golurk", "dex": 623, "type1": "Ground", "type2": "Ghost", "tier": "S" },
-  { "id": 1050, "name": "Mega Chesnaught", "dex": 652, "type1": "Grass", "type2": "Fighting", "tier": "S" },
-  { "id": 1051, "name": "Mega Delphox", "dex": 655, "type1": "Fire", "type2": "Psychic", "tier": "S" },
-  { "id": 1052, "name": "Mega Greninja", "dex": 658, "type1": "Water", "type2": "Dark", "tier": "S" },
-  { "id": 1053, "name": "Mega Drampa", "dex": 780, "type1": "Normal", "type2": "Dragon", "tier": "S" }
+  {
+    "id": 1,
+    "name": "Mega Charizard Y",
+    "dex": 6,
+    "type1": "Fire",
+    "type2": "Flying",
+    "tier": "S"
+  },
+  {
+    "id": 2,
+    "name": "Alolan Ninetales",
+    "dex": 38,
+    "type1": "Ice",
+    "type2": "Fairy",
+    "tier": "S"
+  },
+  {
+    "id": 3,
+    "name": "Mega Gengar",
+    "dex": 94,
+    "type1": "Ghost",
+    "type2": "Poison",
+    "tier": "S"
+  },
+  {
+    "id": 4,
+    "name": "Aerodactyl",
+    "dex": 142,
+    "type1": "Rock",
+    "type2": "Flying",
+    "tier": "S"
+  },
+  {
+    "id": 5,
+    "name": "Mega Dragonite",
+    "dex": 149,
+    "type1": "Dragon",
+    "type2": "Flying",
+    "tier": "S"
+  },
+  {
+    "id": 6,
+    "name": "Tyranitar",
+    "dex": 248,
+    "type1": "Rock",
+    "type2": "Dark",
+    "tier": "S"
+  },
+  {
+    "id": 7,
+    "name": "Mega Tyranitar",
+    "dex": 248,
+    "type1": "Rock",
+    "type2": "Dark",
+    "tier": "S"
+  },
+  {
+    "id": 8,
+    "name": "Pelipper",
+    "dex": 279,
+    "type1": "Water",
+    "type2": "Flying",
+    "tier": "S"
+  },
+  {
+    "id": 9,
+    "name": "Torkoal",
+    "dex": 324,
+    "type1": "Fire",
+    "type2": null,
+    "tier": "S"
+  },
+  {
+    "id": 10,
+    "name": "Garchomp",
+    "dex": 445,
+    "type1": "Dragon",
+    "type2": "Ground",
+    "tier": "S"
+  },
+  {
+    "id": 11,
+    "name": "Mega Froslass",
+    "dex": 478,
+    "type1": "Ice",
+    "type2": "Ghost",
+    "tier": "S"
+  },
+  {
+    "id": 12,
+    "name": "Whimsicott",
+    "dex": 547,
+    "type1": "Grass",
+    "type2": "Fairy",
+    "tier": "S"
+  },
+  {
+    "id": 13,
+    "name": "Mega Floette",
+    "dex": 670,
+    "type1": "Fairy",
+    "type2": null,
+    "tier": "S"
+  },
+  {
+    "id": 14,
+    "name": "Incineroar",
+    "dex": 727,
+    "type1": "Fire",
+    "type2": "Dark",
+    "tier": "S"
+  },
+  {
+    "id": 15,
+    "name": "Basculegion",
+    "dex": 902,
+    "type1": "Water",
+    "type2": "Ghost",
+    "tier": "S"
+  },
+  {
+    "id": 16,
+    "name": "Sneasler",
+    "dex": 903,
+    "type1": "Poison",
+    "type2": "Fighting",
+    "tier": "S"
+  },
+  {
+    "id": 17,
+    "name": "Sinistcha",
+    "dex": 1013,
+    "type1": "Grass",
+    "type2": "Ghost",
+    "tier": "S"
+  },
+  {
+    "id": 18,
+    "name": "Venusaur",
+    "dex": 3,
+    "type1": "Grass",
+    "type2": "Poison",
+    "tier": "A"
+  },
+  {
+    "id": 19,
+    "name": "Mega Venusaur",
+    "dex": 3,
+    "type1": "Grass",
+    "type2": "Poison",
+    "tier": "A"
+  },
+  {
+    "id": 20,
+    "name": "Mega Charizard X",
+    "dex": 6,
+    "type1": "Fire",
+    "type2": "Dragon",
+    "tier": "A"
+  },
+  {
+    "id": 21,
+    "name": "Mega Blastoise",
+    "dex": 9,
+    "type1": "Water",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 22,
+    "name": "Clefable",
+    "dex": 36,
+    "type1": "Fairy",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 23,
+    "name": "Mega Clefable",
+    "dex": 36,
+    "type1": "Fairy",
+    "type2": "Flying",
+    "tier": "A"
+  },
+  {
+    "id": 24,
+    "name": "Ninetales",
+    "dex": 38,
+    "type1": "Fire",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 25,
+    "name": "Arcanine",
+    "dex": 59,
+    "type1": "Fire",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 26,
+    "name": "Hisuian Arcanine",
+    "dex": 59,
+    "type1": "Fire",
+    "type2": "Rock",
+    "tier": "A"
+  },
+  {
+    "id": 27,
+    "name": "Gengar",
+    "dex": 94,
+    "type1": "Ghost",
+    "type2": "Poison",
+    "tier": "A"
+  },
+  {
+    "id": 28,
+    "name": "Mega Kangaskhan",
+    "dex": 115,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 29,
+    "name": "Mega Starmie",
+    "dex": 121,
+    "type1": "Water",
+    "type2": "Psychic",
+    "tier": "A"
+  },
+  {
+    "id": 30,
+    "name": "Gyarados",
+    "dex": 130,
+    "type1": "Water",
+    "type2": "Flying",
+    "tier": "A"
+  },
+  {
+    "id": 31,
+    "name": "Mega Gyarados",
+    "dex": 130,
+    "type1": "Water",
+    "type2": "Dark",
+    "tier": "A"
+  },
+  {
+    "id": 32,
+    "name": "Mega Aerodactyl",
+    "dex": 142,
+    "type1": "Rock",
+    "type2": "Flying",
+    "tier": "A"
+  },
+  {
+    "id": 33,
+    "name": "Dragonite",
+    "dex": 149,
+    "type1": "Dragon",
+    "type2": "Flying",
+    "tier": "A"
+  },
+  {
+    "id": 34,
+    "name": "Mega Meganium",
+    "dex": 154,
+    "type1": "Grass",
+    "type2": "Fairy",
+    "tier": "A"
+  },
+  {
+    "id": 35,
+    "name": "Hisuian Typhlosion",
+    "dex": 157,
+    "type1": "Fire",
+    "type2": "Ghost",
+    "tier": "A"
+  },
+  {
+    "id": 36,
+    "name": "Mega Feraligatr",
+    "dex": 160,
+    "type1": "Water",
+    "type2": "Dragon",
+    "tier": "A"
+  },
+  {
+    "id": 37,
+    "name": "Azumarill",
+    "dex": 184,
+    "type1": "Water",
+    "type2": "Fairy",
+    "tier": "A"
+  },
+  {
+    "id": 38,
+    "name": "Politoed",
+    "dex": 186,
+    "type1": "Water",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 39,
+    "name": "Mega Scizor",
+    "dex": 212,
+    "type1": "Bug",
+    "type2": "Steel",
+    "tier": "A"
+  },
+  {
+    "id": 40,
+    "name": "Mega Skarmory",
+    "dex": 227,
+    "type1": "Steel",
+    "type2": "Flying",
+    "tier": "A"
+  },
+  {
+    "id": 41,
+    "name": "Mega Gardevoir",
+    "dex": 282,
+    "type1": "Psychic",
+    "type2": "Fairy",
+    "tier": "A"
+  },
+  {
+    "id": 42,
+    "name": "Sableye",
+    "dex": 302,
+    "type1": "Dark",
+    "type2": "Ghost",
+    "tier": "A"
+  },
+  {
+    "id": 43,
+    "name": "Mega Sableye",
+    "dex": 302,
+    "type1": "Dark",
+    "type2": "Ghost",
+    "tier": "A"
+  },
+  {
+    "id": 44,
+    "name": "Mega Medicham",
+    "dex": 308,
+    "type1": "Fighting",
+    "type2": "Psychic",
+    "tier": "A"
+  },
+  {
+    "id": 45,
+    "name": "Mega Manectric",
+    "dex": 310,
+    "type1": "Electric",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 46,
+    "name": "Milotic",
+    "dex": 350,
+    "type1": "Water",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 47,
+    "name": "Mega Lopunny",
+    "dex": 428,
+    "type1": "Normal",
+    "type2": "Fighting",
+    "tier": "A"
+  },
+  {
+    "id": 48,
+    "name": "Mega Garchomp",
+    "dex": 445,
+    "type1": "Dragon",
+    "type2": "Ground",
+    "tier": "A"
+  },
+  {
+    "id": 49,
+    "name": "Mega Lucario",
+    "dex": 448,
+    "type1": "Fighting",
+    "type2": "Steel",
+    "tier": "A"
+  },
+  {
+    "id": 50,
+    "name": "Hippowdon",
+    "dex": 450,
+    "type1": "Ground",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 51,
+    "name": "Mega Gallade",
+    "dex": 475,
+    "type1": "Psychic",
+    "type2": "Fighting",
+    "tier": "A"
+  },
+  {
+    "id": 52,
+    "name": "Gallade",
+    "dex": 475,
+    "type1": "Psychic",
+    "type2": "Fighting",
+    "tier": "A"
+  },
+  {
+    "id": 53,
+    "name": "Rotom-Wash",
+    "dex": 479,
+    "type1": "Electric",
+    "type2": "Water",
+    "tier": "A"
+  },
+  {
+    "id": 54,
+    "name": "Rotom-Heat",
+    "dex": 479,
+    "type1": "Electric",
+    "type2": "Fire",
+    "tier": "A"
+  },
+  {
+    "id": 55,
+    "name": "Excadrill",
+    "dex": 530,
+    "type1": "Ground",
+    "type2": "Steel",
+    "tier": "A"
+  },
+  {
+    "id": 56,
+    "name": "Mega Excadrill",
+    "dex": 530,
+    "type1": "Ground",
+    "type2": "Steel",
+    "tier": "A"
+  },
+  {
+    "id": 57,
+    "name": "Conkeldurr",
+    "dex": 534,
+    "type1": "Fighting",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 58,
+    "name": "Hisuian Zoroark",
+    "dex": 571,
+    "type1": "Normal",
+    "type2": "Ghost",
+    "tier": "A"
+  },
+  {
+    "id": 59,
+    "name": "Mega Chandelure",
+    "dex": 609,
+    "type1": "Ghost",
+    "type2": "Fire",
+    "tier": "A"
+  },
+  {
+    "id": 60,
+    "name": "Mega Golurk",
+    "dex": 623,
+    "type1": "Ghost",
+    "type2": "Ground",
+    "tier": "A"
+  },
+  {
+    "id": 61,
+    "name": "Hydreigon",
+    "dex": 635,
+    "type1": "Dark",
+    "type2": "Dragon",
+    "tier": "A"
+  },
+  {
+    "id": 62,
+    "name": "Volcarona",
+    "dex": 637,
+    "type1": "Bug",
+    "type2": "Fire",
+    "tier": "A"
+  },
+  {
+    "id": 63,
+    "name": "Mega Delphox",
+    "dex": 655,
+    "type1": "Fire",
+    "type2": "Psychic",
+    "tier": "A"
+  },
+  {
+    "id": 64,
+    "name": "Mega Greninja",
+    "dex": 658,
+    "type1": "Water",
+    "type2": "Dark",
+    "tier": "A"
+  },
+  {
+    "id": 65,
+    "name": "Greninja",
+    "dex": 658,
+    "type1": "Water",
+    "type2": "Dark",
+    "tier": "A"
+  },
+  {
+    "id": 66,
+    "name": "Talonflame",
+    "dex": 663,
+    "type1": "Fire",
+    "type2": "Flying",
+    "tier": "A"
+  },
+  {
+    "id": 67,
+    "name": "Floette-Eternal",
+    "dex": 670,
+    "type1": "Fairy",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 68,
+    "name": "Aegislash",
+    "dex": 681,
+    "type1": "Steel",
+    "type2": "Ghost",
+    "tier": "A"
+  },
+  {
+    "id": 69,
+    "name": "Sylveon",
+    "dex": 700,
+    "type1": "Fairy",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 70,
+    "name": "Mega Hawlucha",
+    "dex": 701,
+    "type1": "Fighting",
+    "type2": "Flying",
+    "tier": "A"
+  },
+  {
+    "id": 71,
+    "name": "Klefki",
+    "dex": 707,
+    "type1": "Steel",
+    "type2": "Fairy",
+    "tier": "A"
+  },
+  {
+    "id": 72,
+    "name": "Primarina",
+    "dex": 730,
+    "type1": "Water",
+    "type2": "Fairy",
+    "tier": "A"
+  },
+  {
+    "id": 73,
+    "name": "Mega Crabominable",
+    "dex": 740,
+    "type1": "Fighting",
+    "type2": "Ice",
+    "tier": "A"
+  },
+  {
+    "id": 74,
+    "name": "Oranguru",
+    "dex": 765,
+    "type1": "Normal",
+    "type2": "Psychic",
+    "tier": "A"
+  },
+  {
+    "id": 75,
+    "name": "Mimikyu",
+    "dex": 778,
+    "type1": "Ghost",
+    "type2": "Fairy",
+    "tier": "A"
+  },
+  {
+    "id": 76,
+    "name": "Mega Drampa",
+    "dex": 780,
+    "type1": "Normal",
+    "type2": "Dragon",
+    "tier": "A"
+  },
+  {
+    "id": 77,
+    "name": "Kommo-o",
+    "dex": 784,
+    "type1": "Dragon",
+    "type2": "Fighting",
+    "tier": "A"
+  },
+  {
+    "id": 78,
+    "name": "Corviknight",
+    "dex": 823,
+    "type1": "Flying",
+    "type2": "Steel",
+    "tier": "A"
+  },
+  {
+    "id": 79,
+    "name": "Hatterene",
+    "dex": 858,
+    "type1": "Psychic",
+    "type2": "Fairy",
+    "tier": "A"
+  },
+  {
+    "id": 80,
+    "name": "Dragapult",
+    "dex": 887,
+    "type1": "Dragon",
+    "type2": "Ghost",
+    "tier": "A"
+  },
+  {
+    "id": 81,
+    "name": "Maushold",
+    "dex": 925,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 82,
+    "name": "Mega Scovillain",
+    "dex": 952,
+    "type1": "Grass",
+    "type2": "Fire",
+    "tier": "A"
+  },
+  {
+    "id": 83,
+    "name": "Palafin",
+    "dex": 964,
+    "type1": "Water",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 84,
+    "name": "Glimmora",
+    "dex": 970,
+    "type1": "Rock",
+    "type2": "Poison",
+    "tier": "A"
+  },
+  {
+    "id": 85,
+    "name": "Mega Glimmora",
+    "dex": 970,
+    "type1": "Rock",
+    "type2": "Poison",
+    "tier": "A"
+  },
+  {
+    "id": 86,
+    "name": "Farigiraf",
+    "dex": 981,
+    "type1": "Normal",
+    "type2": "Psychic",
+    "tier": "A"
+  },
+  {
+    "id": 87,
+    "name": "Kingambit",
+    "dex": 983,
+    "type1": "Dark",
+    "type2": "Steel",
+    "tier": "A"
+  },
+  {
+    "id": 88,
+    "name": "Archaludon",
+    "dex": 1018,
+    "type1": "Steel",
+    "type2": "Dragon",
+    "tier": "A"
+  },
+  {
+    "id": 89,
+    "name": "Charizard",
+    "dex": 6,
+    "type1": "Fire",
+    "type2": "Flying",
+    "tier": "B"
+  },
+  {
+    "id": 90,
+    "name": "Blastoise",
+    "dex": 9,
+    "type1": "Water",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 91,
+    "name": "Mega Beedrill",
+    "dex": 15,
+    "type1": "Bug",
+    "type2": "Poison",
+    "tier": "B"
+  },
+  {
+    "id": 92,
+    "name": "Mega Pidgeot",
+    "dex": 18,
+    "type1": "Normal",
+    "type2": "Flying",
+    "tier": "B"
+  },
+  {
+    "id": 93,
+    "name": "Raichu",
+    "dex": 26,
+    "type1": "Electric",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 94,
+    "name": "Alolan Raichu",
+    "dex": 26,
+    "type1": "Electric",
+    "type2": "Psychic",
+    "tier": "B"
+  },
+  {
+    "id": 95,
+    "name": "Mega Alakazam",
+    "dex": 65,
+    "type1": "Psychic",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 96,
+    "name": "Alakazam",
+    "dex": 65,
+    "type1": "Psychic",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 97,
+    "name": "Machamp",
+    "dex": 68,
+    "type1": "Fighting",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 98,
+    "name": "Victreebel",
+    "dex": 71,
+    "type1": "Grass",
+    "type2": "Poison",
+    "tier": "B"
+  },
+  {
+    "id": 99,
+    "name": "Mega Slowbro",
+    "dex": 80,
+    "type1": "Water",
+    "type2": "Psychic",
+    "tier": "B"
+  },
+  {
+    "id": 100,
+    "name": "Slowbro",
+    "dex": 80,
+    "type1": "Water",
+    "type2": "Psychic",
+    "tier": "B"
+  },
+  {
+    "id": 101,
+    "name": "Kangaskhan",
+    "dex": 115,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 102,
+    "name": "Starmie",
+    "dex": 121,
+    "type1": "Water",
+    "type2": "Psychic",
+    "tier": "B"
+  },
+  {
+    "id": 103,
+    "name": "Mega Pinsir",
+    "dex": 127,
+    "type1": "Bug",
+    "type2": "Flying",
+    "tier": "B"
+  },
+  {
+    "id": 104,
+    "name": "Paldean Tauros (Aqua)",
+    "dex": 128,
+    "type1": "Fighting",
+    "type2": "Water",
+    "tier": "B"
+  },
+  {
+    "id": 105,
+    "name": "Paldean Tauros (Blaze)",
+    "dex": 128,
+    "type1": "Fighting",
+    "type2": "Fire",
+    "tier": "B"
+  },
+  {
+    "id": 106,
+    "name": "Ditto",
+    "dex": 132,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 107,
+    "name": "Vaporeon",
+    "dex": 134,
+    "type1": "Water",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 108,
+    "name": "Jolteon",
+    "dex": 135,
+    "type1": "Electric",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 109,
+    "name": "Snorlax",
+    "dex": 143,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 110,
+    "name": "Typhlosion",
+    "dex": 157,
+    "type1": "Fire",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 111,
+    "name": "Feraligatr",
+    "dex": 160,
+    "type1": "Water",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 112,
+    "name": "Mega Ampharos",
+    "dex": 181,
+    "type1": "Electric",
+    "type2": "Dragon",
+    "tier": "B"
+  },
+  {
+    "id": 113,
+    "name": "Umbreon",
+    "dex": 197,
+    "type1": "Dark",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 114,
+    "name": "Slowking",
+    "dex": 199,
+    "type1": "Water",
+    "type2": "Psychic",
+    "tier": "B"
+  },
+  {
+    "id": 115,
+    "name": "Mega Steelix",
+    "dex": 208,
+    "type1": "Steel",
+    "type2": "Ground",
+    "tier": "B"
+  },
+  {
+    "id": 116,
+    "name": "Scizor",
+    "dex": 212,
+    "type1": "Bug",
+    "type2": "Steel",
+    "tier": "B"
+  },
+  {
+    "id": 117,
+    "name": "Mega Heracross",
+    "dex": 214,
+    "type1": "Bug",
+    "type2": "Fighting",
+    "tier": "B"
+  },
+  {
+    "id": 118,
+    "name": "Skarmory",
+    "dex": 227,
+    "type1": "Steel",
+    "type2": "Flying",
+    "tier": "B"
+  },
+  {
+    "id": 119,
+    "name": "Mega Houndoom",
+    "dex": 229,
+    "type1": "Dark",
+    "type2": "Fire",
+    "tier": "B"
+  },
+  {
+    "id": 120,
+    "name": "Houndoom",
+    "dex": 229,
+    "type1": "Dark",
+    "type2": "Fire",
+    "tier": "B"
+  },
+  {
+    "id": 121,
+    "name": "Gardevoir",
+    "dex": 282,
+    "type1": "Psychic",
+    "type2": "Fairy",
+    "tier": "B"
+  },
+  {
+    "id": 122,
+    "name": "Mega Aggron",
+    "dex": 306,
+    "type1": "Steel",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 123,
+    "name": "Medicham",
+    "dex": 308,
+    "type1": "Fighting",
+    "type2": "Psychic",
+    "tier": "B"
+  },
+  {
+    "id": 124,
+    "name": "Manectric",
+    "dex": 310,
+    "type1": "Electric",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 125,
+    "name": "Mega Sharpedo",
+    "dex": 319,
+    "type1": "Water",
+    "type2": "Dark",
+    "tier": "B"
+  },
+  {
+    "id": 126,
+    "name": "Mega Camerupt",
+    "dex": 323,
+    "type1": "Fire",
+    "type2": "Ground",
+    "tier": "B"
+  },
+  {
+    "id": 127,
+    "name": "Mega Altaria",
+    "dex": 334,
+    "type1": "Dragon",
+    "type2": "Fairy",
+    "tier": "B"
+  },
+  {
+    "id": 128,
+    "name": "Mega Banette",
+    "dex": 354,
+    "type1": "Ghost",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 129,
+    "name": "Mega Chimecho",
+    "dex": 358,
+    "type1": "Psychic",
+    "type2": "Steel",
+    "tier": "B"
+  },
+  {
+    "id": 130,
+    "name": "Mega Absol",
+    "dex": 359,
+    "type1": "Dark",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 131,
+    "name": "Mega Glalie",
+    "dex": 362,
+    "type1": "Ice",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 132,
+    "name": "Infernape",
+    "dex": 392,
+    "type1": "Fire",
+    "type2": "Fighting",
+    "tier": "B"
+  },
+  {
+    "id": 133,
+    "name": "Empoleon",
+    "dex": 395,
+    "type1": "Water",
+    "type2": "Steel",
+    "tier": "B"
+  },
+  {
+    "id": 134,
+    "name": "Roserade",
+    "dex": 407,
+    "type1": "Grass",
+    "type2": "Poison",
+    "tier": "B"
+  },
+  {
+    "id": 135,
+    "name": "Rampardos",
+    "dex": 409,
+    "type1": "Rock",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 136,
+    "name": "Lopunny",
+    "dex": 428,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 137,
+    "name": "Spiritomb",
+    "dex": 442,
+    "type1": "Ghost",
+    "type2": "Dark",
+    "tier": "B"
+  },
+  {
+    "id": 138,
+    "name": "Lucario",
+    "dex": 448,
+    "type1": "Fighting",
+    "type2": "Steel",
+    "tier": "B"
+  },
+  {
+    "id": 139,
+    "name": "Toxicroak",
+    "dex": 454,
+    "type1": "Poison",
+    "type2": "Fighting",
+    "tier": "B"
+  },
+  {
+    "id": 140,
+    "name": "Mega Abomasnow",
+    "dex": 460,
+    "type1": "Grass",
+    "type2": "Ice",
+    "tier": "B"
+  },
+  {
+    "id": 141,
+    "name": "Weavile",
+    "dex": 461,
+    "type1": "Dark",
+    "type2": "Ice",
+    "tier": "B"
+  },
+  {
+    "id": 142,
+    "name": "Rhyperior",
+    "dex": 464,
+    "type1": "Ground",
+    "type2": "Rock",
+    "tier": "B"
+  },
+  {
+    "id": 143,
+    "name": "Glaceon",
+    "dex": 471,
+    "type1": "Ice",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 144,
+    "name": "Gliscor",
+    "dex": 472,
+    "type1": "Ground",
+    "type2": "Flying",
+    "tier": "B"
+  },
+  {
+    "id": 145,
+    "name": "Mamoswine",
+    "dex": 473,
+    "type1": "Ice",
+    "type2": "Ground",
+    "tier": "B"
+  },
+  {
+    "id": 146,
+    "name": "Froslass",
+    "dex": 478,
+    "type1": "Ice",
+    "type2": "Ghost",
+    "tier": "B"
+  },
+  {
+    "id": 147,
+    "name": "Rotom-Frost",
+    "dex": 479,
+    "type1": "Electric",
+    "type2": "Ice",
+    "tier": "B"
+  },
+  {
+    "id": 148,
+    "name": "Serperior",
+    "dex": 497,
+    "type1": "Grass",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 149,
+    "name": "Mega Emboar",
+    "dex": 500,
+    "type1": "Fire",
+    "type2": "Fighting",
+    "tier": "B"
+  },
+  {
+    "id": 150,
+    "name": "Hisuian Samurott",
+    "dex": 503,
+    "type1": "Water",
+    "type2": "Dark",
+    "tier": "B"
+  },
+  {
+    "id": 151,
+    "name": "Liepard",
+    "dex": 510,
+    "type1": "Dark",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 152,
+    "name": "Krookodile",
+    "dex": 553,
+    "type1": "Ground",
+    "type2": "Dark",
+    "tier": "B"
+  },
+  {
+    "id": 153,
+    "name": "Zoroark",
+    "dex": 571,
+    "type1": "Dark",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 154,
+    "name": "Reuniclus",
+    "dex": 579,
+    "type1": "Psychic",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 155,
+    "name": "Vanilluxe",
+    "dex": 584,
+    "type1": "Ice",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 156,
+    "name": "Chandelure",
+    "dex": 609,
+    "type1": "Ghost",
+    "type2": "Fire",
+    "tier": "B"
+  },
+  {
+    "id": 157,
+    "name": "Golurk",
+    "dex": 623,
+    "type1": "Ghost",
+    "type2": "Ground",
+    "tier": "B"
+  },
+  {
+    "id": 158,
+    "name": "Mega Chesnaught",
+    "dex": 652,
+    "type1": "Grass",
+    "type2": "Fighting",
+    "tier": "B"
+  },
+  {
+    "id": 159,
+    "name": "Delphox",
+    "dex": 655,
+    "type1": "Fire",
+    "type2": "Psychic",
+    "tier": "B"
+  },
+  {
+    "id": 160,
+    "name": "Diggersby",
+    "dex": 660,
+    "type1": "Normal",
+    "type2": "Ground",
+    "tier": "B"
+  },
+  {
+    "id": 161,
+    "name": "Vivillon",
+    "dex": 666,
+    "type1": "Bug",
+    "type2": "Flying",
+    "tier": "B"
+  },
+  {
+    "id": 162,
+    "name": "Meowstic",
+    "dex": 678,
+    "type1": "Psychic",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 163,
+    "name": "Mega Meowstic",
+    "dex": 678,
+    "type1": "Psychic",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 164,
+    "name": "Clawitzer",
+    "dex": 693,
+    "type1": "Water",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 165,
+    "name": "Heliolisk",
+    "dex": 695,
+    "type1": "Electric",
+    "type2": "Normal",
+    "tier": "B"
+  },
+  {
+    "id": 166,
+    "name": "Hawlucha",
+    "dex": 701,
+    "type1": "Fighting",
+    "type2": "Flying",
+    "tier": "B"
+  },
+  {
+    "id": 167,
+    "name": "Hisuian Goodra",
+    "dex": 706,
+    "type1": "Steel",
+    "type2": "Dragon",
+    "tier": "B"
+  },
+  {
+    "id": 168,
+    "name": "Trevenant",
+    "dex": 709,
+    "type1": "Ghost",
+    "type2": "Grass",
+    "tier": "B"
+  },
+  {
+    "id": 169,
+    "name": "Gourgeist",
+    "dex": 711,
+    "type1": "Ghost",
+    "type2": "Grass",
+    "tier": "B"
+  },
+  {
+    "id": 170,
+    "name": "Noivern",
+    "dex": 715,
+    "type1": "Flying",
+    "type2": "Dragon",
+    "tier": "B"
+  },
+  {
+    "id": 171,
+    "name": "Lycanroc",
+    "dex": 745,
+    "type1": "Rock",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 172,
+    "name": "Mudsdale",
+    "dex": 750,
+    "type1": "Ground",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 173,
+    "name": "Araquanid",
+    "dex": 752,
+    "type1": "Water",
+    "type2": "Bug",
+    "tier": "B"
+  },
+  {
+    "id": 174,
+    "name": "Salazzle",
+    "dex": 758,
+    "type1": "Poison",
+    "type2": "Fire",
+    "tier": "B"
+  },
+  {
+    "id": 175,
+    "name": "Tsareena",
+    "dex": 763,
+    "type1": "Grass",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 176,
+    "name": "Alcremie",
+    "dex": 869,
+    "type1": "Fairy",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 177,
+    "name": "Meowscarada",
+    "dex": 908,
+    "type1": "Grass",
+    "type2": "Dark",
+    "tier": "B"
+  },
+  {
+    "id": 178,
+    "name": "Skeledirge",
+    "dex": 911,
+    "type1": "Fire",
+    "type2": "Ghost",
+    "tier": "B"
+  },
+  {
+    "id": 179,
+    "name": "Quaquaval",
+    "dex": 914,
+    "type1": "Water",
+    "type2": "Fighting",
+    "tier": "B"
+  },
+  {
+    "id": 180,
+    "name": "Garganacl",
+    "dex": 934,
+    "type1": "Rock",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 181,
+    "name": "Armarouge",
+    "dex": 936,
+    "type1": "Fire",
+    "type2": "Psychic",
+    "tier": "B"
+  },
+  {
+    "id": 182,
+    "name": "Ceruledge",
+    "dex": 937,
+    "type1": "Fire",
+    "type2": "Ghost",
+    "tier": "B"
+  },
+  {
+    "id": 183,
+    "name": "Espathra",
+    "dex": 956,
+    "type1": "Psychic",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 184,
+    "name": "Tinkaton",
+    "dex": 959,
+    "type1": "Fairy",
+    "type2": "Steel",
+    "tier": "B"
+  },
+  {
+    "id": 185,
+    "name": "Orthworm",
+    "dex": 968,
+    "type1": "Steel",
+    "type2": null,
+    "tier": "B"
+  },
+  {
+    "id": 186,
+    "name": "Hydrapple",
+    "dex": 1019,
+    "type1": "Grass",
+    "type2": "Dragon",
+    "tier": "B"
+  },
+  {
+    "id": 187,
+    "name": "Beedrill",
+    "dex": 15,
+    "type1": "Bug",
+    "type2": "Poison",
+    "tier": "C"
+  },
+  {
+    "id": 188,
+    "name": "Pidgeot",
+    "dex": 18,
+    "type1": "Normal",
+    "type2": "Flying",
+    "tier": "C"
+  },
+  {
+    "id": 189,
+    "name": "Arbok",
+    "dex": 24,
+    "type1": "Poison",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 190,
+    "name": "Pikachu",
+    "dex": 25,
+    "type1": "Electric",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 191,
+    "name": "Mega Victreebel",
+    "dex": 71,
+    "type1": "Grass",
+    "type2": "Poison",
+    "tier": "C"
+  },
+  {
+    "id": 192,
+    "name": "Galarian Slowbro",
+    "dex": 80,
+    "type1": "Poison",
+    "type2": "Psychic",
+    "tier": "C"
+  },
+  {
+    "id": 193,
+    "name": "Pinsir",
+    "dex": 127,
+    "type1": "Bug",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 194,
+    "name": "Tauros",
+    "dex": 128,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 195,
+    "name": "Paldean Tauros (Combat)",
+    "dex": 128,
+    "type1": "Fighting",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 196,
+    "name": "Flareon",
+    "dex": 136,
+    "type1": "Fire",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 197,
+    "name": "Meganium",
+    "dex": 154,
+    "type1": "Grass",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 198,
+    "name": "Ariados",
+    "dex": 168,
+    "type1": "Bug",
+    "type2": "Poison",
+    "tier": "C"
+  },
+  {
+    "id": 199,
+    "name": "Ampharos",
+    "dex": 181,
+    "type1": "Electric",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 200,
+    "name": "Espeon",
+    "dex": 196,
+    "type1": "Psychic",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 201,
+    "name": "Galarian Slowking",
+    "dex": 199,
+    "type1": "Poison",
+    "type2": "Psychic",
+    "tier": "C"
+  },
+  {
+    "id": 202,
+    "name": "Forretress",
+    "dex": 205,
+    "type1": "Bug",
+    "type2": "Steel",
+    "tier": "C"
+  },
+  {
+    "id": 203,
+    "name": "Steelix",
+    "dex": 208,
+    "type1": "Steel",
+    "type2": "Ground",
+    "tier": "C"
+  },
+  {
+    "id": 204,
+    "name": "Heracross",
+    "dex": 214,
+    "type1": "Bug",
+    "type2": "Fighting",
+    "tier": "C"
+  },
+  {
+    "id": 205,
+    "name": "Aggron",
+    "dex": 306,
+    "type1": "Steel",
+    "type2": "Rock",
+    "tier": "C"
+  },
+  {
+    "id": 206,
+    "name": "Sharpedo",
+    "dex": 319,
+    "type1": "Water",
+    "type2": "Dark",
+    "tier": "C"
+  },
+  {
+    "id": 207,
+    "name": "Camerupt",
+    "dex": 323,
+    "type1": "Fire",
+    "type2": "Ground",
+    "tier": "C"
+  },
+  {
+    "id": 208,
+    "name": "Altaria",
+    "dex": 334,
+    "type1": "Dragon",
+    "type2": "Flying",
+    "tier": "C"
+  },
+  {
+    "id": 209,
+    "name": "Castform",
+    "dex": 351,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 210,
+    "name": "Banette",
+    "dex": 354,
+    "type1": "Ghost",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 211,
+    "name": "Chimecho",
+    "dex": 358,
+    "type1": "Psychic",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 212,
+    "name": "Absol",
+    "dex": 359,
+    "type1": "Dark",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 213,
+    "name": "Glalie",
+    "dex": 362,
+    "type1": "Ice",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 214,
+    "name": "Torterra",
+    "dex": 389,
+    "type1": "Grass",
+    "type2": "Ground",
+    "tier": "C"
+  },
+  {
+    "id": 215,
+    "name": "Luxray",
+    "dex": 405,
+    "type1": "Electric",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 216,
+    "name": "Bastiodon",
+    "dex": 411,
+    "type1": "Rock",
+    "type2": "Steel",
+    "tier": "C"
+  },
+  {
+    "id": 217,
+    "name": "Abomasnow",
+    "dex": 460,
+    "type1": "Grass",
+    "type2": "Ice",
+    "tier": "C"
+  },
+  {
+    "id": 218,
+    "name": "Leafeon",
+    "dex": 470,
+    "type1": "Grass",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 219,
+    "name": "Rotom-Mow",
+    "dex": 479,
+    "type1": "Electric",
+    "type2": "Grass",
+    "tier": "C"
+  },
+  {
+    "id": 220,
+    "name": "Emboar",
+    "dex": 500,
+    "type1": "Fire",
+    "type2": "Fighting",
+    "tier": "C"
+  },
+  {
+    "id": 221,
+    "name": "Samurott",
+    "dex": 503,
+    "type1": "Water",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 222,
+    "name": "Watchog",
+    "dex": 505,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 223,
+    "name": "Simisage",
+    "dex": 512,
+    "type1": "Grass",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 224,
+    "name": "Simisear",
+    "dex": 514,
+    "type1": "Fire",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 225,
+    "name": "Simipour",
+    "dex": 516,
+    "type1": "Water",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 226,
+    "name": "Audino",
+    "dex": 531,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 227,
+    "name": "Mega Audino",
+    "dex": 531,
+    "type1": "Normal",
+    "type2": "Fairy",
+    "tier": "C"
+  },
+  {
+    "id": 228,
+    "name": "Cofagrigus",
+    "dex": 563,
+    "type1": "Ghost",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 229,
+    "name": "Garbodor",
+    "dex": 569,
+    "type1": "Poison",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 230,
+    "name": "Emolga",
+    "dex": 587,
+    "type1": "Electric",
+    "type2": "Flying",
+    "tier": "C"
+  },
+  {
+    "id": 231,
+    "name": "Beartic",
+    "dex": 614,
+    "type1": "Ice",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 232,
+    "name": "Stunfisk",
+    "dex": 618,
+    "type1": "Ground",
+    "type2": "Electric",
+    "tier": "C"
+  },
+  {
+    "id": 233,
+    "name": "Galarian Stunfisk",
+    "dex": 618,
+    "type1": "Ground",
+    "type2": "Steel",
+    "tier": "C"
+  },
+  {
+    "id": 234,
+    "name": "Chesnaught",
+    "dex": 652,
+    "type1": "Grass",
+    "type2": "Fighting",
+    "tier": "C"
+  },
+  {
+    "id": 235,
+    "name": "Florges",
+    "dex": 671,
+    "type1": "Fairy",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 236,
+    "name": "Pangoro",
+    "dex": 675,
+    "type1": "Fighting",
+    "type2": "Dark",
+    "tier": "C"
+  },
+  {
+    "id": 237,
+    "name": "Furfrou",
+    "dex": 676,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 238,
+    "name": "Aromatisse",
+    "dex": 683,
+    "type1": "Fairy",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 239,
+    "name": "Slurpuff",
+    "dex": 685,
+    "type1": "Fairy",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 240,
+    "name": "Tyrantrum",
+    "dex": 697,
+    "type1": "Rock",
+    "type2": "Dragon",
+    "tier": "C"
+  },
+  {
+    "id": 241,
+    "name": "Aurorus",
+    "dex": 699,
+    "type1": "Rock",
+    "type2": "Ice",
+    "tier": "C"
+  },
+  {
+    "id": 242,
+    "name": "Dedenne",
+    "dex": 702,
+    "type1": "Electric",
+    "type2": "Fairy",
+    "tier": "C"
+  },
+  {
+    "id": 243,
+    "name": "Goodra",
+    "dex": 706,
+    "type1": "Dragon",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 244,
+    "name": "Avalugg",
+    "dex": 713,
+    "type1": "Ice",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 245,
+    "name": "Hisuian Avalugg",
+    "dex": 713,
+    "type1": "Ice",
+    "type2": "Rock",
+    "tier": "C"
+  },
+  {
+    "id": 246,
+    "name": "Decidueye",
+    "dex": 724,
+    "type1": "Grass",
+    "type2": "Ghost",
+    "tier": "C"
+  },
+  {
+    "id": 247,
+    "name": "Hisuian Decidueye",
+    "dex": 724,
+    "type1": "Grass",
+    "type2": "Fighting",
+    "tier": "C"
+  },
+  {
+    "id": 248,
+    "name": "Toucannon",
+    "dex": 733,
+    "type1": "Normal",
+    "type2": "Flying",
+    "tier": "C"
+  },
+  {
+    "id": 249,
+    "name": "Crabominable",
+    "dex": 740,
+    "type1": "Fighting",
+    "type2": "Ice",
+    "tier": "C"
+  },
+  {
+    "id": 250,
+    "name": "Toxapex",
+    "dex": 748,
+    "type1": "Poison",
+    "type2": "Water",
+    "tier": "C"
+  },
+  {
+    "id": 251,
+    "name": "Passimian",
+    "dex": 766,
+    "type1": "Fighting",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 252,
+    "name": "Drampa",
+    "dex": 780,
+    "type1": "Normal",
+    "type2": "Dragon",
+    "tier": "C"
+  },
+  {
+    "id": 253,
+    "name": "Flapple",
+    "dex": 841,
+    "type1": "Grass",
+    "type2": "Dragon",
+    "tier": "C"
+  },
+  {
+    "id": 254,
+    "name": "Appletun",
+    "dex": 842,
+    "type1": "Grass",
+    "type2": "Dragon",
+    "tier": "C"
+  },
+  {
+    "id": 255,
+    "name": "Sandaconda",
+    "dex": 844,
+    "type1": "Ground",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 256,
+    "name": "Polteageist",
+    "dex": 855,
+    "type1": "Ghost",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 257,
+    "name": "Mr. Rime",
+    "dex": 866,
+    "type1": "Ice",
+    "type2": "Psychic",
+    "tier": "C"
+  },
+  {
+    "id": 258,
+    "name": "Runerigus",
+    "dex": 867,
+    "type1": "Ground",
+    "type2": "Ghost",
+    "tier": "C"
+  },
+  {
+    "id": 259,
+    "name": "Morpeko",
+    "dex": 877,
+    "type1": "Electric",
+    "type2": "Dark",
+    "tier": "C"
+  },
+  {
+    "id": 260,
+    "name": "Wyrdeer",
+    "dex": 899,
+    "type1": "Normal",
+    "type2": "Psychic",
+    "tier": "C"
+  },
+  {
+    "id": 261,
+    "name": "Kleavor",
+    "dex": 900,
+    "type1": "Bug",
+    "type2": "Rock",
+    "tier": "C"
+  },
+  {
+    "id": 262,
+    "name": "Bellibolt",
+    "dex": 939,
+    "type1": "Electric",
+    "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 263,
+    "name": "Scovillain",
+    "dex": 952,
+    "type1": "Grass",
+    "type2": "Fire",
+    "tier": "C"
+  }
 ]
