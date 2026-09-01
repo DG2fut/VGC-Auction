@@ -566,6 +566,10 @@ header{
                     <label>Auction Name</label>
                     <input class="setting-input" type="text" id="s-name" maxlength="50" style="width:100%">
                   </div>
+                  <div class="field">
+                    <label>Pokémon Pool</label>
+                    <select class="setting-input" id="s-pool" style="width:100%"></select>
+                  </div>
                   <div class="settings-grid">
                     <div class="setting-item">
                       <div class="setting-label">Timer (seconds)</div>
@@ -1200,6 +1204,7 @@ function saveSettings(){
     maxPokemon:document.getElementById('s-maxmon').value,
     bidIncrement:document.getElementById('s-increment').value,
     auctionName:document.getElementById('s-name').value,
+    poolFile:document.getElementById('s-pool').value,
     basePriceTier:{
       S:document.getElementById('s-price-S').value,
       A:document.getElementById('s-price-A').value,
@@ -1389,6 +1394,13 @@ function renderLobby(){
     document.getElementById('s-maxmon').value=gs.settings?.maxPokemon??6;
     document.getElementById('s-increment').value=gs.settings?.bidIncrement||25;
     document.getElementById('s-name').value=gs.auctionName||'';
+    const poolSel=document.getElementById('s-pool');
+    if(poolSel&&gs.poolFiles){
+      const curPool=gs.settings?.poolFile||gs.currentPoolFile||'';
+      const optsHtml=gs.poolFiles.map(p=>`<option value="${esc(p.file)}"${p.file===curPool?' selected':''}>${esc(p.label)}</option>`).join('');
+      if(poolSel.innerHTML!==optsHtml)poolSel.innerHTML=optsHtml;
+      poolSel.value=curPool;
+    }
     const bp=gs.settings?.basePriceTier||{};
     for(const t of['S','A','B','C']){const el=document.getElementById(`s-price-${t}`);if(el)el.value=bp[t]||1;}
     // Non-participating toggle
