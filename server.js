@@ -268,15 +268,47 @@ function createWSServer(server) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   POKÉMON POOL — loaded from pokemon-pool.json (edit that file to customize)
+   POKÉMON POOL — loaded from a *pool*.json file in the project root.
+   Drop in additional files like pool2.json, pool-reg-g.json, etc. and admins can
+   pick which one to use from a dropdown when setting up an auction.
    ═══════════════════════════════════════════════════════════════════════════════ */
-const POOL_FILE = path.join(__dirname, 'pokemon-pool.json');
-let POKEMON_POOL;
+
+// Any JSON file in the project root whose name contains "pool" is a candidate.
+function listPoolFiles() {
+  try {
+    return fs.readdirSync(__dirname)
+      .filter(f => /pool.*\.json$/i.test(f))
+      .sort((a, b) => a.localeCompare(b));
+  } catch (e) {
+    return [];
+  }
+}
+
+// Display label = filename without the .json extension (e.g. "pool2.json" -> "pool2")
+function poolLabel(filename) {
+  return filename.replace(/\.json$/i, '');
+}
+
+function loadPool(filename) {
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, filename), 'utf8'));
+  if (!Array.isArray(data)) throw new Error('Pool file must contain a JSON array.');
+  POKEMON_POOL = data;
+  CURRENT_POOL_FILE = filename;
+  console.log(`  Loaded ${POKEMON_POOL.length} Pokémon from ${filename}`);
+}
+
+let POKEMON_POOL = [];
+let CURRENT_POOL_FILE = 'pokemon-pool.json';
+
+const AVAILABLE_POOLS = listPoolFiles();
+const DEFAULT_POOL_FILE = AVAILABLE_POOLS.includes('pokemon-pool.json')
+  ? 'pokemon-pool.json'
+  : (AVAILABLE_POOLS[0] || 'pokemon-pool.json');
+
 try {
-  POKEMON_POOL = JSON.parse(fs.readFileSync(POOL_FILE, 'utf8'));
-  console.log(`  Loaded ${POKEMON_POOL.length} Pokémon from pokemon-pool.json`);
+  loadPool(DEFAULT_POOL_FILE);
 } catch (e) {
-  console.error('FATAL: Could not load pokemon-pool.json —', e.message);
+  console.error(`FATAL: Could not load ${DEFAULT_POOL_FILE} —`, e.message);
   process.exit(1);
 }
 
@@ -358,6 +390,7 @@ function deserializeState(data) {
       maxPokemon: data.settings?.maxPokemon ?? 6,
       basePriceTier: data.settings?.basePriceTier || { S: 500, A: 250, B: 100, C: 50 },
       bidIncrement: data.settings?.bidIncrement || 25,
+      poolFile: data.settings?.poolFile || CURRENT_POOL_FILE,
     },
     undoStack: [],
     redoStack: [],
@@ -379,6 +412,15 @@ function deserializeState(data) {
   for (const [, p] of s.players) {
     p.online = false;
     p.clientId = null;
+  }
+  // Re-sync the loaded pool with whatever this session had selected, if it still exists
+  if (s.settings.poolFile && s.settings.poolFile !== CURRENT_POOL_FILE) {
+    if (listPoolFiles().includes(s.settings.poolFile)) {
+      try { loadPool(s.settings.poolFile); } catch (e) { console.error('Could not reload saved pool:', e.message); }
+    } else {
+      console.error(`Saved pool "${s.settings.poolFile}" not found — keeping ${CURRENT_POOL_FILE}`);
+      s.settings.poolFile = CURRENT_POOL_FILE;
+    }
   }
   return s;
 }
@@ -454,6 +496,7 @@ function freshState() {
       maxPokemon: 6,
       basePriceTier: { S: 500, A: 250, B: 100, C: 50 },
       bidIncrement: 25,
+      poolFile: CURRENT_POOL_FILE,
     },
     undoStack: [],
     redoStack: [],
@@ -560,6 +603,8 @@ function getPublicState() {
     redoLabel: state.redoStack.length > 0 ? state.redoStack[state.redoStack.length - 1].label : null,
     roundCount: state.roundCount,
     totalPokemon: POKEMON_POOL.length,
+    poolFiles: listPoolFiles().map(f => ({ file: f, label: poolLabel(f) })),
+    currentPoolFile: CURRENT_POOL_FILE,
     auctionName: state.auctionName,
     passedPlayers: [...state.passedPlayers],
     auctionHistory: auctionHistory,
@@ -835,6 +880,18 @@ function handleMessage(clientId, msg) {
       const bi = parseInt(msg.bidIncrement);
       if (!isNaN(bi) && [10, 25, 50, 100].includes(bi)) state.settings.bidIncrement = bi;
       if (msg.auctionName) state.auctionName = String(msg.auctionName).slice(0, 50);
+      if (msg.poolFile && typeof msg.poolFile === 'string' && msg.poolFile !== CURRENT_POOL_FILE) {
+        if (!listPoolFiles().includes(msg.poolFile)) return err('Selected Pokémon pool file was not found.');
+        try {
+          loadPool(msg.poolFile);
+          state.settings.poolFile = msg.poolFile;
+          state.auctionedPokemon.clear();
+          state.skippedPokemon.clear();
+          addLog(`🗂️ Pokémon pool switched to "${poolLabel(msg.poolFile)}" by ${getPlayer()?.name || 'admin'}`);
+        } catch (e) {
+          return err(`Failed to load pool "${msg.poolFile}": ${e.message}`);
+        }
+      }
       addLog(`⚙️ Settings updated by ${getPlayer()?.name || 'admin'}`);
       broadcastState();
       persistState();
