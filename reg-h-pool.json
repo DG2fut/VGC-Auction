@@ -88,6 +88,14 @@
     "tier": "A"
   },
   {
+  "id": 21,
+  "name": "Clefairy",
+  "dex": 35,
+  "type1": "Fairy",
+  "type2": null,
+  "tier": "NFE"
+  },
+  {
     "id": 22,
     "name": "Clefable",
     "dex": 36,
@@ -920,14 +928,6 @@
     "tier": "C"
   },
   {
-    "id": 190,
-    "name": "Pikachu",
-    "dex": 25,
-    "type1": "Electric",
-    "type2": null,
-    "tier": "C"
-  },
-  {
     "id": 192,
     "name": "Galarian Slowbro",
     "dex": 80,
@@ -1117,6 +1117,14 @@
     "dex": 503,
     "type1": "Water",
     "type2": null,
+    "tier": "C"
+  },
+  {
+    "id": 230,
+    "name": "Emolga",
+    "dex": 587,
+    "type1": "Electric",
+    "type2": "Flying",
     "tier": "C"
   },
   {
