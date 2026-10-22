@@ -2678,5 +2678,485 @@
     "type1": "Water",
     "type2": null,
     "tier": "A"
+  },
+  {
+    "id": 336,
+    "name": "Urshifu-Rapid-Strike",
+    "dex": 892,
+    "type1": "Fighting",
+    "type2": "Water",
+    "tier": "A"
+  },
+  {
+    "id": 337,
+    "name": "Urshifu",
+    "dex": 892,
+    "type1": "Fighting",
+    "type2": "Dark",
+    "tier": "A"
+  },
+  {
+    "id": 338,
+    "name": "Raging Bolt",
+    "dex": 1021,
+    "type1": "Electric",
+    "type2": "Dragon",
+    "tier": "A"
+  },
+  {
+    "id": 339,
+    "name": "Flutter Mane",
+    "dex": 987,
+    "type1": "Ghost",
+    "type2": "Fairy",
+    "tier": "A"
+  },
+  {
+    "id": 340,
+    "name": "Iron Hands",
+    "dex": 992,
+    "type1": "Fighting",
+    "type2": "Electric",
+    "tier": "A"
+  },
+  {
+    "id": 341,
+    "name": "Ogerpon-Cornerstone",
+    "dex": 1017,
+    "type1": "Grass",
+    "type2": "Rock",
+    "tier": "A"
+  },
+  {
+    "id": 342,
+    "name": "Ogerpon-Hearthflame",
+    "dex": 1017,
+    "type1": "Grass",
+    "type2": "Fire",
+    "tier": "A"
+  },
+  {
+    "id": 343,
+    "name": "Chi-Yu",
+    "dex": 1004,
+    "type1": "Dark",
+    "type2": "Fire",
+    "tier": "A"
+  },
+  {
+    "id": 344,
+    "name": "Chien-Pao",
+    "dex": 1002,
+    "type1": "Dark",
+    "type2": "Ice",
+    "tier": "A"
+  },
+  {
+    "id": 345,
+    "name": "Tornadus",
+    "dex": 641,
+    "type1": "Flying",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 346,
+    "name": "Landorus",
+    "dex": 645,
+    "type1": "Ground",
+    "type2": "Flying",
+    "tier": "A"
+  },
+  {
+    "id": 347,
+    "name": "Scream Tail",
+    "dex": 985,
+    "type1": "Fairy",
+    "type2": "Psychic",
+    "tier": "A"
+  },
+  {
+    "id": 348,
+    "name": "Iron Valiant",
+    "dex": 1006,
+    "type1": "Fairy",
+    "type2": "Fighting",
+    "tier": "A"
+  },
+  {
+    "id": 349,
+    "name": "Ogerpon",
+    "dex": 1017,
+    "type1": "Grass",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 350,
+    "name": "Regidrago",
+    "dex": 895,
+    "type1": "Dragon",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 351,
+    "name": "Regieleki",
+    "dex": 894,
+    "type1": "Electric",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 352,
+    "name": "Roaring Moon",
+    "dex": 1005,
+    "type1": "Dragon",
+    "type2": "Dark",
+    "tier": "A"
+  },
+  {
+    "id": 353,
+    "name": "Ogerpon-Wellspring",
+    "dex": 1017,
+    "type1": "Grass",
+    "type2": "Water",
+    "tier": "A"
+  },
+  {
+    "id": 354,
+    "name": "Ting-Lu",
+    "dex": 1003,
+    "type1": "Dark",
+    "type2": "Ground",
+    "tier": "A"
+  },
+  {
+    "id": 355,
+    "name": "Iron Bundle",
+    "dex": 991,
+    "type1": "Ice",
+    "type2": "Water",
+    "tier": "A"
+  },
+  {
+    "id": 356,
+    "name": "Iron Crown",
+    "dex": 1023,
+    "type1": "Steel",
+    "type2": "Psychic",
+    "tier": "A"
+  },
+  {
+    "id": 357,
+    "name": "Iron Jugulis",
+    "dex": 993,
+    "type1": "Dark",
+    "type2": "Flying",
+    "tier": "A"
+  },
+  {
+    "id": 358,
+    "name": "Latios",
+    "dex": 381,
+    "type1": "Dragon",
+    "type2": "Psychic",
+    "tier": "A"
+  },
+  {
+    "id": 359,
+    "name": "Porygon2",
+    "dex": 233,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "A"
+  },
+  {
+    "id": 360,
+    "name": "Wo-Chien",
+    "dex": 1001,
+    "type1": "Dark",
+    "type2": "Grass",
+    "tier": "A"
+  },
+  {
+    "id": 361,
+    "name": "Basculegion-M",
+    "dex": 902,
+    "type1": "Water",
+    "type2": "Ghost",
+    "tier": "A"
+  },
+  {
+    "id": 362,
+    "name": "Okidogi",
+    "dex": 1014,
+    "type1": "Poison",
+    "type2": "Fighting",
+    "tier": "A"
+  },
+  {
+    "id": 363,
+    "name": "Mewtwo",
+    "dex": 150,
+    "type1": "Psychic",
+    "type2": null,
+    "tier": "S"
+  },
+  {
+    "id": 364,
+    "name": "Lugia",
+    "dex": 249,
+    "type1": "Psychic",
+    "type2": "Flying",
+    "tier": "S"
+  },
+  {
+    "id": 365,
+    "name": "Ho-Oh",
+    "dex": 250,
+    "type1": "Fire",
+    "type2": "Flying",
+    "tier": "S"
+  },
+  {
+    "id": 366,
+    "name": "Kyogre",
+    "dex": 382,
+    "type1": "Water",
+    "type2": null,
+    "tier": "S"
+  },
+  {
+    "id": 367,
+    "name": "Groudon",
+    "dex": 383,
+    "type1": "Ground",
+    "type2": null,
+    "tier": "S"
+  },
+  {
+    "id": 368,
+    "name": "Rayquaza",
+    "dex": 384,
+    "type1": "Dragon",
+    "type2": "Flying",
+    "tier": "S"
+  },
+  {
+    "id": 369,
+    "name": "Dialga",
+    "dex": 483,
+    "type1": "Steel",
+    "type2": "Dragon",
+    "tier": "S"
+  },
+  {
+    "id": 370,
+    "name": "Dialga-Origin",
+    "dex": 483,
+    "type1": "Steel",
+    "type2": "Dragon",
+    "tier": "S"
+  },
+  {
+    "id": 371,
+    "name": "Palkia",
+    "dex": 484,
+    "type1": "Water",
+    "type2": "Dragon",
+    "tier": "S"
+  },
+  {
+    "id": 372,
+    "name": "Palkia-Origin",
+    "dex": 484,
+    "type1": "Water",
+    "type2": "Dragon",
+    "tier": "S"
+  },
+  {
+    "id": 373,
+    "name": "Giratina",
+    "dex": 487,
+    "type1": "Ghost",
+    "type2": "Dragon",
+    "tier": "S"
+  },
+  {
+    "id": 374,
+    "name": "Giratina-Origin",
+    "dex": 487,
+    "type1": "Ghost",
+    "type2": "Dragon",
+    "tier": "S"
+  },
+  {
+    "id": 375,
+    "name": "Reshiram",
+    "dex": 643,
+    "type1": "Dragon",
+    "type2": "Fire",
+    "tier": "S"
+  },
+  {
+    "id": 376,
+    "name": "Zekrom",
+    "dex": 644,
+    "type1": "Dragon",
+    "type2": "Electric",
+    "tier": "S"
+  },
+  {
+    "id": 377,
+    "name": "Kyurem",
+    "dex": 646,
+    "type1": "Dragon",
+    "type2": "Ice",
+    "tier": "S"
+  },
+  {
+    "id": 378,
+    "name": "Kyurem-White",
+    "dex": 646,
+    "type1": "Dragon",
+    "type2": "Ice",
+    "tier": "S"
+  },
+  {
+    "id": 379,
+    "name": "Kyurem-Black",
+    "dex": 646,
+    "type1": "Dragon",
+    "type2": "Ice",
+    "tier": "S"
+  },
+  {
+    "id": 380,
+    "name": "Cosmog",
+    "dex": 789,
+    "type1": "Psychic",
+    "type2": null,
+    "tier": "S"
+  },
+  {
+    "id": 381,
+    "name": "Cosmoem",
+    "dex": 790,
+    "type1": "Psychic",
+    "type2": null,
+    "tier": "S"
+  },
+  {
+    "id": 382,
+    "name": "Solgaleo",
+    "dex": 791,
+    "type1": "Psychic",
+    "type2": "Steel",
+    "tier": "S"
+  },
+  {
+    "id": 383,
+    "name": "Lunala",
+    "dex": 792,
+    "type1": "Psychic",
+    "type2": "Ghost",
+    "tier": "S"
+  },
+  {
+    "id": 384,
+    "name": "Necrozma",
+    "dex": 800,
+    "type1": "Psychic",
+    "type2": null,
+    "tier": "S"
+  },
+  {
+    "id": 385,
+    "name": "Necrozma-Dusk-Mane",
+    "dex": 800,
+    "type1": "Psychic",
+    "type2": "Steel",
+    "tier": "S"
+  },
+  {
+    "id": 386,
+    "name": "Necrozma-Dawn-Wings",
+    "dex": 800,
+    "type1": "Psychic",
+    "type2": "Ghost",
+    "tier": "S"
+  },
+  {
+    "id": 387,
+    "name": "Zacian",
+    "dex": 888,
+    "type1": "Fairy",
+    "type2": null,
+    "tier": "S"
+  },
+  {
+    "id": 388,
+    "name": "Zamazenta",
+    "dex": 889,
+    "type1": "Fighting",
+    "type2": null,
+    "tier": "S"
+  },
+  {
+    "id": 389,
+    "name": "Eternatus",
+    "dex": 890,
+    "type1": "Poison",
+    "type2": "Dragon",
+    "tier": "S"
+  },
+  {
+    "id": 390,
+    "name": "Calyrex",
+    "dex": 898,
+    "type1": "Psychic",
+    "type2": "Grass",
+    "tier": "S"
+  },
+  {
+    "id": 391,
+    "name": "Calyrex-Ice",
+    "dex": 898,
+    "type1": "Psychic",
+    "type2": "Ice",
+    "tier": "S"
+  },
+  {
+    "id": 392,
+    "name": "Calyrex-Shadow",
+    "dex": 898,
+    "type1": "Psychic",
+    "type2": "Ghost",
+    "tier": "S"
+  },
+  {
+    "id": 393,
+    "name": "Koraidon",
+    "dex": 1007,
+    "type1": "Fighting",
+    "type2": "Dragon",
+    "tier": "S"
+  },
+  {
+    "id": 394,
+    "name": "Miraidon",
+    "dex": 1008,
+    "type1": "Electric",
+    "type2": "Dragon",
+    "tier": "S"
+  },
+  {
+    "id": 395,
+    "name": "Terapagos",
+    "dex": 1024,
+    "type1": "Normal",
+    "type2": null,
+    "tier": "S"
   }
 ]
